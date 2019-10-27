@@ -2,28 +2,175 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Homepage</title>
+<title>Alan Tao</title>
 <link href="stylesheet.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	//https://labs.redantler.com/on-hover-toggle-play-html5-video-with-only-vanilla-javascript-c8689e633b41
+	window.onload = function() { //executes code after DOM loads
+		
+ 	//--- select all <video> on the page
+ 	const vids = document.getElementsByTagName("video")
+ 	// Loop over the selected elements and add event listeners
+ 	for (let i = 0; i < vids.length; i++) {
+		vids[i].addEventListener( "mouseover", function(e) { 
+			var playPromise = vids[i].play();
+			if(playPromise!=undefined){
+				playPromise.then(_=>{
+				})
+				.catch(error => {
+      			// Auto-play was prevented
+     		 	// Show paused UI.
+					alert(error);
+    			});
+			}
+   		})
+		vids[i].addEventListener( "mouseout", function(e) {
+			vids[i].pause()
+   	})
+	 }
+	}
+
+	
+</script>
 </head>
 
 <body id="background">
+	<div id="header">
+		<div id="header_content">
+			<div id="header_text">
+				<h1>Hi! I'm Alan.</h1><h2>Welcome to my site.</h2>	
+			</div>
+			<ul id="header_list">
+				<li style="color: #E4CEBA;"><a href="#projects">&#62; Past Projects</a></li>
+				<li style="color: #AEBFC7;"><a href="#experiments">&#62; Experiments</a></li>
+				<li style="color: #EAE891;"><a href="#work">&#62; Current Work</a></li>
+				<li style="color: #E4E4E4;"><a href="#footer">&#62; My Contact</a></li>
+			</ul>
+		</div>
+		<hr/>
+	</div>	
 	<center><div id="body">
-		<h1 id="title"><center>Hello There!</center></h1>
-		<p class="content">As you can probably tell from the link, this is just another random website. Thanks for browsing :)</p>
-		<div class="content">
-			<h3>My/Our Websites</h3>
-			<ul>
-				<li><a href="./photographicExhibition/index.html"><p>2017 Yunnan Photographic Exhibition</p></a></li>
-				<li><a href="./HistoricalResearchProject_Web/index.html"><p>2017 History Day Project</p></a></li>
-				<li><a href="https://thisprogrammingclub.github.io"><p>Spartapp Publicaton Website</p></a></li>
-			</ul>
-		</div>
-		<div class="content">
-			<h3>My Programs</h3>
-			<ul>
-				<li><a href="./downloads/cardfloodit.apk"><p><em>Card Flood-it</em> made for 2018 semester 2 club fair</p></a></li>
-			</ul>
-		</div>
-	</div></center>
+			<table>
+			<tr id="projects">
+			<td class="content block"><h1>Past Projects</h1></td>
+			<td class="content block"><a href="https://www.spartapp.org/">
+				<div class="content frame">
+					<img class="content image" src="./image/spartapp.png"/>
+					<div class="content hovering_text">
+						<p>App for school schedule notifications and news.</p>
+					</div>
+				</div>
+				</a>
+				<p class="content title"><em>Spartapp</em><br/>for Hack THIS<br/>since 2018</p></td>
+				<td class="content block">
+				<div class="content frame">
+					<img class="content image" src="./image/portfolio05-min.png"/>
+					<div class="content hovering_text">
+						<p>Illustration in collaboration with the Author's Circle</p>
+					</div>
+				</div>
+				<p class="content title"><em>No Title</em><br/>for Comic Illustration Club<br/>2018</p></td>
+			
+			<td class="content block">
+				<a href="https://aelu419.github.io/ethnographic_exhibition/">
+				<div class="content frame">
+					<img class="content image" src="./image/yunnan.png"/>
+					<div class="content hovering_text">
+						<p>Website for charity photography exhibition.</p>
+					</div>
+				</div>
+				</a>
+				<p class="content title">Website for THIS Ethnographic Photo Exhibition <br/>2017</p>
+			</td>
+			</tr>
+			<tr class="divider"><td colspan="4" style="border-bottom:3px dashed #E4CEBA;"/></tr>
+			<tr id="experiments">
+			<td class="content block">
+				<div class="content frame">
+					<a href="https://github.com/aelu419/processing_projects">
+					<video class="content image video" muted ="muted" poster="image/port1_poster.png" loop>
+  						<source src="./videos/portfolio01.webm" type="video/webm"/>
+  						Your browser does not support the video tag.
+					</video>
+					</a>
+				</div>
+				<p class="content title"><em>Movable Bamboo Collage</em><br/>Elementary Box2D with texture and Perlin noice</p>
+			</td>
+			<td class="content block">
+				<div class="content frame">
+					<a href="https://github.com/aelu419/processing_projects">
+					<video class="content image video" muted ="muted" loop>
+  						<source src="./videos/portfolio02.webm" type="video/webm"/>
+  						Your browser does not support the video tag.
+					</video>
+					</a>
+				</div>
+				<p class="content title"><em>Dark Waves</em><br/>Bezier waves and class-object structure</p>
+			</td>
+			<td class="content block">
+				<div class="content frame">
+					<a href="https://github.com/aelu419/processing_projects">
+					<video class="content image video" muted ="muted" loop>
+  						<source src="./videos/portfolio03.webm" type="video/webm"/>
+  						Your browser does not support the video tag.
+					</video>
+					</a>
+				</div>
+				<p class="content title"><em>Clock</em><br/>Elementary Processing3</p>
+			</td>
+			<td class="content block">
+				<h1>Experiments</h1>
+			</td>
+			</tr>
+			<tr>
+				<td class="content block">
+				<a href="./image/portfolio04.png" target="_blank">
+				<div class="content frame">
+					<img class="content image" src="./image/portfolio04-min.png"/>
+				</div>
+				</a>
+			</td>
+			<td class="content block">
+				<div class="content frame">
+					<img class="content image" src="./image/portfolio10.png"/>
+				</div>
+			</td>
+			<td class="content block">
+				<a href="./image/portfolio07.jpg" target="_blank">
+				<div class="content frame">
+					<img class="content image" src="./image/portfolio07-min.jpg"/>
+				</div>
+				</a>
+			</td>
+			<td class="content block">
+				<a href="./downloads/cardfloodit.apk">
+				<div class="content frame">
+					<img class="content image" src="./image/cardflood.png"/>
+					<div class="content hovering_text">
+						<p>Simple android game exploring the flood algorithm.</p>
+					</div>
+				</div>
+				</a>
+				<p class="content title"><em>Card Flood-it</em><br/>for Hack THIS Club Fair Showcase<br/>2018</p>
+			</td>
+			</tr>
+			<tr class="divider"><td colspan="4" style="border-bottom:3px dashed #AEBFC7;"/></tr>
+			<tr id="works">
+				<td class="content block"><h1>Current Work</h1></td>
+				<td colspan="3"><p>Replacing videos with runnable programs.</p></td>
+			</tr>
+			<tr class="divider"><td colspan="4" style="border-bottom:3px dashed #EAE891;"/></tr>
+		</table>
+		</div></center>
+	
+	<div id="footer">
+		<h2>Contact Info</h2>
+		<p>Email: alantao20011015@outlook.com</p>
+		<a href="https://github.com/aelu419"><p>Github: Aelu419</p></a>
+		<hr/>
+		<p>last updated 2019/10/28</p>
+		<p>website by Alan Tao with help of friends</p>
+	</div>
+	
 </body>
 </html>

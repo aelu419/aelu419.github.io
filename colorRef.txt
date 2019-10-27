@@ -1,0 +1,2 @@
+colors
+#E4CEBA #AEBFC7 #EAE891 #E4E4E4
