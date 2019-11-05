@@ -23,7 +23,7 @@
 	height:auto;
 	background-color: rgba(0,0,0,0.70);
 	color:rgba(250,250,250,1.00);
-	padding-top: 40px;
+	padding-top: 100px;
 	padding-left:20px;
 	padding-right:20px;
 	padding-bottom:20px;
@@ -31,7 +31,7 @@
 }
 
 #header_content{
-	display:flex;
+	text-align: left;
 }
 
 #header_text{
@@ -40,15 +40,14 @@
 }
 
 #header_list{
-	padding-right:20%;
+	padding-left:20%;
 	width:50%;
-	text-align: right;
 }
 
 #header_list li{
 	list-style: none;
 	font-family:gilroy,sans-serif;
-	margin: 5px;
+	margin: 8px;
 }
 
 #header_list a{
@@ -72,6 +71,16 @@
 
 #header h2{
 	font-family:gilroy,sans-serif;
+}
+
+#downIcon{
+	margin-top: 100px;
+	opacity: 1;
+	transition: all 0.5s;
+}
+
+#downIcon:hover{
+	opacity: .6;
 }
 
 #footer{
@@ -149,15 +158,15 @@
 }
 
 .divider td{
-	padding-top: 10px;
-	padding-bottom: 20px;
+	padding-top: 30px;
+	padding-bottom: 70px;
 }
 
 video{
 }
 
 #body{
-	background-color:rgba(254,254,255,0.93);
+	background-color:rgba(244,244,244,0.90);
 	border-top-left-radius: 10px;
 	border-bottom-right-radius: 50px;
 	padding: 20px;
@@ -166,6 +175,10 @@ video{
 	margin-left: 50px;
 	margin-right: 50px;
 	margin-bottom:30px;
+}
+
+.toobright{
+	border: thin #5E5E5E solid;
 }
 
 #body h1{
@@ -181,3 +194,7 @@ a{
 	color: inherit;
 }
 
+hr{
+	margin-left: 20%;
+	margin-right: 20%;
+}
