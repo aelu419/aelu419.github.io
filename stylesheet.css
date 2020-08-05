@@ -27,7 +27,7 @@
 	padding-left:20px;
 	padding-right:20px;
 	padding-bottom:20px;
-	
+
 }
 
 #header_content{
@@ -108,8 +108,7 @@
 
 .content{
 	text-align: center;
-	
-	
+	font-family: gilroy,sans-serif;
 }
 
 .content.block{
@@ -128,7 +127,7 @@
 .content.image{
 	position: relative;
 	width: 100%;
-	
+
 	outline: none;
 	display: block;
 	z-index: 1;
