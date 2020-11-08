@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Online Photography Exhibit</title>
+		<link rel="stylesheet" href="stylesheet.css" type="text/css" />
+		<link rel="stylesheet" href="indexStyleSheet.css" type="text/css">
+		<script type="text/javascript">
+            var slideIndex=1;
+            
+            function plusDivs(n) {
+                showDivs(slideIndex += n);
+            }
+
+            function showDivs(n) {
+                var i;
+                var x = document.getElementsByClassName("mySlides");
+                if (n > x.length) {slideIndex = 1} 
+                if (n < 1) {slideIndex = x.length} ;
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = "none"; 
+                }
+				
+                x[slideIndex-1].style.display = "block"; 
+            }
+		</script>
+	</head>
+	<body id="Page" onload="showDivs(slideIndex);document.getElementById('Slider').style.height=document.getElementById('Slider').offsetWidth/2.5+'px';" onResize="document.getElementById('Slider').style.height=document.getElementById('Slider').offsetWidth/2.5+'px';">
+		<header id="header" style="margin-bottom: 0;">
+		<div class = "bar header">
+			<br><br>
+			<h5 class="header content" style="font-weight:normal">Tsinghua International School - 清华附中国际部</h5>
+			<hr style="margin-top:5px;margin-bottom:0px">
+			<div style="float:left">
+			<h3 class = "header content">The Online Photography Exhibition of</h3>
+			<h1 class = "header content">The 2017 9th Grade Ethnography Trips</h1>
+			<h1 class = "header content">2017年九年级民族志旅行线上照片展</h1>
+			</div>
+			<div style="float:right">
+				<br>
+				<br>
+				<a href = "index.html"><h4 class="button" >Home<br>主页</h4></a>
+				<a href = "dehong.html"><h4 class="button">Dehong Trip Exhibition<br>德宏作品展览</h4></a>
+				<a href = "niujie.html"><h4 class="button">Niu Jie Trip Exhibition<br>牛街作品展览</h4></a>
+				<a href = "about.html"><h4 class="button">About Us<br>关于我们</h4></a>
+                
+			</div>
+			</div>
+		
+		</header>	
+		
+		<center style="margin-top:0px;margin-bottom:20px">
+			<div class="slider" id="Slider">
+				<img class="mySlides" src="LeonChang/28.jpg">
+               	<img class="mySlides" src="RiveBen/10.JPG">
+                <img class="mySlides" src="LeonChang/23.jpg">
+                <img class="mySlides" src="AlanTao/34.JPG">
+                <img class="mySlides" src="RiveBen/9.JPG">
+                <a class="BUTTON" onclick="plusDivs(-1)" style="left:0;"><h1>&#10094;</h1></a>
+                <a class="BUTTON" onclick="plusDivs(+1)" style="right:0;"><h1>&#10095;</h1></a>
+			</div>
+			<div class="body">
+				<center><h1>Introduction to the Exhibit<br>展览简介</h1></center>
+                <p style="padding: 0px 50px 0px 50px;">&nbsp;&nbsp;&nbsp; &nbsp;In April, 2017, the 9th grade of Tsinghua International School visited the Prop Roots Foundation in the Dehong Autonomous Area, Yunnan, and the Xuanwu Huimin Kindergarden in Niujie, Beijing for the purpose of conducting ethnographic research. This website exhibits several photographs recorded during their trip.
+				<br>&nbsp;&nbsp;&nbsp; &nbsp;2017年四月，清华附中国际部组织九年级学生拜访了位于云南省德宏州的榕树跟之家以及位于北京市牛街的宣武回民幼儿园进行民族志考察。此网站展览考察期间所作的摄影作品。<br>
+				
+				&nbsp;&nbsp;&nbsp;&nbsp;You can <a href="print.html">click here to contact</a> us to purchase a printed copy of an exhbited item.<br>&nbsp;&nbsp;&nbsp;&nbsp;您可以<a href="print.html">点击这里</a>来联系我们向购买展览品的打印版本。</p>
+				<a href="dehong.html"><div class="subBody" id="Dehong"  style="float:left;">
+					<img src="DidiTan/1.jpg"/>
+					<center><p id="DehongText">&nbsp;&nbsp;&nbsp;&nbsp;4月13日-20日，清华附中国际部第三次组织九年级同学前往云南进行了跨学科综合考察实践活动。此次活动由学校行政副主任董文博老师，中文老师钱超，英文老师Mr. James Cusack，法语老师Ms. Lisbeth Stammerjohann和图书馆老师Alisha Brizicky带队，以中缅边境的德宏傣族和景颇族民族自治州盘营乡榕树根和大理作为考察实践地点。本次丰富多彩的实践活动，不但提高了学生们的学术能力，伴随而来的还有心灵的成长。<br>&nbsp;&nbsp;&nbsp;&nbsp;From April 13th to 20th, the 9th graders of Tsinghua International School conducted a comprehensive interdisciplinary study in the field of Yunnan for the third time. The trip was led by school executive director Ms. Toni Dong, Chinese teacher Mr. Qian Chao, English teacher Mr. James Cusack, French teacher Ms. Lisbeth Stammerjohann, and school librarian Ms. Alisha Brizicky. The trip took place in Prop Roots, located along the Chinese-Myanmar border, and in the Dehong Autonomous Prefecture, home to the Dai and Jingpo ethnic minorities. Overall, the trip advanced students' academic abilities and more importanly, their emotional growth.</p></center>
+				</div></a>
+				<br>
+				<a href="niujie.html"><div class="subBody" id="NiuJie"  style="float:right;">
+					<img src="RiveBen/14.JPG">
+					<center><p id="NiujieText">&nbsp;&nbsp;&nbsp;&nbsp;While the rest of the ninth grade was in Dehong, researching the Jingpo ethnic minority, Mr. Weil led the remaining students to Niujie to research the Hui ethnic minority. They made the trip from school to Niujie daily by bus and subway, and walked the length of the street while conducting ethnographic research. They had the opportunity to create their own plans, though. Nearly everything done by those three students was planned by them as well. <br>&nbsp;&nbsp;&nbsp;&nbsp;当其他的九年级在德宏的榕树根，剩余的三个学生就在北京内的牛街考察当地的回族居民。在Mr. Weil的带领下，学生们每天乘地铁去牛街并自行规划如何步行探索。</p></center>
+				</div></a>
+            </div>
+			<div class="body">
+				<hr>
+				<center><p>Last Updated June 14th, 2017</p></center>
+			</div>
+		</center>
+		
+		<footer id="footer">
+			<div class="footer">
+				<div class="list" style="border-right: #fff solid 1px">
+					<center><h3 style="margin:5px">Contacts 联系方式</h3></center>
+						<a href="contact/this.html" >
+							<h4 class="button"><img class="icon" src="THIS_Icon.jpg" style="width:45px;margin-right:3px;float:left;"/>Tsinghua International School<br>清华附中国际部</h4>
+						</a>
+						<a href="contact/proproots.html" >
+							<h4 class="button"><img class="icon" src="PropRoots_Icon.jpg" style="width:45px;margin-right:3px;float:left;"/>Prop Roots<br>榕树根之家</h4>
+						</a>
+						<a href="contact/xuanwu.html" >
+							<h4 class="button"><img class="icon" src="Xuanwu_Icon.jpg" style="width:45px;margin-right:3px;float:left;"/>Xuanwu Huimin Kindergarden<br>宣武回民幼儿园</h4>
+						</a>					
+				</div>
+
+				<div class="list" style="border-right: #fff solid 1px">
+					<center><h3 style="margin:5px">&nbsp;</h3></center>
+						<a href="SiteMap.html">
+							
+							<h4 class="button">Site Map<br>站点目录</h4>
+						</a>
+						<a href="TermsOfUse.html">
+							
+							<h4 class="button">Terms of Use<br>使用条款</h4>
+						</a>
+						<a href="Privacy.html">
+							
+							<h4 class="button">Privacy<br>隐私</h4>
+						</a>					
+				</div>
+			</div>
+			<div class="footer"  style="margin-top:0px;">
+				<hr style="margin-top:0px;margin-bottom:0px">
+				<center><p style="margin:0;">A website powered by Github</p></center>
+			</div>
+		</footer>
+		
+	</body>
+</html>

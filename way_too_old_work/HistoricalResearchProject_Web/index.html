@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Comparing Revolutions</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<style type="text/css">
+	body{
+		color:#FFF;
+		background: url(background.png) repeat-y;
+		background-size:100%;
+		font-family: "monospace", "Tahoma", "Arial Unicode MS";
+		font-size:20px;
+	}
+	.bodyer{
+		width:800px;
+		height:800px;
+		position:relative;
+		margin: auto auto;
+	}
+	.sectioner{
+	width: 75%;
+	height: 75%;
+	position: absolute;
+	margin: 100px 100px;
+	z-index: 1;
+	}
+	#section{
+	position: absolute;
+	z-index: 2;
+	}
+	.brief{
+	position: absolute;
+	width: 180px;
+	height: 180px;
+	border-radius:30%;
+	opacity:0.8;
+	}
+	.brief:hover{
+		opacity:1.0;
+	}
+	.footer{
+	height:120px;
+	border:none;
+	background:#999;
+	font-family:"monospace","Tahoma";
+	border-top:solid 10px #999;
+	border-bottom:solid 10px #999;
+	opacity:0.8;
+	}
+	.more{
+		position:absolute;
+		width:85px;
+		height:15px;
+		border:none;
+		opacity:0.8;
+		border-radius:20%;
+	}
+	.subSector{
+	position: absolute;
+	width: 134px;
+	}
+	h3{
+		font-family:Tahoma, Geneva, sans-serif;
+		color:black;
+	}
+	h4{
+		font-family:Tahoma, Geneva, sans-serif;
+		color:black;
+	}
+	.summary{
+		width:80%;
+	}
+}
+</style>
+<script>
+window.onload=function(){
+  section();
+ }
+function section(){
+	var RADIO = document.getElementsByName("section");
+	var vRADIO;
+	for(var x=0;x<RADIO.length;x++){
+		if (RADIO.item(x).checked){
+			var vRADIO = RADIO.item(x).value;
+			break;
+		}
+	}
+	//document.write("fkme");
+	
+	if(vRADIO==1){
+			document.getElementById("s1").style.display = "block";
+			document.getElementById("s2").style.display = "none";
+			document.getElementById("s3").style.display = "none";
+			document.getElementById("s4").style.display = "none";
+			document.getElementById("s5").style.display = "none";
+			
+			document.getElementById("f1").style.opacity = "1";
+			document.getElementById("f2").style.opacity = "0.5";
+			document.getElementById("f3").style.opacity = "0.5";
+			document.getElementById("f4").style.opacity = "0.5";
+			document.getElementById("f5").style.opacity = "0.5";
+	}else if(vRADIO==2){
+			document.getElementById("s1").style.display = "none";
+			document.getElementById("s2").style.display = "block";
+			document.getElementById("s3").style.display = "none";
+			document.getElementById("s4").style.display = "none";
+			document.getElementById("s5").style.display = "none";
+			
+			document.getElementById("f1").style.opacity = "0.5";
+			document.getElementById("f2").style.opacity = "1";
+			document.getElementById("f3").style.opacity = "0.5";
+			document.getElementById("f4").style.opacity = "0.5";
+			document.getElementById("f5").style.opacity = "0.5";
+	}else if(vRADIO==3){
+			document.getElementById("s1").style.display = "none";
+			document.getElementById("s2").style.display = "none";
+			document.getElementById("s3").style.display = "block";
+			document.getElementById("s4").style.display = "none";
+			document.getElementById("s5").style.display = "none";
+			
+			document.getElementById("f1").style.opacity = "0.5";
+			document.getElementById("f2").style.opacity = "0.5";
+			document.getElementById("f3").style.opacity = "1";
+			document.getElementById("f4").style.opacity = "0.5";
+			document.getElementById("f5").style.opacity = "0.5";
+	}else if(vRADIO==4){
+			document.getElementById("s1").style.display = "none";
+			document.getElementById("s2").style.display = "none";
+			document.getElementById("s3").style.display = "none";
+			document.getElementById("s4").style.display = "block";
+			document.getElementById("s5").style.display = "none";
+			
+			document.getElementById("f1").style.opacity = "0.5";
+			document.getElementById("f2").style.opacity = "0.5";
+			document.getElementById("f3").style.opacity = "0.5";
+			document.getElementById("f4").style.opacity = "1";
+			document.getElementById("f5").style.opacity = "0.5";
+	}else if(vRADIO==5){
+			document.getElementById("s1").style.display = "none";
+			document.getElementById("s2").style.display = "none";
+			document.getElementById("s3").style.display = "none";
+			document.getElementById("s4").style.display = "none";
+			document.getElementById("s5").style.display = "block";
+			
+			document.getElementById("f1").style.opacity = "0.5";
+			document.getElementById("f2").style.opacity = "0.5";
+			document.getElementById("f3").style.opacity = "0.5";
+			document.getElementById("f4").style.opacity = "0.5";
+			document.getElementById("f5").style.opacity = "1";
+	}
+}
+</script>
+</head> 
+
+<body>
+<center><h1>Comparing and Contrasting Different Revolutions</h1></center>
+<div page width="100%" height="100%">
+<div class="bodyer">
+<div class="section" id="ctrlPanel" style="position: absolute; width: 100%; height:100%;">
+    <img src="frame1.gif" id="f1" width="100%" height="100%" style="position: absolute;"/>
+    <img src="frame2.gif" id="f2" width="100%" height="100%" style="position: absolute;"/>
+    <img src="frame3.gif" id="f3" width="100%" height="100%" style="position: absolute;"/>
+    <img src="frame4.gif" id="f4" width="100%" height="100%" style="position: absolute;"/>
+    <img src="frame5.gif" id="f5" width="100%" height="100%" style="position: absolute;"/>
+    <img src="frame_text.gif" width="100%" height="100%" style="position: absolute;"/>
+    
+    
+    	<input checked="checked" id="section" type="radio" name="section" value="1" onClick="section();" style="top: 56px; left: 392px;"/>
+        <input type="radio" id="section" name="section" value="2" onClick="section();" style="top: 280px; left: 703px;"/>
+      <input type="radio" id="section"name="section" value="3" onClick="section();" style="top: 661px; left: 586px;"/>
+      <input type="radio" id="section"name="section" value="4" onClick="section();" style="top: 657px; left: 182px;"/>
+      <input type="radio" id="section"name="section" value="5" onClick="section();" style="top: 275px; left: 79px;"/>
+    </div>
+    
+<div class="sectioner" id="s1">  <img src="section1.gif" width="100%" height="100%" alt="Section 1" style="opacity:0.9;"/>
+  <h3 style="position: absolute; left: 63px; top: 107px; font-size: 24px; width: 471px; height: 106px;"><center>Comparing and Contrasting <br />
+    Different Revolutions</center>--By Jason Liu, Randy Gu, Alan Tao <br /></h3><h4 style="position: absolute; left: 33px; top: 217px; font-size: 18px; width: 535px;">
+    &nbsp;&nbsp;&nbsp;&nbsp;We compared different examples of taking a stand, such as the Russian Revolution of 1917, the Egyptian Revolution of 1952, and Gandhi’s pacifist movements. These revolutions happened in different places, at different times, and included different people. However, all of them succeeded because of their persistence and courage to take the stand. Therefore we concluded that those two factors are the most important ones in taking a stand. </h4><img src="StandFirm.jpg" width="150px" height="150px" Style="position: absolute; left: 225px; top: 423px;"/>
+
+  </div>
+  <div class="sectioner" id="s2">    <img src="section2.gif" width="100%" height="100%" alt="Section 1" style="opacity:0.9;"/>
+    <a target="_blank" href="Bolsheviks_Intro.html">
+    <img class="brief" style="top: 404px; left: 213px; "src="LeninProfile.jpg" />
+    </a>
+    <a target="_blank" href="FreeOfficers_Intro.html">
+    <img class="brief" style="top: 150px; left: 369px"src="FreeOfficersProfile.jpg" />
+    </a>
+    <a target="_blank" href="Gandhi_Intro.html">
+    <img class="brief" style="top: 149px; left: 42px"src="GandhiProfile.jpg" />
+    </a>
+
+  </div>
+ 	<div class="sectioner" id="s3">	<img src="section3.gif" width="100%" height="100%" alt="Section 1" style="opacity:0.9;"/>
+    <ul class="subSector" style="top: 232px; left: 6px; font-size: 16px;">
+    	<li>The corruption of the government</li>
+        <li>Inequalities between<br />
+classes and races</li>
+        <li>Unjust laws</li>
+    </ul>
+        <ul class="subSector" style="top: 260px; left: 407px; font-size: 16px;">
+    	<li>The king's inability to rule</li>
+        <li>Resistence on the foreign dominance</li>
+    </ul>
+      <ul class="subSector" style="top: 432px; left: 206px; font-size: 16px;">
+    	<li>Dissatisfaction towards the Tsar</li>
+        <li>Wanting to change the harsh conditions</li>
+    </ul>
+    <a target="_blank" href="Motivation_Compare.html"><button style="height:230px;width:230px;position:absolute; border-radius:50%;top:190px;left:190px;" ><center><h1 style="font-size:300%;font-family:'Impact', 'Arial Unicode MS';">Compare<br />& <br /> Contrast</h1></center></button></a>
+    <a target="_blank" href="Gandhi_Motivation.html"><button class="more" style="top: 377px; left: 51px;" onmouseover="this.style.opacity = '1'"onmouseout="this.style.opacity = '0.8'">read more</button></a>
+    <a target="_blank" href="FreeOfficers_Motivation.html"><button class="more" style="top: 359px; left: 425px;" onmouseover="this.style.opacity = '1'"onmouseout="this.style.opacity = '0.8'">read more</button></a>
+    <a target="_blank" href="Bolsheviks_Motivation.html"><button class="more" style="top: 425px; left: 264px;"onmouseover="this.style.opacity = '1'"onmouseout="this.style.opacity = '0.8'">read more</button></a>
+
+  </div>
+  <div class="sectioner" id="s4">    <img src="section5.gif" width="100%" height="100%" alt="Section 1" style="opacity:0.9;"/>
+        <ul class="subSector" style="top: 200px; left: 38px;">
+    	<li>The Salt March</li>
+    </ul>
+    <ul class="subSector" style="top: 198px; left: 380px;">
+   	  <li>The 1952 Revolution</li>
+    </ul>
+      <ul class="subSector" style="top: 430px; left: 207px;">
+    	<li>The Feburary Revolution</li>
+    	<li>The October Revolution</li>
+    </ul>
+    <a target="_blank" href="Event_Compare.html"><button style="height:230px;width:230px;position:absolute; border-radius:50%;top:190px;left:190px;"><center><h1 style="font-size:300%;font-family:'Impact', 'Arial Unicode MS';">Compare<br />& <br /> Contrast</h1></center></button></a>
+    <a target="_blank" href="Gandhi_Event.html"><button class="more" style="top: 357px; left: 96px;"onmouseover="this.style.opacity = '1'"onmouseout="this.style.opacity = '0.8'">read more</button></a>
+    <a target="_blank" href="FreeOfficers_Event.html"><button class="more" style="top: 359px; left: 425px;"onmouseover="this.style.opacity = '1'"onmouseout="this.style.opacity = '0.8'">read more</button></a>
+    <a target="_blank" href="Bolsheviks_Event.html"><button class="more" style="top: 425px; left: 264px;"onmouseover="this.style.opacity = '1'"onmouseout="this.style.opacity = '0.8'">read more</button></a>
+
+  </div>
+   <div class="sectioner" id="s5">    <img src="section6.gif" width="100%" height="100%" alt="Section 1" style="opacity:0.9;"/>
+    <a target="_blank" href="Bolsheviks_Impact.html">
+    <img class="brief" style="top: 404px; left: 213px"src="LeninProfile.jpg" />
+    </a>
+    <a target="_blank" href="FreeOfficers_Impact.html">
+    <img class="brief" style="top: 150px; left: 369px"src="FreeOfficersProfile.jpg" />
+    </a>
+    <a target="_blank" href="Gandhi_Impacts.html">
+    <img class="brief" style="top: 149px; left: 42px"src="GandhiProfile.jpg" />
+    </a>
+
+    </div>
+</div>
+<center><div class="summary">
+	<h2>What have we found by comparing?</h2>
+    <p width="80%" style=" text-align:left;background-color:rgba(255,255,255,0.45);border: solid 10px #555;">&nbsp;&nbsp;&nbsp;&nbsp;There are many differences between the revolutions. First, they used very different methods. Gandhi's non-violent method is different from the other two. Also, having armed citizens rebel is different from military coups.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Their goals are different as well. The Bolsheviks wanted to replace the Tsar with a communist government. The Free Officers want to overthrow monarchy. Gandhi wanted India to be independent.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;They all succeeded and influenced other revolutions in the future. Why? This can be answered by their similarities: they all had the courage to take the stand and continue even if there are casualties. For all of the revolutions, the protestors have the courage to stand up against the powerful government. In addition, the casualties didn't soften their determination. They continued the revolution, and  reached their final success.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;
+    Therefore, we can conclude that persistence and courage are the most important factor of a successful revolution.</p>
+</div>
+</center>
+<footer class="footer">
+<center><p>website by: Alan Tao, Randy Gu, Jason Liu From 9White, THIS</p><a target="_blank" href="bibliography.html">works cited</a></center>
+</footer>
+
+</body>
+</html>

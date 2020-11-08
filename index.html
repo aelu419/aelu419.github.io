@@ -4,15 +4,21 @@
 <meta charset="utf-8">
 <title>Alan Tao</title>
 <link href="stylesheet.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="pondAnimator.js"></script>
+
 <script type="text/javascript">
 //https://labs.redantler.com/on-hover-toggle-play-html5-video-with-only-vanilla-javascript-c8689e633b41
 window.onload = function() { //executes code after DOM loads
+
+  //start animating the canvas on the banner
+  startAnimation();
 
  	//--- select all <video> on the page
  	const vids = document.getElementsByTagName("video")
  	// Loop over the selected elements and add event listeners
  	for (let i = 0; i < vids.length; i++) {
-		vids[i].addEventListener( "mouseover", function(e) {
+		/*vids[i].addEventListener( "mouseover", function(e) {
 			var playPromise = vids[i].play();
 			if(playPromise!=undefined){
 				playPromise.then(_=>{
@@ -23,10 +29,11 @@ window.onload = function() { //executes code after DOM loads
 					alert(error);
     			});
 			}
-   		})
+    })*/
+    /*
 		vids[i].addEventListener( "mouseout", function(e) {
 			vids[i].pause()
-   		})
+    })*/
 	}
 }
 
@@ -35,260 +42,285 @@ window.onload = function() { //executes code after DOM loads
 </head>
 
 <body id="background">
-	<div id="header">
+
+  <!--splash page-->
+	<div id="header" onmousemove="updateMouse(event)" onmouseout="">
+    <!--leaf shaped decorations-->
+    <canvas class="deco" id = "pond"></canvas>
+    <div class="deco holder">
+      <img id = "d1" class = "deco" src="./site_deco/rslt1_2.png"/>
+      <img id = "d2" class = "deco" src="./site_deco/rslt1_1.png"/>
+      <img id = "d4" class = "deco" src="./site_deco/rslt2_1.png"/>
+      <img id = "d3" class = "deco" src="./site_deco/rslt2_2.png"/>
+    </div>
+    <div class="deco holder right">
+      <img id = "d5" class = "deco" src="./site_deco/rslt1_1.png"/>
+      <img id = "d6" class = "deco" src="./site_deco/rslt1_0.png"/>
+      <img id = "d7" class = "deco" src="./site_deco/rslt2_1.png"/>
+      <img id = "d8" class = "deco" src="./site_deco/rslt3_2.png"/>
+    </div>
+    <!--shading-->
+    <div class="deco background"></div>
+
+    <!--navigation menu-->
 		<div id="header_content">
 			<div id="header_text">
-				<h1>Hi! I'm Alan Tao.</h1><h2>Welcome to my site.</h2>
+				<h1>Hi! I'm Alan Tao.</h1><h2>Welcome to my portfolio site.</h2>
 			</div>
 			<ul id="header_list">
 				<li style="color: #D6EDC0;"><a href="https://github.com/aelu419">&#62; Repositories</a></li>
-				<li style="color: #E4E4E4;"><a href="#projects">&#62; Past Projects</a></li>
-				<li style="color: #E4E4E4;"><a href="#minorprojects">&#62; Minor Projects</a></li>
-				<!--li style="color: #E4E4E4;"><a href="#illustrations">&#62; Illustrations</a></li-->
+				<li style="color: #E4E4E4;"><a href="#projects">&#62; Major Projects</a></li>
+				<li style="color: #E4E4E4;"><a href="#minorprojects">&#62; Experimentation</a></li>
 				<li style="color: #E4E4E4;"><a href="#footer">&#62; Contact Info</a></li>
 			</ul>
 		</div>
-		<center><a href="#body">
-			<img id="downIcon" src="downArrow.png" width="20px"/>
-		</a></center>
+    <a href="#body"><img id="downIcon" src="downArrow.png"/></a>
 	</div>
+
+  <!--body page-->
 	<center><div id="body">
-			<table>
+	<table>
+      <!--begin major projects section-->
 			<tr id="projects">
+        <td class="content block head" colspan="4">
+          <h1>Major Projects</h1><h4> hover for more details &#8675;</h4>
+        </td>
+      </tr>
+      <tr>
+        <!--lunacia-->
+        <td class="content block">
+          <a href = "https://github.com/aelu419/Lunacia.git" target="_blank">
+  				<div class="content frame">
+  					<img class="content image toobright" src="./videos/lunacia.gif"/>
+  					<div class="content hovering_text">
+  						<p>2D exploration game made with Unity. Was in charge of visual effects, character animation, and UI. </p>
+  					</div>
+  				</div>
+          </a>
+        </td>
 
-			<td class="content block"><h1>Past Projects</h1></td>
-			<td class="content block">
-				<div class="content frame">
-					<img class="content image toobright" src="./image/gravassist.png"/>
-					<div class="content hovering_text">
-						<p>Uses NASA JPL data and simulates lambert's problem and gravitational assist</p>
-					</div>
-				</div>
-				<p class="content title"><em></em><br/>for independent studies<br/>2019</p></td>
+        <!--grav assist-->
+  			<td class="content block">
+          <a href = "https://github.com/aelu419/GravAssist" target="_blank">
+  				<div class="content frame">
+            <video poster="./image/gravassist.png" class="content image video" muted ="muted" autoplay="true" loop>
+                <source src="./videos/grav_assist_demo.mp4" type="video/mp4"/>
+                Your browser does not support the video tag.
+            </video>
+  					<div class="content hovering_text">
+  						<p>3D graphics powered by OpenGL rendering. Uses NASA JPL data to simulate interplanetary transfers and gravitational assist.</p>
+  					</div>
+  				</div>
+          </a>
+        </td>
 
-			<td class="content block">
-				<div class="content frame">
-					<img class="content image toobright" src="./image/spartapp.png"/>
-					<div class="content hovering_text">
-						<p>App for school schedule notifications and news.<br/>Was in charge of android, server management, and coordination</p>
-					</div>
-				</div>
-				<p class="content title"><em>Spartapp</em><br/>for Hack THIS<br/>since 2018</p></td>
-
-			<td class="content block">
-				<a href="https://aelu419.github.io/ethnographic_exhibition/">
-				<div class="content frame">
-					<img class="content image toobright" src="./image/yunnan.png"/>
-					<div class="content hovering_text">
-						<p>Website for charity photography exhibition.<br/>Designed independently and collaborated to gather exhibition items.</p>
-					</div>
-				</div>
-				</a>
-				<p class="content title">Website for THIS Ethnographic Photo Exhibition <br/>2017</p>
-			</td>
-			</tr>
+        <!--spart app-->
+        <td class="content block">
+  				<div class="content frame">
+            <a href = "https://github.com/aelu419/Spartapp" target="_blank">
+  					<img class="content image toobright" src="./image/spartapp_detailed_sheet_thumb.png"/>
+  					<div class="content hovering_text">
+              <p>App for school schedule and news. Was in charge of android Java programming, data storage on the cloud, UI, and general coordination.
+              <a href = "https://apps.apple.com/cn/app/spartapp/id1375235752?l=en"><u>Also published on iOS. </u>(now dis-continued)</a></p>
+  					</div>
+            </a>
+  				</div>
+        </td>
+	    </tr>
+      <!--labels row-->
+      <tr>
+        <td>
+          <p class="content title"><em>Lunacia</em><br/>for VGDev club<br/>coming soon: 2020.11.13</p>
+        </td>
+        <td>
+          <p class="content title"><em>GravAssist</em><br/>for independent studies<br/>2019</p>
+        </td>
+        <td>
+          <p class="content title"><em>Spartapp</em><br/>for Hack THIS club<br/>2016~2020</p>
+        </td>
+      </tr>
+      <!--end major projects section-->
 			<tr class="divider"><td colspan="4"><hr/></td></tr>
-			<tr id="minorprojects">
-				<td class="content block" rowspan = "2">
-					<h1>Minor Projects</h1>
-				</td>
-				<td class = "content block" colspan="3">
-					<h3>Website</h3>
-				</td>
-			</tr>
-			<tr>
-				<td class="content block">
-					<a href="https://aelu419.github.io/bongographer">
-					<img class="content image toobright" src="./image/bongo.jpg"/>
-					<p class="content title"><em></em><br/>js animations</p>
-					</a>
-				</td>
-			</tr>
-			<tr>
-				<td/>
-				<td class = "content block" colspan="3">
-					<h3>Graphic</h3>
-				</td>
-			</tr>
-			<tr>
-				<td/>
-				<td class="content block">
-					<div class="content frame">
-						<a href="https://github.com/aelu419/processing_projects">
-						<video class="content image video toobright" muted ="muted" poster="image/port1_poster.png" loop>
-	  						<source src="./videos/portfolio01.webm" type="video/webm"/>
-	  						Your browser does not support the video tag.
-						</video>
-						</a>
-					</div>
-					<p class="content title"><em>Movable Bamboo Collage</em><br/>experiment with box2D</p>
-				</td>
-				<td class="content block">
-					<div class="content frame">
-						<a href="https://github.com/aelu419/processing_projects">
-						<video class="content image video" muted ="muted" loop>
-	  						<source src="./videos/portfolio02.webm" type="video/webm"/>
-	  						Your browser does not support the video tag.
-						</video>
-						</a>
-					</div>
-					<p class="content title"><em></em><br/>experiment with bezier curves</p>
-				</td>
-				<td class="content block">
-					<div class="content frame">
-						<a href="https://github.com/aelu419/processing_projects">
-						<video class="content image video" muted ="muted" loop>
-	  						<source src="./videos/portfolio03.webm" type="video/webm"/>
-	  						Your browser does not support the video tag.
-						</video>
-						</a>
-					</div>
-					<p class="content title"><em></em><br/>processing3 and vectors</p>
-				</td>
 
+      <!--begin experimentation section-->
+			<tr id="minorprojects">
+				<td class="content block head" colspan="4">
+					<h1>Experimentations</h1><h4>Weekly projects I do for fun, mostly on procedural generation and visual effects</h4>
+				</td>
 			</tr>
 
       <tr>
-                <td/>
-                <td class="content block">
-                    <div class="content frame">
-                        <a href="https://github.com/aelu419/processing_projects">
-                        <video class="content image video" muted ="muted" loop>
-                            <source src="./videos/particle01.webm" type="video/webm"/>
-                            Your browser does not support the video tag.
-                        </video>
-                        </a>
-                    </div>
-                    <p class="content title"><em></em><br/>Particle Dynamics</p>
-                </td>
-                <td class="content block">
-                    <div class="content frame">
-                        <a href="https://github.com/aelu419/processing_projects">
-                        <video class="content image video" muted ="muted" loop>
-                            <source src="./videos/particle-chain-fish.webm" type="video/webm"/>
-                            Your browser does not support the video tag.
-                        </video>
-                        </a>
-                    </div>
-                    <p class="content title"><em>Koi</em><br/>More with particles</p>
-                </td>
-								<td class="content block">
-                    <div class="content frame">
-                        <!--a href="https://github.com/aelu419/processing_projects"-->
-                        <video class="content image video" muted ="muted" loop>
-                            <source src="./videos/whiteball.mp4" type="video/mp4"/>
-                            Your browser does not support the video tag.
-                        </video>
-                        </a>
-                    </div>
-                    <p class="content title"><em></em><br/>Perlin noise animation</p>
-                </td>
-        </tr>
-				<tr>
-					<td/>
-					<td class="content block">
-							<div class="content frame">
-									<!--a href="https://github.com/aelu419/processing_projects"-->
-									<video class="content image video" muted ="muted" loop>
-											<source src="./videos/bluering.mp4" type="video/mp4"/>
-											Your browser does not support the video tag.
-									</video>
-									</a>
-							</div>
-							<p class="content title"><em></em><br/>More with Perlin noise</p>
-					</td>
+        <!--aurora-->
+        <td class="content block">
+          <div class="content frame">
+            <video class="content image video toobright" muted ="muted" poster="image/aurora.png" autoplay="true" loop>
+                <source src="./videos/aurora.mp4" type="video/mp4"/>
+                Your browser does not support the video tag.
+            </video>
+          </div>
+        </td>
 
-					<td class="content block">
-						<!--a href="./image/portfolio04.png" target="_blank"-->
-						<div class="content frame">
-							<img class="content image toobright" src="./image/tree.png"/>
-						</div>
-						<p class="content title"><em></em><br/>numpy and opengl3D rendering</p>
-						</a>
-					</td>
+        <!--bubble-->
+        <td class="content block">
+          <div class="content frame">
+            <video class="content image video" muted ="muted" autoplay="true" loop>
+                <source src="./videos/bubble_trace_demo.mp4" type="video/mp4"/>
+                Your browser does not support the video tag.
+            </video>
+          </div>
+        </td>
 
-					<td class="content block">
-						<!--a href="./image/portfolio04.png" target="_blank"-->
-						<div class="content frame">
-							<img class="content image toobright" src="./image/brace.png"/>
-						</div>
-						</a>
-					</td>
-				</tr>
+        <!--fungi growth procedural-->
+        <td class="content block">
+          <div class="content frame">
+            <video class="content image video" muted ="muted" autoplay="true" loop>
+                <source src="./videos/procedural_spread_demo.mp4" type="video/mp4"/>
+                Your browser does not support the video tag.
+            </video>
+          </div>
+        </td>
 
-				<tr>
-					<td/>
-					<td class="content block">
-						<!--a href="./image/portfolio04.png" target="_blank"-->
-						<div class="content frame">
-							<img class="content image toobright" src="./image/clam.png"/>
-						</div>
-						</a>
-					</td>
-					<td class="content block">
-						<!--a href="./image/portfolio04.png" target="_blank"-->
-						<div class="content frame">
-							<img class="content image toobright" src="./image/flower.png"/>
-						</div>
-						</a>
-					</td>
-				</tr>
-			<tr class="divider"><td colspan="4"><hr/></td></tr>
-			<tr id = "illustrations">
-				<td class="content block">
-					<h1>Illustrations</h1>
-				</td>
-			<td class="content block">
-				<!--a href="./image/portfolio04.png" target="_blank"-->
-				<div class="content frame">
-					<img class="content image toobright" src="./image/portfolio04-min.png"/>
-				</div>
-				</a>
-			</td>
+        <!--bumpy-->
+        <td class="content block">
+            <div class="content frame">
+                <video class="content image video" muted ="muted" autoplay="true" loop>
+                    <source src="./videos/bluering.mp4" type="video/mp4"/>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <p class="content title"><em></em><br/>More with Perlin noise</p>
+        </td>
+      </tr>
 
-			<td class="content block">
-				<!--ahref="./image/portfolio07.jpg" target="_blank"-->
-				<div class="content frame">
-					<img class="content image" src="./image/portfolio07-min.jpg"/>
-				</div>
-				</a>
-			</td>
-
-			<td class="content block">
-				<div class="content frame">
-					<img class="content image" src="./image/portfolio05-min.png"/>
-					<div class="content hovering_text">
-						<p>Illustration in collaboration with the Author's Circle.</p>
-					</div>
-				</div>
-				<p class="content title"><em></em><br/>for Comic Illustration Club<br/>2018</p>
-			</td>
-
-			</tr>
 			<tr>
-				<td/>
+        <!--perlin ball-->
+        <td class="content block">
+            <div class="content frame">
+                <video class="content image video" muted ="muted" autoplay="true" loop>
+                    <source src="./videos/whiteball.mp4" type="video/mp4"/>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </td>
+
+        <!--bamboo-->
 				<td class="content block">
 					<div class="content frame">
-						<img class="content image" src="./image/portfolio10.png"/>
+						<video class="content image video toobright" muted ="muted" poster="image/port1_poster.png" autoplay="true" loop>
+	  						<source src="./videos/portfolio01.webm" type="video/webm"/>
+	  						Your browser does not support the video tag.
+						</video>
 					</div>
 				</td>
+
+        <!--wave-->
 				<td class="content block">
 					<div class="content frame">
-						<img class="content image" src="./image/portfolio11.png"/>
+						<video class="content image video" muted ="muted" autoplay="true" loop>
+	  						<source src="./videos/portfolio02.webm" type="video/webm"/>
+	  						Your browser does not support the video tag.
+						</video>
+					</div>
+				</td>
+
+        <!--clock-->
+				<td class="content block">
+					<div class="content frame">
+						<video class="content image video" muted ="muted" autoplay="true" loop>
+	  				  <source src="./videos/portfolio03.webm" type="video/webm"/>
+	  					Your browser does not support the video tag.
+						</video>
 					</div>
 				</td>
 			</tr>
-			<tr class="divider"><td colspan="4"><hr/></td></tr>
-		</table>
-		</div></center>
 
+      <tr>
+        <!--fish-->
+        <td class="content block">
+          <div class="content frame">
+            <video class="content image video" muted ="muted" autoplay="true" loop>
+              <source src="./videos/particle-chain-fish.webm" type="video/webm"/>
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </td>
+
+        <!--tree-->
+				<td class="content block">
+					<div class="content frame">
+            <video class="content image video" muted ="muted" autoplay="true" loop>
+              <source src="./videos/tree_compilation.mp4" type="video/mp4"/>
+              Your browser does not support the video tag.
+            </video>
+					</div>
+				</td>
+
+        <!--zig zag braces-->
+				<td class="content block">
+					<div class="content frame">
+            <video class="content image video" muted ="muted" autoplay="true" loop>
+              <source src="./videos/zag_compilation.mp4" type="video/mp4"/>
+              Your browser does not support the video tag.
+            </video>
+					</div>
+				</td>
+
+          <!--bongo grapher-->
+        <td class="content block">
+          <div class="content frame">
+            <video class="content image video" muted ="muted" autoplay="true" loop>
+              <source src="./videos/bongo_compilation.mp4" type="video/mp4"/>
+              Your browser does not support the video tag.
+            </video>
+					</div>
+    		</td>
+			</tr>
+			<tr class="divider"><td colspan="4"><hr/></td></tr>
+
+      <!--myself section-->
+      <!--begin major projects section-->
+			<tr id="myself">
+        <td class="content block head" colspan="4">
+          <h1>A Bit More on Myself</h1>
+        </td>
+      </tr>
+      <tr>
+        <td class = "content block">
+          <center><img class = "content image" width="100px" src="./image/self_face.png"></img>
+          <p>I look roughly like this..?</p></center>
+        </td>
+        <td class = "content block">I'm a first year student at Georgia Institute of Technology, currently majoring computer science.</td>
+        <td class = "content block">I'm interested in computer graphics and mixed realities.</td>
+        <td class = "content block">I like to cook!</td>
+      </tr>
+  </table>
+	</div></center>
+
+  <!--body ends, footer begins-->
 	<div id="footer">
-		<h2>Contact Info</h2>
-    <p>Alan Rongyi Tao</p>
-		<p>Email: atao9@gatech.edu</p>
-		<a href="https://github.com/aelu419"><p>Github: Aelu419</p></a>
-		<hr/>
-		<p>last updated 2020/08/18</p>
+    <!--leaf background-->
+    <div class="deco holder">
+      <img id = "d1" class = "deco" src="./site_deco/rslt1_2.png"/>
+      <img id = "d2" class = "deco" src="./site_deco/rslt1_1.png"/>
+      <img id = "d4" class = "deco" src="./site_deco/rslt2_1.png"/>
+      <img id = "d3" class = "deco" src="./site_deco/rslt2_2.png"/>
+    </div>
+    <div class="deco holder right">
+      <img id = "d5" class = "deco" src="./site_deco/rslt1_1.png"/>
+      <img id = "d6" class = "deco" src="./site_deco/rslt1_0.png"/>
+      <img id = "d7" class = "deco" src="./site_deco/rslt2_1.png"/>
+      <img id = "d8" class = "deco" src="./site_deco/rslt3_2.png"/>
+    </div>
+    <!--shading-->
+    <div class="deco background"></div>
+
+    <!--basic info on the footer-->
+  	<h2 class "footer content">Contact Info</h2>
+    <p class "footer content">AlanTao</p>
+  	<p class "footer content">Email: atao9@gatech.edu</p>
+  	<a href="https://github.com/aelu419" class "footer content" ><p>Github: Aelu419</p></a>
+  	<hr/>
+  	<p class "footer content">last updated 2020/11/8</p>
 	</div>
 
 </body>

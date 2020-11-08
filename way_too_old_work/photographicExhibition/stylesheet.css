@@ -1,0 +1,139 @@
+a{
+	text-decoration: none;
+}
+
+.header{
+	font-weight: bold;
+	color:#FFF;
+	overflow: hidden;
+	padding-left:25px;
+	padding-right:25px;
+	padding-bottom:0px;
+	background-color:#6B1458;
+	margin:0px;
+}
+
+.button{
+	background-color:#9C60A7;
+	color:#FFF;
+	
+	margin-left:6px;
+	margin-right:6px;
+	padding:12px;
+	font-family:sans-serif;
+	transition: .5s background-color;
+	transition: .3s color box-shadow;
+	font-weight: normal;
+}
+
+.button:hover{
+	background-color:#FFF;
+	color:#6B1458;
+	box-shadow: 5px 5px 2px #333333;
+}
+
+.header .button{border-radius:3%;float:left;text-align: center;}
+
+.header .content{
+	font-weight: bold;
+	color:#FFF;
+	overflow: hidden;
+	padding-left:0;
+	margin:0;
+}
+
+#Page{
+	background-image: url(background.jpg);
+	background-repeat: repeat-x;
+	margin:0;
+	padding:0;
+	font-family:sans-serif, "tahoma", "simhei"
+}
+
+.body{
+	width:80%;
+	background-color:#FFFFFF;
+	box-shadow: 10px 10px 10px #888888;
+	text-align:left;
+	padding-left:3%;
+	padding-right:3%;
+	overflow: hidden;
+	padding-top:20px;
+	padding-bottom:20px;
+}
+
+.body #title{
+	font-weight:bold;
+	font-size:150%;
+	font-family: "Tahoma",sans-serif,"Simhei";
+	margin-top:15px;
+	margin-bottom:15px;
+}
+
+.body #description{
+	width:80%;
+	margin-left: 10%;
+	margin-right:10%;
+}
+
+.pictureItem{
+	width:28%;
+	margin-left:1.5%;
+	margin-right:1.5%;
+	margin-top:10px;
+	margin-bottom:10px;
+	box-shadow: 3px 3px 2px #DDDDDD;
+	background-color:#A6A6A6;
+	padding:10px;
+	border-radius: 2%;
+	float:left;
+}
+
+.pictureItem .title{
+	font-weight:normal;
+	color:#FFF;
+}
+
+.pictureItem .pic{
+	width:80%;
+	opacity:1;
+	background: #000;
+	filter:brightness(1);
+	transition: .2s filter;
+}
+
+.pictureItem .pic:hover{
+	filter:brightness(.5);
+}
+
+
+
+.footer{
+	font-family: Sans-serif;
+	color:#FFF;
+	background-color:#6B1458;
+	margin-top:20px;
+	padding-left:5%;
+	padding-right:5%;
+	padding-top:8px;
+	overflow: hidden;
+}
+
+.footer .list{
+	float: left;
+	width:35%;
+	margin:0;
+}
+
+.list .button{
+	margin-top:0;
+	margin-bottom:0;
+	margin-left:1%;
+	margin-right:1%;
+}
+
+.list .icon{
+	margin-right:3px;
+	width:45px;
+	float:left;
+}
