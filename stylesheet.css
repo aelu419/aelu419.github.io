@@ -322,4 +322,12 @@ hr{
 .hoverable.social {
   width: 32px;
   height: auto;
+  margin: 0px;
+}
+
+.hoverable.social:hover {
+  width: 35px;
+  height: auto;
+  margin-left: 5px;
+  margin-right: 5px;
 }
