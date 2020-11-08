@@ -68,13 +68,13 @@ window.onload = function() { //executes code after DOM loads
 				<h1>Hi! I'm Alan Tao.</h1><h2>Welcome to my portfolio site.</h2>
 			</div>
 			<ul id="header_list">
-				<li style="color: #D6EDC0;"><a href="https://github.com/aelu419">&#62; Repositories</a></li>
-				<li style="color: #E4E4E4;"><a href="#projects">&#62; Major Projects</a></li>
-				<li style="color: #E4E4E4;"><a href="#minorprojects">&#62; Experimentation</a></li>
-				<li style="color: #E4E4E4;"><a href="#footer">&#62; Contact Info</a></li>
+				<li style="color: #D6EDC0;"><a class="hoverable" href="https://github.com/aelu419">&#62; Repositories</a></li>
+				<li style="color: #E4E4E4;"><a class="hoverable" href="#projects">&#62; Major Projects</a></li>
+				<li style="color: #E4E4E4;"><a class="hoverable" href="#minorprojects">&#62; Experimentation</a></li>
+				<li style="color: #E4E4E4;"><a class="hoverable" href="#footer">&#62; Contact Info</a></li>
 			</ul>
 		</div>
-    <a href="#body"><img id="downIcon" src="downArrow.png"/></a>
+    <a href="#body"><img id="downIcon" class="hoverable" src="./icons/downArrow.png"/></a>
 	</div>
 
   <!--body page-->
@@ -103,7 +103,7 @@ window.onload = function() { //executes code after DOM loads
   			<td class="content block">
           <a href = "https://github.com/aelu419/GravAssist" target="_blank">
   				<div class="content frame">
-            <video poster="./image/gravassist.png" class="content image video" muted ="muted" autoplay="true" loop>
+            <video poster="./images/gravassist.png" class="content image video" muted ="muted" autoplay="true" loop>
                 <source src="./videos/grav_assist_demo.mp4" type="video/mp4"/>
                 Your browser does not support the video tag.
             </video>
@@ -118,7 +118,7 @@ window.onload = function() { //executes code after DOM loads
         <td class="content block">
   				<div class="content frame">
             <a href = "https://github.com/aelu419/Spartapp" target="_blank">
-  					<img class="content image toobright" src="./image/spartapp_detailed_sheet_thumb.png"/>
+  					<img class="content image toobright" src="./images/spartapp_detailed_sheet_thumb.png"/>
   					<div class="content hovering_text">
               <p>App for school schedule and news. Was in charge of android Java programming, data storage on the cloud, UI, and general coordination.
               <a href = "https://apps.apple.com/cn/app/spartapp/id1375235752?l=en"><u>Also published on iOS. </u>(now dis-continued)</a></p>
@@ -153,7 +153,7 @@ window.onload = function() { //executes code after DOM loads
         <!--aurora-->
         <td class="content block">
           <div class="content frame">
-            <video class="content image video toobright" muted ="muted" poster="image/aurora.png" autoplay="true" loop>
+            <video class="content image video toobright" muted ="muted" poster="images/aurora.png" autoplay="true" loop>
                 <source src="./videos/aurora.mp4" type="video/mp4"/>
                 Your browser does not support the video tag.
             </video>
@@ -206,7 +206,7 @@ window.onload = function() { //executes code after DOM loads
         <!--bamboo-->
 				<td class="content block">
 					<div class="content frame">
-						<video class="content image video toobright" muted ="muted" poster="image/port1_poster.png" autoplay="true" loop>
+						<video class="content image video toobright" muted ="muted" poster="images/port1_poster.png" autoplay="true" loop>
 	  						<source src="./videos/portfolio01.webm" type="video/webm"/>
 	  						Your browser does not support the video tag.
 						</video>
@@ -286,12 +286,12 @@ window.onload = function() { //executes code after DOM loads
       </tr>
       <tr>
         <td class = "content block">
-          <center><img class = "content image" width="100px" src="./image/self_face.png"></img>
+          <center><img class = "content image" width="100px" src="./images/self_face.png"></img>
           <p>I look roughly like this..?</p></center>
         </td>
         <td class = "content block">I'm a first year student at Georgia Institute of Technology, currently majoring computer science.</td>
         <td class = "content block">I'm interested in computer graphics and mixed realities.</td>
-        <td class = "content block">I like to cook!</td>
+        <td class = "content block"></td>
       </tr>
   </table>
 	</div></center>
@@ -316,11 +316,19 @@ window.onload = function() { //executes code after DOM loads
 
     <!--basic info on the footer-->
   	<h2 class "footer content">Contact Info</h2>
-    <p class "footer content">AlanTao</p>
+    <p class "footer content">Alan Tao</p>
   	<p class "footer content">Email: atao9@gatech.edu</p>
   	<a href="https://github.com/aelu419" class "footer content" ><p>Github: Aelu419</p></a>
+    <div class "footer content">
+      <center>
+        <a href="https://www.linkedin.com/in/alan-tao-230b251a4/"><img class="hoverable social" src = "./icons/linkedin.png" /></a>
+        <a href="https://github.com/aelu419"><img class="hoverable social" src = "./icons/git.png"></img></a>
+        <a href="https://www.facebook.com/alan.tao.3781/"><img class="hoverable social" src = "./icons/fb.png"></img></a>
+      </center>
+    </div>
   	<hr/>
   	<p class "footer content">last updated 2020/11/8</p>
+    <p class "footer content">Now Alt font by <a href="http://alfredomarcopradil.com/">Alfredo Pradil</p>
 	</div>
 
 </body>

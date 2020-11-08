@@ -29,6 +29,16 @@ html {
 	font-family: now, gilroy, sans-serif;
 }
 
+a{
+	text-decoration: none;
+	color: inherit;
+}
+
+hr{
+	margin-left: 20%;
+	margin-right: 20%;
+}
+
 #background{
 	background-color: rgb(240, 240, 240);
 	background-size:cover;
@@ -45,10 +55,6 @@ html {
 	overflow:hidden;
 
 	text-align: center;
-}
-
-#header li, #header a,{
-	position: relative;
 }
 
 #header_content{
@@ -76,18 +82,14 @@ html {
 }
 
 #header_list a{
-	-webkit-transition: color 0.5s, background-color 0.5s;
-	transition: color 0.5s, background-color 0.5s;
+	-webkit-transition: all 0.5s;
+	transition: all 0.5s;
 	background: none;
 }
 
 #header_list a, a:visited, a:active{
 	text-decoration: none;
 	color: inherit;
-}
-
-#header_list a:hover{
-	color: #948F8B;
 }
 
 .deco{
@@ -201,13 +203,7 @@ html {
 	position: absolute;
 	width: 20px;
 	height: auto;
-	opacity: 1;
 	bottom: 10%;
-	transition: all 0.5s;
-}
-
-#downIcon:hover{
-	opacity: .6;
 }
 
 #projects table{
@@ -294,12 +290,6 @@ html {
 	border: thin #5E5E5E solid;
 }
 
-.socialmedia_icon {
-  width: 32px;
-  height: auto;
-  
-}
-
 #footer{
 	width: auto;
 	height:auto;
@@ -319,12 +309,17 @@ html {
 	position: relative;
 }
 
-a{
-	text-decoration: none;
-	color: inherit;
+.hoverable {
+  opacity: 1;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
 }
 
-hr{
-	margin-left: 20%;
-	margin-right: 20%;
+.hoverable:hover {
+  opacity:  0.6;
+}
+
+.hoverable.social {
+  width: 32px;
+  height: auto;
 }
