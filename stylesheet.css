@@ -294,6 +294,12 @@ html {
 	border: thin #5E5E5E solid;
 }
 
+.socialmedia_icon {
+  width: 32px;
+  height: auto;
+  
+}
+
 #footer{
 	width: auto;
 	height:auto;

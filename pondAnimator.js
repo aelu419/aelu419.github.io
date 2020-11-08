@@ -9,7 +9,9 @@ var myRect;
 
 var lastFrameTime;
 
-var isMobile;
+var isMobile = false;
+
+var mobileMouseSubstitute;
 
 //random integer from min (inclusive) to max (exclusive)
 function random(min, max) {
@@ -59,6 +61,11 @@ class Vec2 {
   angleFrom(other) {
     return this.angle() - other.angle();
   }
+
+  distFrom(other) {
+    return this.add(other.mult(-1)).norm();
+  }
+
   toString() {
     return "(" + this.x + "," + this.y + ")";
   }
@@ -172,14 +179,20 @@ class fish {
     }
 
     //moving & interaction of the head
-    let mouse = new Vec2(mouseX, mouseY);
-    let headToMouse = mouse.add(this.chunks[0].location.mult(-1));
-    //console.log(headToMouse);
+    let target
+    if (isMobile) {
+      //one phone the program is controlled by random target points
+      target = new Vec2(mobileMouseSubstitute.x, mobileMouseSubstitute.y);
+    } else {
+      //on computer the program is controlled by mouse
+      target = new Vec2(mouseX, mouseY);
+    }
+    let headToTarget = target.add(this.chunks[0].location.mult(-1));
 
     //two types of forces
-    let influence = headToMouse.mult(this.elasticConstant); //the "drag" from the user
+    let influence = headToTarget.mult(this.elasticConstant); //the "drag" from the user
     //influence = influence.add(this.gravity);
-    let headTwist = headToMouse.clone(); //the twisting motion of the fish head itself
+    let headTwist = headToTarget.clone(); //the twisting motion of the fish head itself
     headTwist = headTwist.rotate(Math.PI / 2).normalize().mult(Math.cos(2 * Math.PI * t) * this.tilting);
 
     this.chunks[0].velocity = this.chunks[0].velocity.add(influence);
@@ -218,6 +231,16 @@ class fish {
     for (let i = 0; i < this.chunks.length; i++) {
       this.chunks[i].location = this.chunks[i].location.add(this.chunks[i].velocity);
     }
+
+    //reset mobile mode target if necessary
+    if(isMobile) {
+      if(this.chunks[i].location.distFrom(mobileMouseSubstitute) <= 50.0) {
+        mobileMouseSubstitute = new Vec2(
+          Math.random() * myCanvas.width,
+          Math.random() * myCanvas.height
+        )
+      }
+    }
   }
 }
 
@@ -250,6 +273,13 @@ function drawFish() {
 
 //initialize variables and kick start animation
 function init() {
+  //decide which mode of control to use
+  if (isMobile) {
+    mobileMouseSubstitute = new Vec2(
+      Math.random() * myCanvas.width,
+      Math.random() * myCanvas.height
+    );
+  }
   //initialize a bunch of fish
   for (let i = 0; i < fishNum; i++) {
     myFish.push(new fish());
@@ -277,25 +307,27 @@ function startAnimation() {
     if (myContext) {
       //loaded successfully
       if (isMobile) {
-        myHeader.style.height = "33.3%";
+        h = Math.floor(window.innerHeight/3).toString()+"px";
+        myHeader.style.height = Math.floor(window.innerHeight/3).toString()+"px";
       } else {
         myHeader.style.height = (window.innerHeight).toString()+"px";
+        h = window.innerHeight;
       }
       w = myHeader.offsetWidth;
-      h = window.innerHeight;
       myCanvas.width = w;
       myCanvas.height = h;
 
       window.addEventListener('resize', function() {
         console.log('resized');
         if (isMobile) {
-          myHeader.style.height = "33.3%";
+          h = Math.floor(window.innerHeight/3).toString()+"px";
+          myHeader.style.height = Math.floor(window.innerHeight/3).toString()+"px";
         } else {
           myHeader.style.height = (window.innerHeight).toString()+"px";
+          h = window.innerHeight;
         }
 
         w = myHeader.offsetWidth;
-        h = window.innerHeight;
         myCanvas.width = w;
         myCanvas.height = h;
       });
