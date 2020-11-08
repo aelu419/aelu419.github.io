@@ -48,9 +48,8 @@ hr{
 
 #header{
 	width: 100%;
-	height: 100%;
+	height: auto;
 	color:rgba(250,250,250,1.00);
-	padding: 0px;
 	position: relative;
 	overflow:hidden;
 
@@ -60,9 +59,10 @@ hr{
 #header_content{
 	position: relative;
 	text-align: left;
-	max-height: 40%;
+  /*please change these two margins together so that they are the same*/
+  /*see more in pondAnimator.js, updateHeaderDimensions*/
+  margin-top: 40px;
 	margin-bottom: 40px;
-	top: 33%;
 }
 
 #header_text{
