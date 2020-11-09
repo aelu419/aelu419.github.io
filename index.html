@@ -2,16 +2,17 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Alan Tao</title>
   <link href="stylesheet.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="pageInit.js"></script>
   <script type="text/javascript" src="pondAnimator.js"></script>
   <script type="text/javascript">
   //https://labs.redantler.com/on-hover-toggle-play-html5-video-with-only-vanilla-javascript-c8689e633b41
   window.onload = function() { //executes code after DOM loads
 
-    //start animating the canvas on the banner
-    startAnimation();
+    //adjust UI size and start animation
+    initPage();
 
    	//--- select all <video> on the page
    	const vids = document.getElementsByTagName("video")
@@ -45,16 +46,16 @@
     <!--leaf shaped decorations-->
     <canvas class="deco" id = "pond"></canvas>
     <div class="deco holder">
-      <img id = "d1" class = "deco" src="./site_deco/rslt1_2.png"/>
-      <img id = "d2" class = "deco" src="./site_deco/rslt1_1.png"/>
-      <img id = "d4" class = "deco" src="./site_deco/rslt2_1.png"/>
-      <img id = "d3" class = "deco" src="./site_deco/rslt2_2.png"/>
+      <img id = "d1" class = "deco leaf" src="./site_deco/rslt1_2.png"/>
+      <img id = "d2" class = "deco leaf" src="./site_deco/rslt1_1.png"/>
+      <img id = "d4" class = "deco leaf" src="./site_deco/rslt2_1.png"/>
+      <img id = "d3" class = "deco leaf" src="./site_deco/rslt2_2.png"/>
     </div>
     <div class="deco holder right">
-      <img id = "d5" class = "deco" src="./site_deco/rslt1_1.png"/>
-      <img id = "d6" class = "deco" src="./site_deco/rslt1_0.png"/>
-      <img id = "d7" class = "deco" src="./site_deco/rslt2_1.png"/>
-      <img id = "d8" class = "deco" src="./site_deco/rslt3_2.png"/>
+      <img id = "d5" class = "deco leaf" src="./site_deco/rslt1_1.png"/>
+      <img id = "d6" class = "deco leaf" src="./site_deco/rslt1_0.png"/>
+      <img id = "d7" class = "deco leaf" src="./site_deco/rslt2_1.png"/>
+      <img id = "d8" class = "deco leaf" src="./site_deco/rslt3_2.png"/>
     </div>
     <!--shading-->
     <div class="deco background"></div>
@@ -185,7 +186,6 @@
                     Your browser does not support the video tag.
                 </video>
             </div>
-            <p class="content title"><em></em><br/>More with Perlin noise</p>
         </td>
       </tr>
 
@@ -283,17 +283,25 @@
           <h1>A Bit More on Myself</h1>
         </td>
       </tr>
+      <!--header contents-->
       <tr>
         <td class = "content block third" colspan="2">
-          <center><img class = "content image" width="100px" src="./images/self_face.png"></img>
+          <center><img class = "content image" width="100px" src="./images/self_face.png"></img></td>
+        <td class = "content block third">
+          <center><h2>GT</h2></center></td>
+        <td class = "content block third">
+          <center><h2>&#60;3</h2></center>  </td>
+      </tr>
+
+      <!--descriptions-->
+      <tr>
+        <td class = "content block third" colspan="2">
           <p>I look roughly like this..?</p></center>
         </td>
         <td class = "content block third">
-          <center><h2>GT</h2></center>
           <p>I'm a first year student at Georgia Institute of Technology, currently majoring computer science.</p>
         </td>
         <td class = "content block third">
-          <center><h2>&#60;3</h2></center>
           <p>I'm interested in computer graphics and mixed realities, but are open to all fields--since I'm just starting :)</p>
         </td>
       </tr>
@@ -304,16 +312,16 @@
 	<div id="footer">
     <!--leaf background-->
     <div class="deco holder">
-      <img id = "d1" class = "deco" src="./site_deco/rslt1_2.png"/>
-      <img id = "d2" class = "deco" src="./site_deco/rslt1_1.png"/>
-      <img id = "d4" class = "deco" src="./site_deco/rslt2_1.png"/>
-      <img id = "d3" class = "deco" src="./site_deco/rslt2_2.png"/>
+      <img id = "d1" class = "deco leaf" src="./site_deco/rslt1_2.png"/>
+      <img id = "d2" class = "deco leaf" src="./site_deco/rslt1_1.png"/>
+      <img id = "d4" class = "deco leaf" src="./site_deco/rslt2_1.png"/>
+      <img id = "d3" class = "deco leaf" src="./site_deco/rslt2_2.png"/>
     </div>
     <div class="deco holder right">
-      <img id = "d5" class = "deco" src="./site_deco/rslt1_1.png"/>
-      <img id = "d6" class = "deco" src="./site_deco/rslt1_0.png"/>
-      <img id = "d7" class = "deco" src="./site_deco/rslt2_1.png"/>
-      <img id = "d8" class = "deco" src="./site_deco/rslt3_2.png"/>
+      <img id = "d5" class = "deco leaf" src="./site_deco/rslt1_1.png"/>
+      <img id = "d6" class = "deco leaf" src="./site_deco/rslt1_0.png"/>
+      <img id = "d7" class = "deco leaf" src="./site_deco/rslt2_1.png"/>
+      <img id = "d8" class = "deco leaf" src="./site_deco/rslt3_2.png"/>
     </div>
     <!--shading-->
     <div class="deco background"></div>
