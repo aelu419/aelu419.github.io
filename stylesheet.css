@@ -68,12 +68,12 @@ hr{
 #header_text{
 	position: relative;
 	left: 20%;
-	max-width: 50%;
+	max-width: 70%;
 }
 
 #header_list{
 	padding-left:20%;
-	max-width:50%;
+	max-width:70%;
 }
 
 #header_list li{

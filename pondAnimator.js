@@ -1,4 +1,5 @@
-var w, h; //dimention of canvas
+var w=-1, h; //dimention of canvas, w is set to negative to
+             //force rawContentHeight refresh during onload
 var mouseX = 0;
 var mouseY = 0;
 const myFish = new Array();
@@ -301,6 +302,9 @@ function init() {
 function updateHeaderDimensions() {
     console.log('header dimensions updated');
 
+    //w is always updated to the full width of the window
+    w = myHeader.clientWidth;
+
     let headerProportion;
 
     //mobile page prefers small header if it is sufficient to display everything
@@ -312,7 +316,9 @@ function updateHeaderDimensions() {
       headerProportion = 1.0;
     }
 
-    let currHeight = myHeader.clientHeight;
+    let currHeight = myHeaderContent.clientHeight
+      - parseFloat(window.getComputedStyle(myHeaderContent, null).getPropertyValue('padding-top'))
+      - parseFloat(window.getComputedStyle(myHeaderContent, null).getPropertyValue('padding-bottom'));
     let minHeight = Math.floor(window.innerHeight * headerProportion);
 
     if (currHeight > minHeight) {
@@ -320,7 +326,6 @@ function updateHeaderDimensions() {
       //header height will not be adjusted
       h = currHeight;
       myHeader.style.minHeight = minHeight+"px";
-
     } else {
       //min height is sufficient for displaying the header contents
       let h_content = myHeaderContent.offsetHeight;
@@ -336,8 +341,18 @@ function updateHeaderDimensions() {
       myHeader.style.height = minHeight+"px";
     }
 
-    //w is always full width of the window
-    w = myHeader.clientWidth;
+    //decide if display downarrow or not, depending on how much space is left
+    //after displaying header content
+    const downArr = document.getElementById("downIcon");
+    if (downArr) {
+      if (currHeight - minHeight > -100) {
+        //in this case, a down arrow is not needed for hinting
+        downArr.style.display = "none";
+      } else {
+        //show the down arrow
+        downArr.style.display = "inline";
+      }
+    }
 
     //set dimensions of canvas element
     myCanvas.width = w;
@@ -363,7 +378,10 @@ function startAnimation() {
 
   //loaded correctly
   if (myCanvas && myContext && myHeader && myHeaderContent) {
+    //start size initialization
     updateHeaderDimensions();
+
+    //for upcoming resize
     window.addEventListener('resize', function() {
       updateHeaderDimensions();
     });
