@@ -244,8 +244,8 @@ class fish {
 
 //update mouse position from the head div
 function updateMouse(e) {
-  mouseX = e.clientX * pixelDensity;
-  mouseY = e.clientY * pixelDensity;
+  mouseX = e.clientX;
+  mouseY = e.clientY;
 }
 
 //main draw function
