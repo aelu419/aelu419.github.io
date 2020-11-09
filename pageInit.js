@@ -116,13 +116,16 @@ function initPage() {
     myHeader = document.getElementById("header");
     myHeaderContent = document.getElementById("header_content");
     myBody = document.getElementById("body");
+    let hoverHint = document.getElementById("hover_hint");
 
     //loaded correctly
-    if (myCanvas && myContext && myHeader && myHeaderContent && myBody) {
+    if (myCanvas && myContext && myHeader && myHeaderContent && myBody && hoverHint) {
 
       //get screen properties
       if (isMobile) {
         pixelDensity = window.devicePixelRatio;
+        //mute hover hint
+        hoverHint.style.display = "none";
       } else {
         pixelDensity = 1;
       }
@@ -156,8 +159,8 @@ function initPage() {
           parseFloat(window.getComputedStyle(leaf_objs_temp[i],null).getPropertyValue("left")),
           parseFloat(window.getComputedStyle(leaf_objs_temp[i],null).getPropertyValue("top"))
         ));
-        console.log(parseFloat(window.getComputedStyle(leaf_objs_temp[i],null).getPropertyValue("left")),
-        parseFloat(window.getComputedStyle(leaf_objs_temp[i],null).getPropertyValue("top")));
+        //console.log(parseFloat(window.getComputedStyle(leaf_objs_temp[i],null).getPropertyValue("left")),
+        //parseFloat(window.getComputedStyle(leaf_objs_temp[i],null).getPropertyValue("top")));
       }
 
       updateDecorationDPI();
