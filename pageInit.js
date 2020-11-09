@@ -58,7 +58,6 @@ function updateHeaderDimensions() {
       //min height does not provide enough space to display header content
       //header height will not be adjusted
       h = currHeight;
-      myHeader.style.minHeight = minHeight+"px";
     } else {
       //min height is sufficient for displaying the header contents
       let h_content = myHeaderContent.offsetHeight;
@@ -71,20 +70,20 @@ function updateHeaderDimensions() {
       ).toString()+"px";
 
       h = minHeight;
-      myHeader.style.height = minHeight+"px";
     }
+
+    myHeader.style.minHeight = minHeight+"px";
 
     //decide if display downarrow or not, depending on how much space is left
     //after displaying header content
     const downArr = document.getElementById("downIcon");
-    if (downArr) {
-      if (currHeight - minHeight > -100) {
-        //in this case, a down arrow is not needed for hinting
-        downArr.style.display = "none";
-      } else {
-        //show the down arrow
-        downArr.style.display = "inline";
-      }
+    if (downArr.getBoundingClientRect().top - 40 //40 is the minimum space between
+                                                 //down arrow and header list's bottom
+      < myHeaderContent.getBoundingClientRect().top + currHeight) {
+      downArr.style.opacity = "0";
+    }
+    else {
+      downArr.style.opacity = "1.0";
     }
 
     //set dimensions of canvas element
