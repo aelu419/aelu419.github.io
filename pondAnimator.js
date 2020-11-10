@@ -276,7 +276,7 @@ function updateTarget() {
     Math.random() * (w * pixelDensity - 200) + 100,
     Math.random() * (h * pixelDensity - 200) + 100
   );
-  //console.log("target updated at " + mobileMouseSubstitute.toString())
+  console.log("target updated at " + mobileMouseSubstitute.toString())
   lastTargetUpdateTime = Date.now();
 }
 
