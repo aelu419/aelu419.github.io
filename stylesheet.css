@@ -244,30 +244,12 @@ hr{
 	text-align: center;
 }
 
-.content.hovering_text{
-	position: absolute;
-	top: 0px;
-	width: 100%;
-	height: 100%;
-	background:rgba(0,0,0,0.6);
-	color: rgba(250,250,250,0.95);
-	opacity:0;
-	z-index: 2;
-	transition: all 0.5s;
-	-webkit-transition:all 0.5s;
-
-	text-align: center;
-	display: flex;
-	align-items: center;
-}
-
-.content.hovering_text p,
-.content.hovering_text a {
-	margin: 5px;
-}
-
-.content.hovering_text:hover{
-	opacity: 1;
+.content.tag{
+	background-color: #5E5E5E;
+	color: rgb(244, 244, 244);
+	line-height: 1.8;
+	padding: 2px;
+	border-radius: 3px;
 }
 
 .divider td{

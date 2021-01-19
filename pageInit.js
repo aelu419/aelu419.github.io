@@ -114,16 +114,13 @@ function initPage() {
   myHeader = document.getElementById("header");
   myHeaderContent = document.getElementById("header_content");
   myBody = document.getElementById("body");
-  let hoverHint = document.getElementById("hover_hint");
 
   //loaded correctly
-  if (myCanvas && myContext && myHeader && myHeaderContent && myBody && hoverHint) {
+  if (myCanvas && myContext && myHeader && myHeaderContent && myBody) {
 
     //get screen properties
     if (isMobile) {
       pixelDensity = window.devicePixelRatio;
-      //mute hover hint
-      hoverHint.style.display = "none";
     } else {
       pixelDensity = 1;
     }
@@ -137,12 +134,6 @@ function initPage() {
       myBody.style.padding = "5px";
     } else {
       //some paddings (adopt stylesheet.css settings)
-    }
-
-    //mute everything related to hovering
-    const hoverables = document.getElementsByClassName("content hovering_text");
-    for (let i = 0; i < hoverables.length; i++) {
-      hoverables[i].style.display = "none";
     }
 
     //grab leafs
