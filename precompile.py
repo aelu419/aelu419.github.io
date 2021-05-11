@@ -37,6 +37,7 @@ def compress_img(src, dest, max_height):
     imgs = glob.glob('*')
     
     tosave = []
+    processed = []
     for img in imgs:
         print('processing image: ', img)
         file, ext = os.path.splitext(img)
@@ -47,17 +48,20 @@ def compress_img(src, dest, max_height):
             w = int(max_height / h * w) 
             im.thumbnail((w, h))
             tosave.append((im, file + '.jpeg'))
+            processed.append(file)
     
     os.chdir(dest)
     for t in tosave:
         t[0].save(t[1], 'JPEG')
     
     os.chdir(prev_dir)
+    return processed
 
 # clear out preexisting thumbnails
 clear(thumbnail)
-compress_img(res_img_major, thumbnail, block_height_large)
-compress_img(res_img_minor, thumbnail, block_height_small)
+thumbnail_names = []
+thumbnail_names += compress_img(res_img_major, thumbnail, block_height_large)
+thumbnail_names += compress_img(res_img_minor, thumbnail, block_height_small)
 
 # 2. precompress videos
 res_vid_major = os.path.join(root, 'res', 'vid', 'major') # major projects
@@ -72,6 +76,8 @@ def compress_video(src, dest, max_height):
     prev_dir = os.getcwd()
     os.chdir(src)
     vids = glob.glob('*')
+
+    processed = []
     for vid in vids:
         print('processing video: ' + vid)
         file, ext = os.path.splitext(vid)
@@ -80,8 +86,20 @@ def compress_video(src, dest, max_height):
         input = input.filter('fps', 12)
         input = input.filter('scale', -1, max_height)
         input.output(os.path.join(dest, file + '.webm')).run()
+        processed.append(file)
     os.chdir(prev_dir)
 
+    return processed
+
 clear(video)
-compress_video(res_vid_major, video, block_height_large)
-compress_video(res_vid_minor, video, block_height_small)
+video_names = []
+video_names += compress_video(res_vid_major, video, block_height_large)
+video_names += compress_video(res_vid_minor, video, block_height_small)
+
+# generate thumbnails for videos that do not have designated thumbnails
+print('================================')
+print('preprocessing has finished...')
+print('the following videos do not have designated thumbnail: ')
+for v in video_names:
+    if not v in thumbnail_names:
+        print('\t', v)
