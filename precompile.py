@@ -84,4 +84,4 @@ def compress_video(src, dest, max_height):
 
 clear(video)
 compress_video(res_vid_major, video, block_height_large)
-#compress_video(res_vid_minor, video, block_height_small)
+compress_video(res_vid_minor, video, block_height_small)
