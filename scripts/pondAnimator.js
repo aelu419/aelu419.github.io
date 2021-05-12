@@ -3,10 +3,17 @@ pondvars = {
     'mouseX': 0,
     'mouseY': 0,
     'myFish': [],
-    'fishNum': 3,
+    'fishNum': 6,
     'lastTargetUpdateTime]': null,
     'mobileMouse': null,
     'lastRefresh': null,
+    'colors': [
+        [237, 84, 38],
+        [232, 208, 130],
+        [72, 78, 82],
+        [72, 78, 82]
+    ],
+    'baseMSPerFrame': 32,
 }
 
 //random integer from min (inclusive) to max (exclusive)
@@ -69,17 +76,26 @@ class Vec2 {
 
 //each part of the fish body
 class fishChunk {
-    constructor(location, size, alpha, velocity, finSize) {
+
+
+    constructor(location, size, alpha, velocity, finSize, color) {
         this.location = location;
         this.size = size; //radius of the "chunk"
         this.alpha = alpha;
         this.velocity = velocity;
         this.finSize = finSize;
+
+        this.color = color;
     }
 
     draw() {
         let ctx = globals['pondContext'];
-        ctx.fillStyle = "rgba(0, 0, 0, " + this.alpha + ")";
+        ctx.fillStyle =
+            "rgba(" +
+            this.color[0] + ", " +
+            this.color[1] + ", " +
+            this.color[2] + ", " +
+            this.alpha + ")";
 
         ctx.beginPath();
         ctx.arc(this.location.x, this.location.y,
@@ -117,6 +133,7 @@ class fish {
         this.numSeg = 20;
         this.finSize = [5, 3];
         this.masterWidth = 0.4;
+        this.color = pondvars['colors'][Math.floor(Math.random() * pondvars['colors'].length)];
 
         //time related
         this.fCount = 0 + random(0, 30);
@@ -149,7 +166,8 @@ class fish {
                 this.masterWidth * Math.pow((i - this.numSeg * 1.4) / (0.5 * this.numSeg), 2), //size formula
                 1.0 * Math.abs(Math.sin(Math.PI / 1 * t)), //alpha formula
                 new Vec2(0, 0), //velocity
-                hasFin != 0 ? this.finSize[hasFin - 1] : 0 //finSize
+                hasFin != 0 ? this.finSize[hasFin - 1] : 0, //finSize
+                this.color, //fish color
             ));
         }
     }
@@ -195,7 +213,7 @@ class fish {
         this.chunks[0].velocity = this.chunks[0].velocity.add(influence);
         this.chunks[0].velocity = this.chunks[0].velocity.add(headTwist);
 
-        if (this.chunks[0].location.y > globals['pondCanvas'].height) {
+        if (this.chunks[0].location.y > globals['pondContext'].canvas.height) {
             this.chunks[0].velocity.y = Math.min(-1 * this.chunks[0].velocity.y,
                 this.chunks[0].velocity.y
             );
@@ -205,7 +223,7 @@ class fish {
                 this.chunks[0].velocity.y
             );
         }
-        if (this.chunks[0].location.x > globals['pondCanvas'].width) {
+        if (this.chunks[0].location.x > globals['pondContext'].canvas.width) {
             this.chunks[0].velocity.x = Math.min(-1 * this.chunks[0].velocity.x,
                 this.chunks[0].velocity.x
             );
@@ -245,17 +263,17 @@ function updateMouse(e) {
 //main draw function
 function drawFish() {
     let tTemp = Date.now();
-    globals['pondContext'].clearRect(0, 0, globals['pondCanvas'].width, globals['pondCanvas'].height);
+    globals['pondContext'].clearRect(0, 0, globals['pondContext'].canvas.width, globals['pondContext'].canvas.height);
     for (let i = 0; i < pondvars['myFish'].length; i++) {
         pondvars['myFish'][i].draw();
     }
 
     //frame update too fast
-    if (tTemp - pondvars['lastRefresh'] < 17) {
+    if (tTemp - pondvars['lastRefresh'] < pondvars['baseMSPerFrame']) {
         //wait till frame passes
         setTimeout(function() {
             window.requestAnimationFrame(function() { drawFish(); });
-        }, 17 - (tTemp - pondvars['lastRefresh']));
+        }, pondvars['baseMSPerFrame'] - (tTemp - pondvars['lastRefresh']));
         return;
     } else { //frame update slower than 60 fps
         pondvars['lastRefresh'] = tTemp;
@@ -267,8 +285,8 @@ function drawFish() {
 function updateTarget() {
     //the constant terms is to make sure the target doesn't spawn at the borders
     pondvars['mobileMouse'] = new Vec2(
-        Math.random() * (globals['width'] * pixelDensity - 200) + 100,
-        Math.random() * (globals['height'] * pixelDensity - 200) + 100
+        Math.random() * (globals['width'] * globals['pixelDensity'] - 200) + 100,
+        Math.random() * (globals['height'] * globals['pixelDensity'] - 200) + 100
     );
     console.log("target updated at " + pondvars['mobileMouse'].toString())
     pondvars['lastTargetUpdateTime'] = Date.now();
