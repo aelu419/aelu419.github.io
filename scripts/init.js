@@ -103,7 +103,6 @@ window.onload = function() {
             console.log("slab called " + hooks[i].innerText + " cannot be found");
         }
     }
-    console.log(globals["slabs"]);
 
     // initialize header
     globals["header"] = document.getElementById("header");

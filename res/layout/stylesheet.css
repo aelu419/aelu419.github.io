@@ -125,7 +125,7 @@ h6 {
     transition: width 0.3s;
     transition-timing-function: ease-in-out;
     border-top-left-radius: 0.0625in;
-    opacity: 0.95;
+    opacity: 0.85;
 }
 
 .exhibition#projects {

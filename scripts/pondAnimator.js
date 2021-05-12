@@ -21,176 +21,137 @@ function random(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-//simple 2d vector class, expand if necessary
-//all the class methods do not modify the vector itself,
-//and creates another vector
-class Vec2 {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-    }
+//each part of the Fish body
+class FishChunk {
 
-    //rotate counter clockwise
-    rotate(theta) {
-        return new Vec2(
-            Math.cos(theta) * this.x - Math.sin(theta) * this.y,
-            Math.sin(theta) * this.x + Math.cos(theta) * this.y
-        );
-    }
-
-    //add to vector
-    add(other) {
-        return new Vec2(this.x + other.x, this.y + other.y);
-    }
-    mult(scalar) {
-        return new Vec2(this.x * scalar, this.y * scalar);
-    }
-    dot(other) {
-        return other.x * this.x + other.y * this.y;
-    }
-    normalize() {
-        let temp = this.norm();
-        return new Vec2(this.x / temp, this.y / temp);
-    }
-    norm() {
-        return Math.sqrt(this.x * this.x + this.y * this.y);
-    }
-    clone() {
-        return new Vec2(this.x, this.y);
-    }
-    angle() {
-        return Math.atan2(this.y, this.x);
-    }
-    angleFrom(other) {
-        return this.angle() - other.angle();
-    }
-
-    distFrom(other) {
-        return this.add(other.mult(-1)).norm();
-    }
-
-    toString() {
-        return "(" + this.x + "," + this.y + ")";
-    }
-}
-
-//each part of the fish body
-class fishChunk {
-
+    finTilt = Math.PI * 1.5 / 2;
 
     constructor(location, size, alpha, velocity, finSize, color) {
         this.location = location;
+        this.surfaceLocation = this.location.clone();
         this.size = size; //radius of the "chunk"
-        this.alpha = alpha;
         this.velocity = velocity;
         this.finSize = finSize;
-
+        this.alpha = alpha;
         this.color = color;
     }
 
     draw() {
         let ctx = globals['pondContext'];
-        ctx.fillStyle =
+        ctx.strokeStyle =
             "rgba(" +
             this.color[0] + ", " +
             this.color[1] + ", " +
             this.color[2] + ", " +
             this.alpha + ")";
+        ctx.fillStyle = ctx.strokeStyle;
+
+        let x = this.location.x,
+            y = this.location.y;
 
         ctx.beginPath();
-        ctx.arc(this.location.x, this.location.y,
-            this.size, 0, Math.PI * 2, true);
-
-        ctx.fill();
+        ctx.arc(x, y, this.size, 0, Math.PI * 2, true);
+        ctx.stroke();
 
         if (this.finSize != 0) {
+            let n = this.velocity.normalize();
             //has a fin
-            let leftward = this.velocity.rotate(Math.PI / 2).normalize();
-            let rightward = this.velocity.rotate(Math.PI / -2).normalize();
+            let lDir = n.rotate(-1 * this.finTilt),
+                rDir = n.rotate(this.finTilt);
+            let lStem = this.location.add(lDir.mult(this.size)),
+                rStem = this.location.add(rDir.mult(this.size));
 
-            let front = this.velocity.normalize().mult(this.size);
-
-            leftward = leftward.mult(this.finSize).add(this.location).add(front.mult(-1));
-            rightward = rightward.mult(this.finSize).add(this.location).add(front.mult(-1));
-
-            front = front.add(this.location);
+            let theta = 0.8;
+            let l1 = lStem.add(lDir.rotate(theta).mult(this.finSize)),
+                l2 = lStem.add(lDir.rotate(-1 * theta).mult(this.finSize)),
+                r1 = rStem.add(rDir.rotate(-1 * theta).mult(this.finSize)),
+                r2 = rStem.add(rDir.rotate(theta).mult(this.finSize));
 
             ctx.beginPath();
-            ctx.moveTo(front.x, front.y);
-            ctx.lineTo(leftward.x, leftward.y);
-            ctx.lineTo(this.location.x, this.location.y);
-            ctx.lineTo(rightward.x, rightward.y);
-            ctx.lineTo(front.x, front.y);
-            ctx.fill();
+            ctx.moveTo(l1.x, l1.y);
+            ctx.lineTo(l2.x, l2.y);
+            ctx.lineTo(r1.x, r1.y);
+            ctx.lineTo(r2.x, r2.y);
+            ctx.closePath();
+            ctx.stroke();
+
+            /*
+            ctx.beginPath();
+            ctx.moveTo(lStem.x, lStem.y);
+            ctx.lineTo(l1.x, l1.y);
+            ctx.arc(lStem.x, lStem.y, this.finSize, lDir.angle() - theta, lDir.angle() + theta);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(rStem.x, rStem.y);
+            ctx.lineTo(r1.x, r1.y);
+            ctx.arc(rStem.x, rStem.y, this.finSize, rDir.angle() - theta, rDir.angle() + theta);
+            ctx.stroke();*/
         }
     }
 }
 
-class fish {
-    constructor() {
+class Fish {
+    constructor(id) {
         //shape related
+        let size_const = 1 + Math.random();
         this.chunks = new Array();
-        this.numSeg = 20;
-        this.finSize = [5, 3];
-        this.masterWidth = 0.4;
-        this.color = pondvars['colors'][Math.floor(Math.random() * pondvars['colors'].length)];
+        this.numSeg = 15 + Math.floor(Math.random() * 10);
+        let finPos = 0.2,
+            finSize = 0.0625 * 96 * size_const,
+            masterWidth = 0.0625 * 96 * globals['pixelDensity'] * size_const; //inch -> px defined as 1/96th of an inch
+        this.color = pondvars['colors'][id % pondvars['colors'].length];
 
         //time related
-        this.fCount = 0 + random(0, 30);
-        this.loopLength = 30 + random(-20, 20);
+        this.loopLength = Math.floor((20 + Math.random() * 10) * size_const); //the larger the Fish, the slower it moves
+        this.fCount = Math.floor(Math.random() * this.loopLength);
 
         //force/movement related
-        this.elasticConstant = 0.001 + Math.random() * 0.001;
-        this.gravity = new Vec2(-0.00001, 0);
-        this.tilting = 0.1 + Math.random() * 0.1;
-        this.maxVel = 3 + Math.random() * 0.2;
+        // - small elasticity means the fish respond less sensatively to the target
+        this.elasticConstant = (0.00075 + Math.random() * 0.001) * size_const;
+        // - small tilting means the fish wiggle less
+        this.tilting = 0.4 * (1 + Math.random() / size_const);
+        this.maxVel = (3 + Math.random() * 0.5) * size_const;
 
         //default location
         let seed = new Vec2(random(0, globals['width']), random(0, globals['height']));
 
-        //add chunks to the fish body
+        //add chunks to the Fish body
         for (let i = 0; i < this.numSeg; i++) {
-
-            //decide if current chunk has fin
-            let hasFin = 0;
-            if (Math.floor(i / this.numSeg * 10) / 10 == 0.2) {
-                hasFin = 1;
-            } else if (Math.floor(i / this.numSeg * 10) / 10 == 0.6) {
-                hasFin = 2;
+            let t = i / this.numSeg;
+            let fin = 0;
+            if (t >= finPos && finSize != 0) {
+                fin = finSize;
+                finSize = 0;
             }
 
-            let t = i / this.numSeg
-
-            this.chunks.push(new fishChunk(
+            this.chunks.push(new FishChunk(
                 seed.clone(), //location
-                this.masterWidth * Math.pow((i - this.numSeg * 1.4) / (0.5 * this.numSeg), 2), //size formula
+                masterWidth * Math.abs(
+                    Math.cos(
+                        Math.PI * t / 1.1 - 0.5
+                    )
+                ), //size formula
                 1.0 * Math.abs(Math.sin(Math.PI / 1 * t)), //alpha formula
                 new Vec2(0, 0), //velocity
-                hasFin != 0 ? this.finSize[hasFin - 1] : 0, //finSize
-                this.color, //fish color
+                fin, // fin size
+                this.color, //Fish color
             ));
         }
     }
 
     draw() {
         //frame count
-        this.fCount++;
-        if (this.fCount > this.loopLength) {
-            this.fCount = 0;
-        }
-
+        this.fCount = (this.fCount + 1) % this.loopLength;
         let t = this.fCount / this.loopLength; //"progress of current thing within a loop"
 
         for (let i = this.chunks.length - 1; i >= 0; i--) {
             let temp = this.chunks[i];
             //handle each chunk individually
+            // - update fin wiggling
+            temp.finTilt = Math.PI / 1.5 + 0.6 * Math.sin(2 * Math.PI * t);
             //drawing
             temp.draw();
-        }
-
-        //body movement
-        for (let i = this.chunks.length - 1; i > 0; i--) {
-            this.chunks[i].velocity = this.chunks[i - 1].velocity.clone();
         }
 
         //moving & interaction of the head
@@ -205,14 +166,19 @@ class fish {
         let headToTarget = target.add(this.chunks[0].location.mult(-1));
 
         //two types of forces
-        let influence = headToTarget.mult(this.elasticConstant); //the "drag" from the user
+        // 1. the "drag" from the user
+        let influence = headToTarget.mult(this.elasticConstant);
         //influence = influence.add(this.gravity);
-        let headTwist = headToTarget.clone(); //the twisting motion of the fish head itself
+        // 2. the twisting motion of the Fish head itself
+        let headTwist = headToTarget.clone();
         headTwist = headTwist.rotate(Math.PI / 2).normalize().mult(Math.cos(2 * Math.PI * t) * this.tilting);
 
         this.chunks[0].velocity = this.chunks[0].velocity.add(influence);
         this.chunks[0].velocity = this.chunks[0].velocity.add(headTwist);
 
+        /*
+        handle edge cases
+         */
         if (this.chunks[0].location.y > globals['pondContext'].canvas.height) {
             this.chunks[0].velocity.y = Math.min(-1 * this.chunks[0].velocity.y,
                 this.chunks[0].velocity.y
@@ -234,18 +200,25 @@ class fish {
             );
         }
 
-        if (this.chunks[0].velocity.norm() > this.maxVel) {
-            this.chunks[0].velocity = this.chunks[0].velocity.normalize().mult(this.maxVel);
-        }
+        //update head motion
+        this.chunks[0].velocity = this.chunks[0].velocity.clampMax(this.maxVel)
+        this.chunks[0].location = this.chunks[0].location.add(this.chunks[0].velocity);
+        this.chunks[0].surfaceLocation = this.chunks[0].location;
 
-        //update body location
-        for (let i = 0; i < this.chunks.length; i++) {
+        /*
+        propagate motion down through the body
+        */
+        //body movement
+        for (let i = this.chunks.length - 1; i > 0; i--) {
+            this.chunks[i].velocity = this.chunks[i - 1].velocity.clone();
+        }
+        for (let i = 1; i < this.chunks.length; i++) {
             this.chunks[i].location = this.chunks[i].location.add(this.chunks[i].velocity);
         }
 
         //reset mobile mode target if necessary
         if (globals['isMobile']) {
-            //spawn new target when this target is reached by one of the fish
+            //spawn new target when this target is reached by one of the Fish
             if (this.chunks[0].location.add(pondvars['mobileMouse'].mult(-1)).norm() <= 150 ||
                 pondvars['lastRefresh'] - pondvars['lastTargetUpdateTime'] > 3000) { //spawn new target per 3 seconds
                 updateTarget();
@@ -264,18 +237,18 @@ function updateMouse(e) {
 function drawFish() {
     let tTemp = Date.now();
     globals['pondContext'].clearRect(0, 0, globals['pondContext'].canvas.width, globals['pondContext'].canvas.height);
+
     for (let i = 0; i < pondvars['myFish'].length; i++) {
         pondvars['myFish'][i].draw();
     }
 
-    //frame update too fast
+    //frame update too fast, wait until next fixed interval
     if (tTemp - pondvars['lastRefresh'] < pondvars['baseMSPerFrame']) {
-        //wait till frame passes
         setTimeout(function() {
             window.requestAnimationFrame(function() { drawFish(); });
         }, pondvars['baseMSPerFrame'] - (tTemp - pondvars['lastRefresh']));
         return;
-    } else { //frame update slower than 60 fps
+    } else { //frame update slow, start immediately
         pondvars['lastRefresh'] = tTemp;
         window.requestAnimationFrame(function() { drawFish(); });
     }
@@ -298,11 +271,12 @@ function startAnimation() {
     if (globals['isMobile']) {
         updateTarget();
     }
-    //initialize a bunch of fish
+    //initialize a bunch of Fish
     for (let i = 0; i < pondvars['fishNum']; i++) {
-        pondvars['myFish'].push(new fish());
+        pondvars['myFish'].push(new Fish(i));
     }
     //start animation
     pondvars['lastRefresh'] = Date.now();
+    pondvars['lastTargetUpdateTime'] = Date.now();
     drawFish();
 }
