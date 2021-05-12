@@ -1,12 +1,14 @@
 import glob, os
 
 '''
-the following script processes images and videos
-to fit blocks of content on the website
+The following script: 
+  I. processes images and videos to fit blocks of content on the website
+  II. generates json files cataloging all projects 
+
 '''
 root = os.getcwd()
 
-def clear(dir):
+def clear(dir, exempt = []):
     prev_dir = os.getcwd()
     os.chdir(dir)
     for f in glob.glob('*'):
@@ -27,7 +29,7 @@ block_height_small = 160
 # large blocks for major projects
 block_height_large = 320
 
-# 1. preprocess images
+# I. 1. preprocess images
 from PIL import Image
 # batch resize all image files in the source directory
 # and save them in the destination directory as thumbnails
@@ -63,7 +65,7 @@ thumbnail_names = []
 thumbnail_names += compress_img(res_img_major, thumbnail, block_height_large)
 thumbnail_names += compress_img(res_img_minor, thumbnail, block_height_small)
 
-# 2. precompress videos
+# I. 2. precompress videos
 res_vid_major = os.path.join(root, 'res', 'vid', 'major') # major projects
 res_vid_minor = os.path.join(root, 'res', 'vid', 'minor') # minor projects
 
@@ -103,3 +105,41 @@ print('the following videos do not have designated thumbnail: ')
 for v in video_names:
     if not v in thumbnail_names:
         print('\t', v)
+
+
+#II. 1. read major projects
+from openpyxl import load_workbook, Workbook
+import json
+
+project_sheet = os.path.join(root, 'res', 'proj', 'log.xlsx')
+project_json = os.path.join(root, 'res', 'proj')
+
+wb = load_workbook(project_sheet)
+major_projs = wb['major']
+minor_projs = wb['minor']
+
+# assume that row1 are the keys
+# and subsequent rows do not widen/narrow
+def table_to_json(worksheet, name, dest):
+    rows = worksheet.values
+    keys = next(rows)
+    w = len(keys)
+    h = worksheet.max_row
+    print(keys)
+    projs = []
+    for i in range(h-1):
+        obj = [worksheet.cell(row = i+2, column = j+1).value for j in range(w)]
+        obj = dict(zip(keys, obj))
+        projs.append(obj)
+    compiled = json.dumps(projs)
+    print(compiled)
+
+    prev_dir = os.getcwd()
+    os.chdir(dest)
+    # save '[name].json' file
+    with open(name+'.json', 'w') as f:
+        f.write(compiled)
+    os.chdir(prev_dir)
+
+table_to_json(major_projs, 'major', project_json)
+table_to_json(minor_projs, 'minor', project_json)
