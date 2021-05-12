@@ -2,14 +2,20 @@
  * global variables
  */
 globals = {
+    // overall display vars
     "width": 0,
     "height": 0,
     "pixelDensity": 1,
     "isMobile": false,
+    // slabs
     "slabs": [], // slabs on the right
     "significant": null,
+    // header related
     "header": null, // navigation panel on the left
     "headerText": null, // the div holding all the non-hook text in the panel
+    // pond related
+    "pondContext": null,
+    "pondCanvas": null
 };
 
 window.mobileCheck = function() {
@@ -26,34 +32,34 @@ window.mobileCheck = function() {
  * 1.5h ~ 2.0h is right margin (between hooks and slab)
  */
 window.minimizeHeader = function() {
-    let hd = globals['header'];
+    let hd = globals["header"];
     if (hd !== null) {
         // set left margin of panel according to longest hook width
         let max_hook_width = 0;
-        for (let i = 0; i < globals['slabs'].length; i++) {
-            let h = globals['slabs'][i].hook;
+        for (let i = 0; i < globals["slabs"].length; i++) {
+            let h = globals["slabs"][i].hook;
             if (h.clientWidth > max_hook_width) {
                 max_hook_width = h.clientWidth;
             }
         }
-        hd.style.marginLeft = (max_hook_width / 2.0).toString() + 'px';
+        hd.style.marginLeft = (max_hook_width / 2.0).toString() + "px";
 
         // crop panel text based on longest hook width. This includes the right hook margin
         // in total, it is 1.5 * longest hook
-        globals['headerText'].style.width = (1.5 * max_hook_width).toString() + 'px';
+        globals["headerText"].style.width = (1.5 * max_hook_width).toString() + "px";
     }
 }
 
 window.normalizeHeader = function() {
-    let hd = globals['header'];
+    let hd = globals["header"];
     if (hd !== null) {
         hd.style.marginLeft = "15%";
-        let header_texts = document.querySelectorAll('#header_text *');
+        let header_texts = document.querySelectorAll("#header_text *");
         let max_header_text_content_width = 0;
         for (let i = 0; i < header_texts.length; i++) {
             max_header_text_content_width = Math.max(header_texts[i].clientWidth, max_header_text_content_width);
         }
-        globals['headerText'].style.width = max_header_text_content_width.toString() + 'px';
+        globals["headerText"].style.width = max_header_text_content_width.toString() + "px";
     }
 }
 
@@ -70,8 +76,13 @@ window.onresize = function() {
         globals["slabs"][i].resize();
     }
 
-    if (globals['significant'] !== null) {
+    if (globals["significant"] !== null) {
         window.minimizeHeader();
+    }
+
+    if (globals['pondCanvas'] !== null) {
+        globals['pondCanvas'].width = globals['width'] * globals['pixelDenxity'];
+        globals['pondCanvas'].height = globals['height'] * globals['pixelDenxity'];
     }
 };
 
@@ -86,7 +97,7 @@ window.onload = function() {
 
     // fetch all slabs
     // event registrations are handled within the Slab class
-    let hooks = document.getElementsByClassName('hook');
+    let hooks = document.getElementsByClassName("hook");
     for (let i = 0; i < hooks.length; i++) {
         let slab = document.getElementById(hooks[i].innerText);
         if (slab !== null) {
@@ -101,4 +112,14 @@ window.onload = function() {
     globals["header"] = document.getElementById("header");
     globals["headerText"] = document.getElementById("header_text");
     window.normalizeHeader();
+
+    //kickstart background animation
+    globals["pondCanvas"] = document.getElementById("background");
+    if (globals['pondCanvas'] !== null) {
+        globals['pondCanvas'].width = globals['width'] * globals['pixelDenxity'];
+        globals['pondCanvas'].height = globals['height'] * globals['pixelDenxity'];
+        console.log(globals['pondCanvas']);
+    }
+    globals["pondContext"] = globals["pondCanvas"].getContext("2d");
+    startAnimation();
 };
