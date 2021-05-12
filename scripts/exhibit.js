@@ -46,6 +46,8 @@ class Slab {
         "disappear": "0"
     };
 
+    HOOK_ACCENT_COLOR = 'rgb(124, 145, 103)';
+
     /**
      * peek at the slab
      */
@@ -69,11 +71,26 @@ class Slab {
      */
     show() {
         if (this.showing) return;
-        else this.showing = true;
+
+        //hide all other slabs
+        for (let i = 0; i < globals['slabs'].length; i++) {
+            let s = globals['slabs'][i];
+            if (s !== this) {
+                s.hide();
+            }
+        }
+
+        //show current slab
+        this.showing = true;
         globals['significant'] = this;
         this.content.style.width = this.WIDTHS['full']();
         this.content.style.cursor = 'default';
+
+        //set hook to accent color
+        this.hook.style.color = this.HOOK_ACCENT_COLOR;
         window.minimizeHeader();
+
+
         console.log('showing ' + this.name);
     };
 
@@ -81,11 +98,16 @@ class Slab {
      * hide the slab entirely
      */
     hide() {
-        globals['significant'] = null;
+        if (globals['significant'] === this) {
+            globals['significant'] = null;
+        }
         this.showing = false;
         this.content.innerHTML = '';
         this.content.style.cursor = 'pointer';
         this.content.style.width = this.WIDTHS['hide'];
+
+        //set hook to default color
+        this.hook.style.color = document.getElementsByTagName('body')[0].style.color;
         window.normalizeHeader();
         //console.log('hiding ' + this.name);
     };
@@ -103,6 +125,12 @@ class Slab {
                 globals['significant'].hide();
             }
             this.show();
+        }
+    }
+
+    resize() {
+        if (this.showing) {
+            this.content.style.width = this.WIDTHS['full']();
         }
     }
 }

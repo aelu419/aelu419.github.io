@@ -6,9 +6,10 @@ globals = {
     "height": 0,
     "pixelDensity": 1,
     "isMobile": false,
-    "slabs": [], //slabs on the right
+    "slabs": [], // slabs on the right
     "significant": null,
     "header": null, // navigation panel on the left
+    "headerText": null, // the div holding all the non-hook text in the panel
 };
 
 window.mobileCheck = function() {
@@ -17,19 +18,17 @@ window.mobileCheck = function() {
     return check;
 };
 
-window.onresize = function() {
-    globals["width"] = window.innerWidth;
-    globals["height"] = window.innerHeight;
-    globals["isMobile"] = window.mobileCheck();
-    if (globals["isMobile"]) {
-        globals["pixelDensity"] = window.devicePixelRatio;
-    }
-    console.log(globals);
-};
 
+/**
+ * when minimized header: let l = longest hook
+ * 0 ~ 0.5h is left margin
+ * 0.5h ~ 1.5h are hooks
+ * 1.5h ~ 2.0h is right margin (between hooks and slab)
+ */
 window.minimizeHeader = function() {
     let hd = globals['header'];
     if (hd !== null) {
+        // set left margin of panel according to longest hook width
         let max_hook_width = 0;
         for (let i = 0; i < globals['slabs'].length; i++) {
             let h = globals['slabs'][i].hook;
@@ -38,6 +37,10 @@ window.minimizeHeader = function() {
             }
         }
         hd.style.marginLeft = (max_hook_width / 2.0).toString() + 'px';
+
+        // crop panel text based on longest hook width. This includes the right hook margin
+        // in total, it is 1.5 * longest hook
+        globals['headerText'].style.width = (1.5 * max_hook_width).toString() + 'px';
     }
 }
 
@@ -45,8 +48,32 @@ window.normalizeHeader = function() {
     let hd = globals['header'];
     if (hd !== null) {
         hd.style.marginLeft = "15%";
+        let header_texts = document.querySelectorAll('#header_text *');
+        let max_header_text_content_width = 0;
+        for (let i = 0; i < header_texts.length; i++) {
+            max_header_text_content_width = Math.max(header_texts[i].clientWidth, max_header_text_content_width);
+        }
+        globals['headerText'].style.width = max_header_text_content_width.toString() + 'px';
     }
 }
+
+window.onresize = function() {
+    globals["width"] = window.innerWidth;
+    globals["height"] = window.innerHeight;
+    globals["isMobile"] = window.mobileCheck();
+    if (globals["isMobile"]) {
+        globals["pixelDensity"] = window.devicePixelRatio;
+    }
+
+    //resize all slabs
+    for (let i = 0; i < globals["slabs"].length; i++) {
+        globals["slabs"][i].resize();
+    }
+
+    if (globals['significant'] !== null) {
+        window.minimizeHeader();
+    }
+};
 
 /**
  * upon page load:
@@ -72,5 +99,6 @@ window.onload = function() {
 
     //initialize header
     globals["header"] = document.getElementById("header");
+    globals["headerText"] = document.getElementById("header_text");
     window.normalizeHeader();
 };

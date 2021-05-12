@@ -74,22 +74,39 @@ body {
     transition-timing-function: ease-in-out;
 }
 
+#header_text {
+    width: min-content;
+    overflow-x: hidden;
+    text-overflow: clip;
+    transition: width 0.2s;
+    transition-timing-function: ease-in-out;
+}
+
+#header_text h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    width: max-content;
+}
+
 #header ul {
     padding-left: 0px;
     list-style: none;
 }
 
-#header li {
+.hook {
     width: min-content;
     height: min-content;
     margin-top: 0.7em;
     margin-bottom: 0.5em;
     opacity: 1;
-    transition: opacity 0.3s;
+    transition: all 0.3s;
     transition-timing-function: ease-in;
 }
 
-#header li:hover {
+.hook:hover {
     cursor: pointer;
     opacity: 0.6;
 }
@@ -110,4 +127,18 @@ body {
     transition-timing-function: ease-in-out;
 }
 
-.exhibition:hover {}
+.exhibition #projects {
+    background-color: aqua;
+}
+
+.exhibition #experiments {
+    background-color: bisque;
+}
+
+.exhibition #blog {
+    background-color: crimson;
+}
+
+.exhibition #info {
+    background-color: burlywood;
+}
