@@ -118,27 +118,32 @@ h6 {
 
 .exhibition {
     background-color: rgba(39, 39, 37, 0.308);
-    height: 100%;
     min-width: 10px;
     position: absolute;
-    top: 0;
+    bottom: 0;
     right: 0;
     transition: width 0.3s;
     transition-timing-function: ease-in-out;
+    border-top-left-radius: 0.125in;
+    opacity: 0.9;
 }
 
-.exhibition #projects {
-    background-color: aqua;
+.exhibition#projects {
+    background-color: hsl(115, 14%, 50%);
+    height: 100%;
 }
 
-.exhibition #experiments {
-    background-color: bisque;
+.exhibition#experiments {
+    background-color: hsl(24, 14%, 50%);
+    height: 97%;
 }
 
-.exhibition #blog {
-    background-color: crimson;
+.exhibition#blog {
+    background-color: hsl(208, 14%, 50%);
+    height: 94%;
 }
 
-.exhibition #info {
-    background-color: burlywood;
+.exhibition#info {
+    background-color: hsl(332, 15%, 50%);
+    height: 91%;
 }
