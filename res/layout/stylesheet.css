@@ -130,20 +130,20 @@ h6 {
 
 .exhibition#projects {
     background-color: hsl(114, 5%, 36%);
-    height: 100%;
+    top: 0px;
 }
 
 .exhibition#experiments {
     background-color: hsl(114, 5%, 42%);
-    height: 97%;
+    top: 12px;
 }
 
 .exhibition#blog {
     background-color: hsl(114, 5%, 49%);
-    height: 94%;
+    top: 24px;
 }
 
 .exhibition#info {
     background-color: hsl(114, 5%, 56%);
-    height: 91%;
+    top: 36px;
 }

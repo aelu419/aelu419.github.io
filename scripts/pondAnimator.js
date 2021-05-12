@@ -10,10 +10,12 @@ pondvars = {
     'colors': [
         [237, 84, 38],
         [232, 208, 130],
-        [72, 78, 82],
         [72, 78, 82]
     ],
-    'baseMSPerFrame': 32,
+    'baseMSPerFrame': 16,
+    // variables for canvas optimization: only clear necessary pixels
+    'min': [0, 0],
+    'max': [0, 0]
 }
 
 //random integer from min (inclusive) to max (exclusive)
@@ -30,30 +32,32 @@ class FishChunk {
         this.location = location;
         this.surfaceLocation = this.location.clone();
         this.size = size; //radius of the "chunk"
+        this.alpha = alpha;
         this.velocity = velocity;
         this.finSize = finSize;
-        this.alpha = alpha;
         this.color = color;
     }
 
     draw() {
         let ctx = globals['pondContext'];
         ctx.strokeStyle =
-            "rgba(" +
+            "rgb(" +
             this.color[0] + ", " +
             this.color[1] + ", " +
-            this.color[2] + ", " +
+            this.color[2] + "," +
             this.alpha + ")";
         ctx.fillStyle = ctx.strokeStyle;
 
         let x = this.location.x,
             y = this.location.y;
 
+
         ctx.beginPath();
         ctx.arc(x, y, this.size, 0, Math.PI * 2, true);
         ctx.stroke();
+        let drew_bounds = 10 + this.size;
 
-        if (this.finSize != 0) {
+        if (this.finSize !== 0) {
             let n = this.velocity.normalize();
             //has a fin
             let lDir = n.rotate(-1 * this.finTilt),
@@ -75,6 +79,8 @@ class FishChunk {
             ctx.closePath();
             ctx.stroke();
 
+            drew_bounds = drew_bounds + this.finSize;
+
             /*
             ctx.beginPath();
             ctx.moveTo(lStem.x, lStem.y);
@@ -88,6 +94,21 @@ class FishChunk {
             ctx.arc(rStem.x, rStem.y, this.finSize, rDir.angle() - theta, rDir.angle() + theta);
             ctx.stroke();*/
         }
+
+        let minX = this.location.x - drew_bounds,
+            minY = this.location.y - drew_bounds,
+            maxX = this.location.x + drew_bounds,
+            maxY = this.location.y + drew_bounds;
+
+        pondvars['min'] = [
+            Math.min(pondvars['min'][0], minX),
+            Math.min(pondvars['min'][1], minY),
+        ]
+
+        pondvars['max'] = [
+            Math.max(pondvars['max'][0], maxX),
+            Math.max(pondvars['max'][1], maxY),
+        ]
     }
 }
 
@@ -96,7 +117,7 @@ class Fish {
         //shape related
         let size_const = 1 + Math.random();
         this.chunks = new Array();
-        this.numSeg = 15 + Math.floor(Math.random() * 10);
+        this.numSeg = 25;
         let finPos = 0.2,
             finSize = 0.0625 * 96 * size_const,
             masterWidth = 0.0625 * 96 * globals['pixelDensity'] * size_const; //inch -> px defined as 1/96th of an inch
@@ -149,9 +170,13 @@ class Fish {
             let temp = this.chunks[i];
             //handle each chunk individually
             // - update fin wiggling
-            temp.finTilt = Math.PI / 1.5 + 0.6 * Math.sin(2 * Math.PI * t);
-            //drawing
-            temp.draw();
+            if (temp.finSize !== 0)
+                temp.finTilt = Math.PI / 1.5 + 0.6 * Math.sin(2 * Math.PI * t);
+
+            //only draw half of the fish to save time
+            if (temp.finSize !== 0 || i % 1 == 0) {
+                temp.draw();
+            }
         }
 
         //moving & interaction of the head
@@ -163,15 +188,14 @@ class Fish {
             //on computer the program is controlled by mouse
             target = new Vec2(pondvars['mouseX'], pondvars['mouseY']);
         }
-        let headToTarget = target.add(this.chunks[0].location.mult(-1));
+        let headToTarget = target.subtract(this.chunks[0].location);
 
         //two types of forces
         // 1. the "drag" from the user
         let influence = headToTarget.mult(this.elasticConstant);
         //influence = influence.add(this.gravity);
         // 2. the twisting motion of the Fish head itself
-        let headTwist = headToTarget.clone();
-        headTwist = headTwist.rotate(Math.PI / 2).normalize().mult(Math.cos(2 * Math.PI * t) * this.tilting);
+        let headTwist = headToTarget.rotate(Math.PI / 2).normalize().mult(Math.cos(2 * Math.PI * t) * this.tilting);
 
         this.chunks[0].velocity = this.chunks[0].velocity.add(influence);
         this.chunks[0].velocity = this.chunks[0].velocity.add(headTwist);
@@ -236,21 +260,33 @@ function updateMouse(e) {
 //main draw function
 function drawFish() {
     let tTemp = Date.now();
-    globals['pondContext'].clearRect(0, 0, globals['pondContext'].canvas.width, globals['pondContext'].canvas.height);
+    if (pondvars['max'][0] === 0)
+        globals['pondContext'].clearRect(0, 0, globals['pondContext'].canvas.width, globals['pondContext'].canvas.height);
+    else
+        globals['pondContext'].clearRect(
+            pondvars['min'][0], pondvars['min'][1],
+            pondvars['max'][0] - pondvars['min'][0], pondvars['max'][1] - pondvars['min'][1],
+        )
 
+    /*
+    globals['pondContext'].strokeStyle = 'rgb(0, 0, 0)';
+    globals['pondContext'].strokeRect(pondvars['min'][0], pondvars['min'][1],
+        pondvars['max'][0] - pondvars['min'][0], pondvars['max'][1] - pondvars['min'][1], )
+    */
+    pondvars['min'] = [1000000, 1000000];
+    pondvars['max'] = [0, 0];
     for (let i = 0; i < pondvars['myFish'].length; i++) {
         pondvars['myFish'][i].draw();
     }
 
     //frame update too fast, wait until next fixed interval
+    //console.log(tTemp - pondvars['lastRefresh']);
     if (tTemp - pondvars['lastRefresh'] < pondvars['baseMSPerFrame']) {
-        setTimeout(function() {
-            window.requestAnimationFrame(function() { drawFish(); });
-        }, pondvars['baseMSPerFrame'] - (tTemp - pondvars['lastRefresh']));
+        setTimeout(drawFish, pondvars['baseMSPerFrame'] - (tTemp - pondvars['lastRefresh']));
         return;
     } else { //frame update slow, start immediately
         pondvars['lastRefresh'] = tTemp;
-        window.requestAnimationFrame(function() { drawFish(); });
+        window.requestAnimationFrame(drawFish);
     }
 }
 

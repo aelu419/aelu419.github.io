@@ -137,8 +137,11 @@ def table_to_json(worksheet, name, dest):
     prev_dir = os.getcwd()
     os.chdir(dest)
     # save '[name].json' file
-    with open(name+'.json', 'w') as f:
+    with open(name+'.js', 'w') as f:
+        meta = 'var '+name+' = '
+        f.write(meta)
         f.write(compiled)
+        f.write(';')
     os.chdir(prev_dir)
 
 table_to_json(major_projs, 'major', project_json)
