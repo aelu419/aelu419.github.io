@@ -1,316 +1,113 @@
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
-@font-face{
-	font-family: gilroy-bold;
-	src:url("./fonts/Radomir Tinkov - Gilroy-ExtraBold.otf");
+@font-face {
+    font-family: gilroy-bold;
+    src: url("../font/Radomir\ Tinkov\ -\ Gilroy-ExtraBold.otf");
 }
 
-@font-face{
-	font-family: gilroy;
-	src:url("./fonts/Radomir Tinkov - Gilroy-Light.otf");
+@font-face {
+    font-family: gilroy;
+    src: url("../font/Radomir\ Tinkov\ -\ Gilroy-Light.otf");
 }
 
 @font-face {
     font-family: now;
-    src: url('./fonts/now-alt/NowAlt-Light.eot');
-    src: url('./fonts/now-alt/NowAlt-Light.eot?#iefix') format('embedded-opentype'),
-        url('./fonts/now-alt/NowAlt-Light.woff2') format('woff2'),
-        url('./fonts/now-alt/NowAlt-Light.woff') format('woff'),
-        url('./fonts/now-alt/NowAlt-Light.ttf') format('truetype'),
-        url('./fonts/now-alt/NowAlt-Light.svg#NowAlt-Light') format('svg');
+    src: url('../font/now-alt/NowAlt-Light.eot');
+    src: url('../font/now-alt/NowAlt-Light.eot?#iefix') format('embedded-opentype'), url('../font/now-alt/NowAlt-Light.woff2') format('woff2'), url('../font/now-alt/NowAlt-Light.woff') format('woff'), url('../font/now-alt/NowAlt-Light.ttf') format('truetype'), url('../font/now-alt/NowAlt-Light.svg#NowAlt-Light') format('svg');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
 }
 
 * {
-	font-family: now, gilroy, sans-serif;
+    font-family: now, gilroy, sans-serif;
 }
 
-a{
-	text-decoration: none;
-	color: inherit;
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
-hr{
-	margin-left: 20%;
-	margin-right: 20%;
+hr {
+    margin-left: 20%;
+    margin-right: 20%;
 }
 
-#background{
-	background-color: rgb(244, 244, 244);
-	background-size:cover;
-	margin: 0px;
-	padding: 0px;
+html,
+body {
+    height: 100%;
+    width: 100%;
+    background-color: rgb(228, 228, 227);
+    color: rgb(39, 39, 37);
+    background-size: cover;
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    user-select: none;
 }
 
-#header{
-	width: 100%;
-	height: auto;
-	color:rgba(250,250,250,1.00);
-	position: relative;
-	overflow:hidden;
 
-	text-align: center;
+/*
+ Background canvas
+ */
+
+#background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
-#header_content{
-	position: relative;
-	text-align: left;
-  /*please change these two margins together so that they are the same*/
-  /*see more in pondAnimator.js, updateHeaderDimensions*/
-  margin-top: 40px;
-	margin-bottom: 40px;
+
+/*
+ Header
+ */
+
+#header {
+    position: absolute;
+    bottom: 15%;
+    transition: all 0.3s;
+    transition-timing-function: ease-in-out;
 }
 
-#header_text{
-	position: relative;
-	left: 20%;
-	max-width: 70%;
+#header ul {
+    padding-left: 0px;
+    list-style: none;
 }
 
-#header_list{
-	padding-left:20%;
-	max-width:70%;
+#header li {
+    width: min-content;
+    height: min-content;
+    margin-top: 0.7em;
+    margin-bottom: 0.5em;
+    opacity: 1;
+    transition: opacity 0.3s;
+    transition-timing-function: ease-in;
 }
 
-#header_list li{
-	list-style: none;
-	margin: 8px;
+#header li:hover {
+    cursor: pointer;
+    opacity: 0.6;
 }
 
-#header_list a{
-	-webkit-transition: all 0.5s;
-	transition: all 0.5s;
-	background: none;
+
+/*
+ Exhibition Slabs
+ */
+
+.exhibition {
+    background-color: rgba(39, 39, 37, 0.308);
+    height: 100%;
+    min-width: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: width 0.3s;
+    transition-timing-function: ease-in-out;
 }
 
-#header_list a, a:visited, a:active{
-	text-decoration: none;
-	color: inherit;
-}
-
-.deco{
-	position: absolute;
-}
-
-.deco.holder {
-	position: absolute;
-	left: 0px;
-	top: 0px;
-
-	width: 40%;
-	height: 100%;
-
-	max-width: 1000px;
-	max-height: 1000px;
-}
-
-.deco.holder.right {
-	position: absolute;
-	width: 40%;
-	height: 100%;
-
-	max-width: 1000px;
-	max-height: 1000px;
-
-	left:100%;
-	top: 0px;
-
-}
-
-.deco.background {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-
-	left: 0px;
-	top: 0px;
-
-	margin: 0;
-	padding: 0;
-
-	background-color: rgba(0, 0, 0, 0.3);
-}
-
-#pond{
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0,0,0,0.3);
-	left: 0px;
-	top:0px;
-}
-
-#d1{
-	width: 800px;
-	height: auto;
-	left: -550px;
-	top: -100px;
-}
-
-#d2{
-	width: 400px;
-	height: auto;
-	left: -80px;
-	top: -200px;
-}
-
-#d3{
-	width: 300px;
-	height: auto;
-	left: -200px;
-	top: 100px;
-}
-
-#d4{
-	width: 330px;
-	height: auto;
-	left: -20px;
-	top: 450px;
-}
-
-#d5{
-	width: 600px;
-	height: auto;
-	left: -450px;
-	top: -400px;
-}
-
-#d6{
-	width: 600px;
-	height: auto;
-	left: -80px;
-	top: -180px;
-}
-
-#d7{
-	width: 300px;
-	height: auto;
-	left: -180px;
-	top: 300px;
-}
-
-#d8{
-	width: 200px;
-	height: auto;
-	left: -200px;
-	top: 350px;
-}
-
-#downIcon{
-	position: absolute;
-	width: 20px;
-	height: auto;
-	bottom: 10%;
-}
-
-#projects table{
-	width: auto;
-}
-
-#projects th, td{
-	/*border: 1px solid black;*/
-}
-
-.content.block{
-	width: 25%;
-	padding-left: 13px;
-	padding-right: 13px;
-	position: relative;
-}
-
-.content.block.head * {
-	width: auto;
-}
-
-.content.frame{
-	height: auto;
-	position: relative;
-	margin: 0;
-}
-
-.content.image{
-	max-width: 100%;
-	position: relative;
-	object-fit:fill;
-	outline: none;
-	display: block;
-}
-
-.content.title{
-	position:static;
-	text-align: center;
-}
-
-.content.tag{
-	background-color: #5E5E5E;
-	color: rgb(244, 244, 244);
-	font-size: small;
-	padding: 5px;
-	margin: 3px;
-	display: inline-block;
-	border-radius: 2px;
-}
-
-.divider td{
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-
-#body{
-  padding-top: 30px;
-  padding-bottom: 30px;
-  padding-left: 20px;
-  padding-right: 20px;
-	text-align: left;
-	padding-left: 50px;
-	padding-right: 50px;
-}
-
-.toobright{
-	border: thin #5E5E5E solid;
-}
-
-#footer{
-	width: auto;
-	height:auto;
-	background-color: rgba(0,0,0,0.3);
-	color:rgba(250,250,250,1.00);
-	padding-top: 20px;
-	padding-left:20px;
-	padding-right:20px;
-	padding-bottom:40px;
-
-	text-align: center;
-
-	position: relative;
-	overflow: hidden;
-}
-#footer h2, #footer p, #footer a{
-	position: relative;
-}
-
-.hoverable {
-  opacity: 1;
-  -webkit-transition: all 0.5s;
-  transition: all 0.5s;
-}
-
-.hoverable:hover {
-  opacity:  0.6;
-}
-
-.hoverable.social {
-  width: 32px;
-  height: auto;
-  margin: 0px;
-}
-
-.hoverable.social:hover {
-  width: 35px;
-  height: auto;
-  margin-left: 5px;
-  margin-right: 5px;
-}
+.exhibition:hover {}

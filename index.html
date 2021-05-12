@@ -1,373 +1,66 @@
 <!doctype html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Alan Tao</title>
-  <link href="stylesheet.css" rel="stylesheet" type="text/css">
-  <script type="text/javascript" src="pageInit.js"></script>
-  <script type="text/javascript" src="pondAnimator.js"></script>
-  <script type="text/javascript">
-  //https://labs.redantler.com/on-hover-toggle-play-html5-video-with-only-vanilla-javascript-c8689e633b41
-  window.onload = function() { //executes code after DOM loads
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Alan Tao</title>
+    <link href="./res/layout/stylesheet.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="./scripts/exhibit.js"></script>
+    <script type="text/javascript" src="./scripts/init.js"></script>
+    <!--
+    <script type="text/javascript" src="./res/proj/major.json"></script>
+    <script type="text/javascript" src="./res/proj/minor.json"></script>
+    <script type="text/javascript" src="./scripts/pageInit.js"></script>
+    <script type="text/javascript" src="./scripts/pondAnimator.js"></script>
+    <script type="text/javascript">
+        //https://labs.redantler.com/on-hover-toggle-play-html5-video-with-only-vanilla-javascript-c8689e633b41
+        window.onload = function() { //executes code after DOM loads
 
-    //adjust UI size and start animation
-    initPage();
+            //adjust UI size and start animation
+            initPage();
 
-   	//--- select all <video> on the page
-   	const vids = document.getElementsByTagName("video")
-   	// Loop over the selected elements and add event listeners
-   	for (let i = 0; i < vids.length; i++) {
-  		/*vids[i].addEventListener( "mouseover", function(e) {
-  			var playPromise = vids[i].play();
-  			if(playPromise!=undefined){
-  				playPromise.then(_=>{
-  				})
-  				.catch(error => {
-        			// Auto-play was prevented
-       		 	// Show paused UI.
-  					alert(error);
-      			});
-  			}
-      })*/
-      /*
-  		vids[i].addEventListener( "mouseout", function(e) {
-  			vids[i].pause()
-      })*/
-  	}
-  }
-  </script>
+            /*
+            //--- select all <video> on the page
+            const vids = document.getElementsByTagName("video")
+            // Loop over the selected elements and add event listeners
+            for (let i = 0; i < vids.length; i++) {
+              vids[i].addEventListener( "mouseover", function(e) {
+                var playPromise = vids[i].play();
+                if(playPromise!=undefined){
+                  playPromise.then(_=>{
+                  })
+                  .catch(error => {
+                      // Auto-play was prevented
+                    // Show paused UI.
+                    alert(error);
+                    });
+                }
+              })
+              
+              vids[i].addEventListener( "mouseout", function(e) {
+                vids[i].pause()
+              })
+            }*/
+        }
+    </script>-->
 </head>
 
-<body id="background">
-
-  <!--splash page-->
-	<div id="header" onmousemove="updateMouse(event)" onmouseout="">
-    <!--leaf shaped decorations-->
-    <canvas class="deco" id = "pond"></canvas>
-    <div class="deco holder">
-      <img id = "d1" class = "deco leaf" src="./site_deco/rslt1_2.png"/>
-      <img id = "d2" class = "deco leaf" src="./site_deco/rslt1_1.png"/>
-      <img id = "d4" class = "deco leaf" src="./site_deco/rslt2_1.png"/>
-      <img id = "d3" class = "deco leaf" src="./site_deco/rslt2_2.png"/>
+<body>
+    <canvas id="background"></canvas>
+    <!--the navigational panel on the left-->
+    <div id="header">
+        <h1>Hi! I'm Alan Tao.</h1>
+        <h2>Welcome to my portfolio site.</h2>
+        <ul>
+            <li class="hook">projects</li>
+            <li class="hook">experiments</li>
+            <li class="hook">info</li>
+        </ul>
     </div>
-    <div class="deco holder right">
-      <img id = "d5" class = "deco leaf" src="./site_deco/rslt1_1.png"/>
-      <img id = "d6" class = "deco leaf" src="./site_deco/rslt1_0.png"/>
-      <img id = "d7" class = "deco leaf" src="./site_deco/rslt2_1.png"/>
-      <img id = "d8" class = "deco leaf" src="./site_deco/rslt3_2.png"/>
+    <!--the exhibition panel on the right-->
+    <div id="projects" class="exhibition">
     </div>
-    <!--shading-->
-    <div class="deco background"></div>
-
-    <!--navigation menu-->
-		<div id="header_content">
-			<div id="header_text">
-				<h1>Hi! I'm Alan Tao.</h1><h2>Welcome to my portfolio site.</h2>
-			</div>
-			<ul id="header_list">
-				<li style="color: #D6EDC0;"><a class="hoverable" href="https://github.com/aelu419">&#62; Repositories</a></li>
-				<li style="color: #E4E4E4;"><a class="hoverable" href="#projects">&#62; Major Projects</a></li>
-				<li style="color: #E4E4E4;"><a class="hoverable" href="#minorprojects">&#62; Experimentations</a></li>
-				<li style="color: #E4E4E4;"><a class="hoverable" href="#footer">&#62; Contact Info</a></li>
-			</ul>
-		</div>
-    <a href="#body"><img id="downIcon" class="hoverable" src="./icons/downArrow.png"/></a>
-	</div>
-
-  <!--body page-->
-	<center><div id="body">
-	<table>
-      <!--begin major projects section-->
-			<tr id="projects">
-        <td class="content block" colspan="4">
-          <h1>Major Projects</h1>
-        </td>
-      </tr>
-      <tr>
-        <!--asl recognizer-->
-        <td class="content block">
-          <a href = "https://ibrahimsaeedpurdue.github.io/handpose-localhack/" target="_blank">
-  				<div class="content frame">
-            <video class="content image video toobright" muted ="muted" autoplay="true" loop>
-              <source src="./videos/gesture_recog_demo.mp4" type="video/mp4"/>
-              Your browser does not support the video tag.
-            </video>
-  				</div>
-          </a>
-        </td>
-
-        <!--lunacia-->
-        <td class="content block">
-          <a href = "https://github.com/aelu419/Lunacia.git" target="_blank">
-  				<div class="content frame">
-  					<img class="content image toobright" src="./videos/lunacia.gif"/>
-  				</div>
-          </a>
-        </td>
-
-        <!--grav assist-->
-  			<td class="content block">
-          <a href = "https://github.com/aelu419/GravAssist" target="_blank">
-  				<div class="content frame">
-            <video poster="./images/gravassist.png" class="content image video" muted ="muted" autoplay="true" loop>
-                <source src="./videos/grav_assist_demo.mp4" type="video/mp4"/>
-                Your browser does not support the video tag.
-            </video>
-  				</div>
-          </a>
-        </td>
-
-        <!--spartapp-->
-        <td class="content block">
-  				<div class="content frame">
-            <a href = "https://github.com/aelu419/Spartapp" target="_blank">
-  					<img class="content image toobright" src="./images/spartapp_detailed_sheet_thumb.png"/>
-            </a>
-  				</div>
-        </td>
-	    </tr>
-      <!--labels row-->
-      <tr>
-        <td>
-          <p class="content title">
-            <em>ASL Recognizer</em><br/>for Major Hack League (LHD: build)<br/>Jan<br/><br/>
-            <span class="content tag">Machine Learning (Tensorflow)</span>
-            <span class="content tag">React.js</span>
-            <span class="content tag">Python</span>
-          </p>
-        </td>
-        <td>
-          <p class="content title">
-            <em>Lunacia</em><br/>for VGDev club<br/>coming soon: 2020.11.13<br/><br/>
-            <span class="content tag">Unity (C#)</span>
-            <span class="content tag">Vfx & Animation</span>
-          </p>
-        </td>
-        <td>
-          <p class="content title">
-            <em>GravAssist</em><br/>for independent studies<br/>2019<br/><br/>
-            <span class="content tag">Python</span>
-            <span class="content tag">OpenGL</span>
-            <span class="content tag">NASA JPL Data</span>
-            <span class="content tag">Desktop App (PyQT)</span>
-          </p>
-        </td>
-        <td>
-          <p class="content title">
-            <em>Spartapp</em><br/>for Hack THIS club<br/>2016~2020<br/><br/>
-            <span class="content tag">Java (Android)</span>
-            <span class="content tag">REST API</span>
-            <span class="content tag">Leadership</span>
-            <span class="content tag">Cloud Database</span>
-          </p>
-        </td>
-      </tr>
-      <!--end major projects section-->
-			<tr class="divider"><td colspan="4"><hr/></td></tr>
-
-      <!--begin experimentation section-->
-			<tr id="minorprojects">
-				<td class="content block head" colspan="4">
-					<h1>Experimentations</h1><h4>Weekly projects I do for fun, mostly on procedural generation and visual effects</h4>
-				</td>
-			</tr>
-
-      <tr>
-        <!--aurora-->
-        <td class="content block">
-          <div class="content frame">
-            <video class="content image video toobright" muted ="muted" poster="images/aurora.png" autoplay="true" loop>
-                <source src="./videos/aurora.mp4" type="video/mp4"/>
-                Your browser does not support the video tag.
-            </video>
-          </div>
-        </td>
-
-        <!--bubble-->
-        <td class="content block">
-          <div class="content frame">
-            <video class="content image video" muted ="muted" autoplay="true" loop>
-                <source src="./videos/bubble_trace_demo.mp4" type="video/mp4"/>
-                Your browser does not support the video tag.
-            </video>
-          </div>
-        </td>
-
-        <!--fungi growth procedural-->
-        <td class="content block">
-          <div class="content frame">
-            <video class="content image video" muted ="muted" autoplay="true" loop>
-                <source src="./videos/procedural_spread_demo.mp4" type="video/mp4"/>
-                Your browser does not support the video tag.
-            </video>
-          </div>
-        </td>
-
-        <!--bumpy-->
-        <td class="content block">
-            <div class="content frame">
-                <video class="content image video" muted ="muted" autoplay="true" loop>
-                    <source src="./videos/bluering.mp4" type="video/mp4"/>
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-        </td>
-      </tr>
-
-			<tr>
-        <!--perlin ball-->
-        <td class="content block">
-            <div class="content frame">
-                <video class="content image video" muted ="muted" autoplay="true" loop>
-                    <source src="./videos/whiteball.mp4" type="video/mp4"/>
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-        </td>
-
-        <!--bamboo-->
-				<td class="content block">
-					<div class="content frame">
-						<video class="content image video toobright" muted ="muted" poster="images/port1_poster.png" autoplay="true" loop>
-	  						<source src="./videos/portfolio01.webm" type="video/webm"/>
-	  						Your browser does not support the video tag.
-						</video>
-					</div>
-				</td>
-
-        <!--wave-->
-				<td class="content block">
-					<div class="content frame">
-						<video class="content image video" muted ="muted" autoplay="true" loop>
-	  						<source src="./videos/portfolio02.webm" type="video/webm"/>
-	  						Your browser does not support the video tag.
-						</video>
-					</div>
-				</td>
-
-        <!--clock-->
-				<td class="content block">
-					<div class="content frame">
-						<video class="content image video" muted ="muted" autoplay="true" loop>
-	  				  <source src="./videos/portfolio03.webm" type="video/webm"/>
-	  					Your browser does not support the video tag.
-						</video>
-					</div>
-				</td>
-			</tr>
-
-      <tr>
-        <!--fish-->
-        <td class="content block">
-          <div class="content frame">
-            <video class="content image video" muted ="muted" autoplay="true" loop>
-              <source src="./videos/particle-chain-fish.webm" type="video/webm"/>
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </td>
-
-        <!--tree-->
-				<td class="content block">
-					<div class="content frame">
-            <video class="content image video" muted ="muted" autoplay="true" loop>
-              <source src="./videos/tree_compilation.mp4" type="video/mp4"/>
-              Your browser does not support the video tag.
-            </video>
-					</div>
-				</td>
-
-        <!--zig zag braces-->
-				<td class="content block">
-					<div class="content frame">
-            <video class="content image video" muted ="muted" autoplay="true" loop>
-              <source src="./videos/zag_compilation.mp4" type="video/mp4"/>
-              Your browser does not support the video tag.
-            </video>
-					</div>
-				</td>
-
-          <!--bongo grapher-->
-        <td class="content block">
-          <div class="content frame">
-            <video class="content image video" muted ="muted" autoplay="true" loop>
-              <source src="./videos/bongo_compilation.mp4" type="video/mp4"/>
-              Your browser does not support the video tag.
-            </video>
-					</div>
-    		</td>
-			</tr>
-			<tr class="divider"><td colspan="4"><hr/></td></tr>
-    </table>
-    <!--end main grid-->
-
-    <!--myself section-->
-    <table>
-			<tr id="myself">
-        <td class="content block head" colspan="4">
-          <h1>A Bit More on Myself</h1>
-        </td>
-      </tr>
-      <!--header contents-->
-      <tr>
-        <td class = "content block third" colspan="2">
-          <center><img class = "content image" width="100px" src="./images/self_face.png"></img></td>
-        <td class = "content block third">
-          <center><h2>GT</h2></center></td>
-        <td class = "content block third">
-          <center><h2>&#60;3</h2></center>  </td>
-      </tr>
-
-      <!--descriptions-->
-      <tr>
-        <td class = "content block third" colspan="2">
-          <p>I look roughly like this..?</p></center>
-        </td>
-        <td class = "content block third">
-          <p>I'm a first year student at Georgia Institute of Technology, currently majoring computer science.</p>
-        </td>
-        <td class = "content block third">
-          <p>I'm interested in computer graphics and mixed realities, but are open to all fields--since I'm just starting :)</p>
-        </td>
-      </tr>
-    </table>
-	</div></center>
-
-  <!--body ends, footer begins-->
-	<div id="footer">
-    <!--leaf background-->
-    <div class="deco holder">
-      <img id = "d1" class = "deco leaf" src="./site_deco/rslt1_2.png"/>
-      <img id = "d2" class = "deco leaf" src="./site_deco/rslt1_1.png"/>
-      <img id = "d4" class = "deco leaf" src="./site_deco/rslt2_1.png"/>
-      <img id = "d3" class = "deco leaf" src="./site_deco/rslt2_2.png"/>
-    </div>
-    <div class="deco holder right">
-      <img id = "d5" class = "deco leaf" src="./site_deco/rslt1_1.png"/>
-      <img id = "d6" class = "deco leaf" src="./site_deco/rslt1_0.png"/>
-      <img id = "d7" class = "deco leaf" src="./site_deco/rslt2_1.png"/>
-      <img id = "d8" class = "deco leaf" src="./site_deco/rslt3_2.png"/>
-    </div>
-    <!--shading-->
-    <div class="deco background"></div>
-
-    <!--basic info on the footer-->
-  	<h2 class "footer content">Contact Info</h2>
-    <p class "footer content">Alan Tao</p>
-  	<p class "footer content">Email: atao9@gatech.edu</p>
-  	<a href="https://github.com/aelu419" class "footer content" ><p>Github: Aelu419</p></a>
-    <div class "footer content">
-      <center>
-        <a href="https://www.linkedin.com/in/alan-tao-230b251a4/"><img class="hoverable social" src = "./icons/linkedin.png" /></a>
-        <a href="https://github.com/aelu419"><img class="hoverable social" src = "./icons/git.png"></img></a>
-        <a href="https://www.facebook.com/alan.tao.3781/"><img class="hoverable social" src = "./icons/fb.png"></img></a>
-      </center>
-    </div>
-  	<hr/>
-  	<p class "footer content">last updated 2021/01/19</p>
-    <p class "footer content">Now Alt font by <a class="hoverable" href="http://alfredomarcopradil.com/">Alfredo Pradil</p>
-	</div>
-
 </body>
+
 </html>
