@@ -1,0 +1,43 @@
+.project.container {
+    position: static;
+    display: grid;
+    grid-template: "media title time" min-content "media title role" min-content "media summary summary" min-content "tag tag tag" / 320px 1fr max-content;
+    column-gap: 5px;
+    row-gap: 5px;
+    padding: 0.33in;
+}
+
+.container .media {
+    grid-area: media;
+}
+
+.container .title {
+    grid-area: title;
+}
+
+.container .time {
+    grid-area: time;
+}
+
+.container .role {
+    grid-area: role;
+}
+
+.container .summary {
+    grid-area: summary;
+}
+
+.container div.tag {
+    grid-area: tag;
+    text-align: right;
+}
+
+.container div.tag * {
+    display: inline-block;
+    color: rgb(221, 221, 221);
+    border-radius: 3px;
+    width: max-content;
+    height: min-content;
+    padding: 5px;
+    background-color: rgb(97, 97, 97);
+}

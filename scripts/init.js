@@ -14,7 +14,11 @@ globals = {
     "header": null, // navigation panel on the left
     "headerText": null, // the div holding all the non-hook text in the panel
     // pond related
-    "pondContext": null
+    "pondContext": null,
+    // templates
+    "projT": null, // major projects
+    "expT": null, // illustrations and experiments
+
 };
 
 window.onmousemove = ev => updateMouse(ev);
@@ -111,6 +115,10 @@ window.onload = function() {
 
     // fetch canvas
     globals["pondContext"] = document.getElementById("background").getContext("2d");
+
+    // fetch templates
+    globals["projT"] = document.getElementById("project_block");
+    globals["expT"] = document.getElementById("experiment_block");
 
     // initialize element dimensions
     window.onresize();

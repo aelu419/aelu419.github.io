@@ -80,6 +80,14 @@ class Slab {
             }
         }
 
+        switch (this.name) {
+            case "projects":
+                populateProjects();
+                break;
+            default:
+                console.log(this.name + " slab does not have any populate method");
+        }
+
         //show current slab
         this.showing = true;
         globals['significant'] = this;
@@ -90,8 +98,7 @@ class Slab {
         this.hook.style.color = this.HOOK_ACCENT_COLOR;
         window.minimizeHeader();
 
-
-        console.log('showing ' + this.name);
+        //console.log('showing ' + this.name);
     };
 
     /**
@@ -109,6 +116,7 @@ class Slab {
         //set hook to default color
         this.hook.style.color = document.getElementsByTagName('body')[0].style.color;
         window.normalizeHeader();
+
         //console.log('hiding ' + this.name);
     };
 

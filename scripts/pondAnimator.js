@@ -124,15 +124,15 @@ class Fish {
         this.color = pondvars['colors'][id % pondvars['colors'].length];
 
         //time related
-        this.loopLength = Math.floor((20 + Math.random() * 10) * size_const); //the larger the Fish, the slower it moves
+        this.loopLength = Math.floor((30 + Math.random() * 10) * size_const); //the larger the Fish, the slower it moves
         this.fCount = Math.floor(Math.random() * this.loopLength);
 
         //force/movement related
         // - small elasticity means the fish respond less sensatively to the target
         this.elasticConstant = (0.00075 + Math.random() * 0.001) * size_const;
         // - small tilting means the fish wiggle less
-        this.tilting = 0.4 * (1 + Math.random() / size_const);
-        this.maxVel = (3 + Math.random() * 0.5) * size_const;
+        this.tilting = 0.32 * (1 + Math.random() / size_const);
+        this.maxVel = (2 + Math.random() * 0.5) * size_const;
 
         //default location
         let seed = new Vec2(random(0, globals['width']), random(0, globals['height']));
@@ -259,7 +259,7 @@ function updateMouse(e) {
 
 //main draw function
 function drawFish() {
-    let tTemp = Date.now();
+    let tTemp = window.performance.now();
     if (pondvars['max'][0] === 0)
         globals['pondContext'].clearRect(0, 0, globals['pondContext'].canvas.width, globals['pondContext'].canvas.height);
     else
@@ -282,7 +282,9 @@ function drawFish() {
     //frame update too fast, wait until next fixed interval
     //console.log(tTemp - pondvars['lastRefresh']);
     if (tTemp - pondvars['lastRefresh'] < pondvars['baseMSPerFrame']) {
-        setTimeout(drawFish, pondvars['baseMSPerFrame'] - (tTemp - pondvars['lastRefresh']));
+        setTimeout(() => {
+            window.requestAnimationFrame(drawFish)
+        }, pondvars['baseMSPerFrame'] - (tTemp - pondvars['lastRefresh']));
         return;
     } else { //frame update slow, start immediately
         pondvars['lastRefresh'] = tTemp;
@@ -298,7 +300,7 @@ function updateTarget() {
         Math.random() * (globals['height'] * globals['pixelDensity'] - 200) + 100
     );
     console.log("target updated at " + pondvars['mobileMouse'].toString())
-    pondvars['lastTargetUpdateTime'] = Date.now();
+    pondvars['lastTargetUpdateTime'] = window.performance.now();
 }
 
 //initialize variables and kick start animation
@@ -312,7 +314,7 @@ function startAnimation() {
         pondvars['myFish'].push(new Fish(i));
     }
     //start animation
-    pondvars['lastRefresh'] = Date.now();
-    pondvars['lastTargetUpdateTime'] = Date.now();
+    pondvars['lastRefresh'] = window.performance.now();
+    pondvars['lastTargetUpdateTime'] = window.performance.now();
     drawFish();
 }
