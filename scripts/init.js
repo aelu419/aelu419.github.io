@@ -7,6 +7,7 @@ globals = {
     "height": 0,
     "pixelDensity": 1,
     "isMobile": false,
+    "pendingResize": null,
     // slabs
     "slabs": [], // slabs on the right
     "significant": null,
@@ -18,8 +19,9 @@ globals = {
     "tryOptimize": () => { return globals["significant"] !== null; },
     // templates
     "projT": null, // major projects
+    "projTN": null, // narrow flavor
     "expT": null, // illustrations and experiments
-
+    "expTN": null
 };
 
 window.onmousemove = ev => updateMouse(ev);
@@ -47,11 +49,17 @@ window.minimizeHeader = function() {
                 max_hook_width = h.clientWidth;
             }
         }
-        hd.style.marginLeft = (max_hook_width / 2.0).toString() + "px";
 
-        // crop panel text based on longest hook width. This includes the right hook margin
-        // in total, it is 1.5 * longest hook
-        globals["headerText"].style.width = (1.5 * max_hook_width).toString() + "px";
+        if (globals['isMobile']) {
+            hd.style.marginLeft = "3px";
+            globals['headerText'].style.opacity = '0';
+        } else {
+            hd.style.marginLeft = (max_hook_width / 2.0).toString() + "px";
+            // crop panel text based on longest hook width. This includes the right hook margin
+            // in total, it is 1.5 * longest hook
+            globals["headerText"].style.width = (1.5 * max_hook_width).toString() + "px";
+        }
+
     }
 }
 
@@ -59,14 +67,15 @@ window.normalizeHeader = function() {
     let hd = globals["header"];
     if (hd !== null) {
         hd.style.marginLeft = "15%";
-        let header_texts = document.querySelectorAll("#header_text *");
-        let max_header_text_content_width = 0;
-        for (let i = 0; i < header_texts.length; i++) {
-            max_header_text_content_width = Math.max(header_texts[i].clientWidth, max_header_text_content_width);
-        }
-        globals["headerText"].style.width = max_header_text_content_width.toString() + "px";
+        globals['headerText'].style.opacity = '1';
+        globals["headerText"].style.width = 'max-content';
     }
 }
+
+/**
+ * actual heavy-duty portion of the resize
+ */
+let heavyResize = null;
 
 window.onresize = function() {
     globals["width"] = window.innerWidth;
@@ -74,19 +83,35 @@ window.onresize = function() {
     globals["isMobile"] = window.mobileCheck();
     globals["pixelDensity"] = window.devicePixelRatio;
 
-    //resize all slabs
-    for (let i = 0; i < globals["slabs"].length; i++) {
-        globals["slabs"][i].resize();
+    // call heavy work for resizing after resizing hasn't been called in 200ms
+    // or else the site keeps refreshing!
+    if (heavyResize !== null) {
+        clearTimeout(globals['pendingResize']);
+        globals['pendingResize'] = setTimeout(heavyResize, 200)
+    }
+    // initialize actual heavy work for the resizing
+    else {
+        heavyResize = () => {
+            //resize all slabs
+            for (let i = 0; i < globals["slabs"].length; i++) {
+                globals["slabs"][i].resize();
+            }
+
+            if (globals["significant"] !== null) {
+                window.minimizeHeader();
+                globals["significant"].show();
+            }
+
+            if (globals["pondContext"].canvas !== null) {
+                globals["pondContext"].canvas.width = Math.ceil(globals["width"] * globals["pixelDensity"]);
+                globals["pondContext"].canvas.height = Math.ceil(globals["height"] * globals["pixelDensity"]);
+            }
+        };
+        //when first time, call resize immediately
+        heavyResize();
     }
 
-    if (globals["significant"] !== null) {
-        window.minimizeHeader();
-    }
 
-    if (globals["pondContext"].canvas !== null) {
-        globals["pondContext"].canvas.width = Math.ceil(globals["width"] * globals["pixelDensity"]);
-        globals["pondContext"].canvas.height = Math.ceil(globals["height"] * globals["pixelDensity"]);
-    }
 };
 
 /**
@@ -117,12 +142,18 @@ window.onload = function() {
     // fetch canvas
     globals["pondContext"] = document.getElementById("background").getContext("2d");
 
+    // initialize element dimensions
+    window.onresize();
+
     // fetch templates
     globals["projT"] = document.getElementById("project_block");
     globals["expT"] = document.getElementById("experiment_block");
+    globals["projTN"] = document.getElementById("project_block_narrow");
+    globals["expTN"] = document.getElementById("experiment_block_narrow");
 
-    // initialize element dimensions
-    window.onresize();
+    if (globals['isMobile']) {
+        globals['header'].style.bottom = '10px';
+    }
 
     // start pond animation
     startAnimation();

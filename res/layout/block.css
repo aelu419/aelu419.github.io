@@ -1,24 +1,26 @@
+.container {
+    color: rgb(221, 221, 221);
+    max-width: 100%;
+    column-gap: 15px;
+    padding: 0.33in;
+}
+
 .project.container {
     position: static;
     display: grid;
-    max-width: 100%;
     grid-template: "title title title media" "time role . media" "summary summary summary media" ". . . media" "tag tag tag media";
     grid-template-columns: auto auto auto 40%;
     grid-template-rows: min-content min-content auto min-content;
-    column-gap: 15px;
-    padding: 0.33in;
-    padding-right: 0.66in;
-    color: rgb(221, 221, 221);
 }
 
-.container .media {
+.project.container .media {
     grid-area: media;
     width: 100%;
     height: min-content;
     object-fit: contain;
 }
 
-.container .title {
+.project.container .title {
     white-space: nowrap;
     grid-area: title;
     margin: 0;
@@ -26,7 +28,7 @@
     width: min-content;
 }
 
-.container .time {
+.project.container .time {
     white-space: nowrap;
     grid-area: time;
     margin: 0;
@@ -34,14 +36,14 @@
     height: min-content;
 }
 
-.container .role {
+.project.container .role {
     white-space: nowrap;
     grid-area: role;
     margin: 0;
     margin-top: 0.33em;
 }
 
-.container .summary {
+.project.container .summary {
     grid-area: summary;
     margin: 0;
     margin-top: 0.33em;
@@ -57,6 +59,7 @@
     border-radius: 3px;
     height: min-content;
     padding: 10px;
+    margin: 3px;
     background-color: rgb(97, 97, 97);
     transition: all 0.1s;
     transition-timing-function: ease-in-out;

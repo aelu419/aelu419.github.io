@@ -8,6 +8,11 @@ resLinks = {
     'videos': './preview/video/'
 }
 
+cached = {
+    'narrow': false,
+    'projects': null
+}
+
 function UrlExists(url, callback) {
     var http = new XMLHttpRequest();
     http.open('HEAD', url);
@@ -43,11 +48,39 @@ async function load(vid, name) {
     }
 }
 
+function repopulateProjects(parent, mWidth) {
+    parent.innerHTML = cached['projects'];
+    let vids = parent.querySelectorAll('video');
+    for (let i = 0; i < vids.length; i++) {
+        let media = vids[i];
+        if (globals['width'] >= globals['height']) {
+            media.style.maxWidth = (0.5 * mWidth).toString() + 'px';
+        } else {
+            media.style.maxWidth = "100%";
+        }
+        media.load();
+    }
+}
+
 function populateProjects(parent, mWidth) {
     let template = globals['projT'];
+    let narrowOrNot = globals['width'] < globals['height'];
+    if (globals['width'] < globals['height']) {
+        template = globals['projTN']
+        cached['narrow'] = true;
+    } else {
+        cached['narrow'] = false;
+    }
+
     if (template === null) {
         return;
     }
+    if (cached['projects'] !== null && cached['narrow'] == narrowOrNot) {
+        repopulateProjects(parent, mWidth);
+        return;
+    }
+
+    cached['narrow'] = narrowOrNot;
     template = template.content.querySelector('div');
     // fetch list of major projects
     let projs = major;
@@ -60,7 +93,11 @@ function populateProjects(parent, mWidth) {
         let n = document.importNode(template, true);
         //load media file
         let media = n.querySelector('.media');
-        media.style.maxWidth = (0.5 * mWidth).toString() + 'px';
+        if (globals['width'] >= globals['height']) {
+            media.style.maxWidth = (0.5 * mWidth).toString() + 'px';
+        } else {
+            media.style.maxWidth = "100%";
+        }
 
         if (globals['isMobile']) {
             media.autoplay = true;
@@ -79,6 +116,30 @@ function populateProjects(parent, mWidth) {
             n.addEventListener('mouseout', e => {
                 n.querySelector('.media').pause();
             })
+        }
+
+
+        n.querySelector('.title').innerText = projs[i]['title'];
+        n.querySelector('.role').innerText = projs[i]['role'];
+        n.querySelector('.time').innerText = projs[i]['date'];
+        n.querySelector('.summary').innerText = projs[i]['summary'];
+        if (projs[i]['source'] !== null)
+            n.querySelector('.source').href = projs[i]['source'];
+        else
+            n.querySelector('.source').style.display = 'none';
+        if (projs[i]['release'] !== null)
+            n.querySelector('.release').href = projs[i]['release'];
+        else
+            n.querySelector('.release').style.display = 'none';
+
+        if (projs[i]['tag'] !== null) {
+            let tagHolder = n.querySelector('div.tag');
+            projs[i]['tag'].split(', ').forEach(element => {
+                let t = document.createElement('p');
+                t.className = 'tag';
+                t.innerText = element;
+                tagHolder.appendChild(t);
+            });
         }
 
         parent.appendChild(n);

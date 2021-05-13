@@ -70,15 +70,16 @@ body {
 #header {
     position: absolute;
     bottom: 15%;
+    max-width: 75%;
     transition: all 0.3s;
     transition-timing-function: ease-in-out;
 }
 
 #header_text {
+    max-width: 100%;
     width: min-content;
     overflow-x: hidden;
-    text-overflow: clip;
-    transition: width 0.2s;
+    transition: all 0.2s;
     transition-timing-function: ease-in-out;
 }
 
@@ -88,6 +89,7 @@ h3,
 h4,
 h5,
 h6 {
+    text-overflow: clip;
     width: max-content;
 }
 

@@ -44,7 +44,11 @@ class Slab {
                     max_hook_width = h.clientWidth;
                 }
             }
-            return (globals['width'] - 2 * max_hook_width).toString();
+            if (globals['isMobile']) {
+                return globals['width'] - 1 * max_hook_width - 6;
+            } else {
+                return globals['width'] - 2 * max_hook_width;
+            }
         },
         "peek": "1in",
         "hide": "0",
