@@ -166,16 +166,23 @@ class Fish {
         this.fCount = (this.fCount + 1) % this.loopLength;
         let t = this.fCount / this.loopLength; //"progress of current thing within a loop"
 
+        // optimize by skipping chunks in the fish
+        let skip = globals['tryOptimize']() ? 4 : 1;
+
         for (let i = this.chunks.length - 1; i >= 0; i--) {
-            let temp = this.chunks[i];
+            let c = this.chunks[i];
             //handle each chunk individually
             // - update fin wiggling
-            if (temp.finSize !== 0)
-                temp.finTilt = Math.PI / 1.5 + 0.6 * Math.sin(2 * Math.PI * t);
+            if (c.finSize !== 0)
+                c.finTilt = Math.PI / 1.5 + 0.6 * Math.sin(2 * Math.PI * t);
 
             //only draw half of the fish to save time
-            if (temp.finSize !== 0 || i % 1 == 0) {
-                temp.draw();
+            if (skip !== 1) {
+                if (c.finSize === 0 && i % skip === 0) {
+                    c.draw();
+                }
+            } else {
+                c.draw();
             }
         }
 

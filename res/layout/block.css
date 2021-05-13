@@ -13,6 +13,7 @@
 
 .container .media {
     grid-area: media;
+    min-height: 320px;
 }
 
 .container .title {
