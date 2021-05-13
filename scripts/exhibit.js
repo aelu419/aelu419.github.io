@@ -47,7 +47,7 @@ class Slab {
             return (globals['width'] - 2 * max_hook_width).toString();
         },
         "peek": "1in",
-        "hide": "0.25in",
+        "hide": "0",
         "disappear": "0"
     };
 

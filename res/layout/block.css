@@ -2,9 +2,9 @@
     position: static;
     display: grid;
     max-width: 100%;
-    grid-template: "media title time" "media title role" "media summary summary" "tag tag tag";
-    grid-template-columns: auto, 1fr, 1fr;
-    grid-template-rows: min-content, min-content, 1fr, min-content;
+    grid-template: "title title title media" "time role . media" "summary summary summary media" ". . . media" "tag tag tag media";
+    grid-template-columns: min-content, min-content, auto, auto;
+    grid-template-rows: min-content, min-content, min-content, auto, min-content;
     column-gap: 15px;
     padding: 0.33in;
     padding-right: 0.66in;
@@ -13,40 +13,46 @@
 
 .container .media {
     grid-area: media;
-    min-height: 320px;
+    max-height: 320px;
 }
 
 .container .title {
+    white-space: nowrap;
     grid-area: title;
-    vertical-align: middle;
+    margin: 0;
+    height: min-content;
+    width: min-content;
 }
 
 .container .time {
+    white-space: nowrap;
     grid-area: time;
+    margin: 0;
+    margin-top: 0.33em;
     height: min-content;
-    text-align: right;
 }
 
 .container .role {
+    white-space: nowrap;
     grid-area: role;
-    height: min-content;
-    text-align: right;
+    margin: 0;
+    margin-top: 0.33em;
 }
 
 .container .summary {
     grid-area: summary;
+    margin: 0;
+    margin-top: 0.33em;
 }
 
 .container div.tag {
     grid-area: tag;
-    text-align: right;
     height: max-content;
 }
 
 .container div.tag * {
     display: inline-block;
     border-radius: 3px;
-    width: max-content;
     height: min-content;
     padding: 10px;
     background-color: rgb(97, 97, 97);
@@ -57,4 +63,9 @@
 .container div.tag *:hover {
     padding-left: 20px;
     padding-right: 20px;
+}
+
+.container div.tag a {
+    background-color: rgb(172, 204, 180);
+    color: rgb(73, 70, 62);
 }
