@@ -79,8 +79,6 @@ class Slab {
      * show the slab entirely
      */
     show() {
-        if (this.showing) return;
-
         //hide all other slabs
         for (let i = 0; i < globals['slabs'].length; i++) {
             let s = globals['slabs'][i];
@@ -106,8 +104,6 @@ class Slab {
         //set hook to accent color
         this.hook.style.color = this.HOOK_ACCENT_COLOR;
         window.minimizeHeader();
-
-        //console.log('showing ' + this.name);
     };
 
     /**

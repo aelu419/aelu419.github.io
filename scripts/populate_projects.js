@@ -26,7 +26,7 @@ function UrlExists(url, callback) {
 
 async function load(vid, name, forceLoadPoster) {
     vid.addEventListener('error', (msg) => {
-        console.log(msg, url, l);
+        console.log(msg);
     })
     try {
         let src = resLinks['videos'] + name + '.webm',
@@ -74,11 +74,8 @@ function repopulateProjects(parent, mWidth) {
 function populateProjects(parent, mWidth) {
     let template = globals['projT'];
     let narrowOrNot = globals['width'] < globals['height'];
-    if (globals['width'] < globals['height']) {
+    if (narrowOrNot) {
         template = globals['projTN']
-        cached['narrow'] = true;
-    } else {
-        cached['narrow'] = false;
     }
 
     if (template === null) {
@@ -88,7 +85,9 @@ function populateProjects(parent, mWidth) {
         repopulateProjects(parent, mWidth);
         return;
     }
+
     cached['narrow'] = narrowOrNot;
+    parent.innerHTML = null;
     template = template.content.querySelector('div');
     // fetch list of major projects
     let projs = major;

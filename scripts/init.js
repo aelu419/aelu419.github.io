@@ -78,10 +78,6 @@ window.normalizeHeader = function() {
 let heavyResize = null;
 
 window.onresize = function() {
-    globals["width"] = window.innerWidth;
-    globals["height"] = window.innerHeight;
-    globals["isMobile"] = window.mobileCheck();
-    globals["pixelDensity"] = window.devicePixelRatio;
 
     // call heavy work for resizing after resizing hasn't been called in 200ms
     // or else the site keeps refreshing!
@@ -92,14 +88,22 @@ window.onresize = function() {
     // initialize actual heavy work for the resizing
     else {
         heavyResize = () => {
+            globals["width"] = window.innerWidth;
+            globals["height"] = window.innerHeight;
+            globals["isMobile"] = window.mobileCheck();
+            globals["pixelDensity"] = window.devicePixelRatio;
+
             //resize all slabs
             for (let i = 0; i < globals["slabs"].length; i++) {
                 globals["slabs"][i].resize();
             }
 
             if (globals["significant"] !== null) {
+                console.log(globals['significant']);
                 window.minimizeHeader();
                 globals["significant"].show();
+            } else {
+                window.normalizeHeader();
             }
 
             if (globals["pondContext"].canvas !== null) {
