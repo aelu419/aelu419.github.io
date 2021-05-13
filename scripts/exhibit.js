@@ -31,6 +31,11 @@ class Slab {
     }
 
     WIDTHS = {
+        /*
+            note that full width does not include 'px', although it is measured in px
+            this is for using it numerically elsewhere on the site
+            ex. blocks
+         */
         "full": () => {
             let max_hook_width = 0;
             for (let i = 0; i < globals['slabs'].length; i++) {
@@ -39,7 +44,7 @@ class Slab {
                     max_hook_width = h.clientWidth;
                 }
             }
-            return (globals['width'] - 2 * max_hook_width).toString() + 'px';
+            return (globals['width'] - 2 * max_hook_width).toString();
         },
         "peek": "1in",
         "hide": "0.25in",
@@ -82,7 +87,7 @@ class Slab {
 
         switch (this.name) {
             case "projects":
-                populateProjects();
+                populateProjects(this.content, this.WIDTHS['full']());
                 break;
             default:
                 console.log(this.name + " slab does not have any populate method");
@@ -91,7 +96,7 @@ class Slab {
         //show current slab
         this.showing = true;
         globals['significant'] = this;
-        this.content.style.width = this.WIDTHS['full']();
+        this.content.style.width = this.WIDTHS['full']() + 'px';
         this.content.style.cursor = 'default';
 
         //set hook to accent color

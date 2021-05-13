@@ -125,25 +125,26 @@ h6 {
     transition: width 0.3s;
     transition-timing-function: ease-in-out;
     border-top-left-radius: 0.0625in;
-    opacity: 0.85;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .exhibition#projects {
-    background-color: hsl(114, 5%, 36%);
+    background-color: hsla(114, 5%, 36%, 0.85);
     top: 0px;
 }
 
 .exhibition#experiments {
-    background-color: hsl(114, 5%, 42%);
+    background-color: hsla(114, 5%, 42%, 0.85);
     top: 12px;
 }
 
 .exhibition#blog {
-    background-color: hsl(114, 5%, 49%);
+    background-color: hsla(114, 5%, 49%, 0.85);
     top: 24px;
 }
 
 .exhibition#info {
-    background-color: hsl(114, 5%, 56%);
+    background-color: hsla(114, 5%, 56%, 0.85);
     top: 36px;
 }
