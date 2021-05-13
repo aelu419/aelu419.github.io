@@ -15,6 +15,7 @@ globals = {
     "headerText": null, // the div holding all the non-hook text in the panel
     // pond related
     "pondContext": null,
+    "tryOptimize": () => { return globals["significant"] !== null; },
     // templates
     "projT": null, // major projects
     "expT": null, // illustrations and experiments

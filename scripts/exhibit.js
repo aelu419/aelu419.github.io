@@ -143,7 +143,7 @@ class Slab {
 
     resize() {
         if (this.showing) {
-            this.content.style.width = this.WIDTHS['full']();
+            this.content.style.width = this.WIDTHS['full']() + 'px';
         }
     }
 }

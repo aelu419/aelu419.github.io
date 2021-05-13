@@ -4,10 +4,10 @@
     max-width: 100%;
     grid-template: "media title time" "media title role" "media summary summary" "tag tag tag";
     grid-template-columns: auto, 1fr, 1fr;
-    grid-template-rows: 1fr, 1fr, 1fr, 1fr;
-    column-gap: 5px;
-    row-gap: 5px;
+    grid-template-rows: min-content, min-content, 1fr, min-content;
+    column-gap: 15px;
     padding: 0.33in;
+    padding-right: 0.66in;
     color: rgb(221, 221, 221);
 }
 
@@ -17,6 +17,7 @@
 
 .container .title {
     grid-area: title;
+    vertical-align: middle;
 }
 
 .container .time {
@@ -38,6 +39,7 @@
 .container div.tag {
     grid-area: tag;
     text-align: right;
+    height: max-content;
 }
 
 .container div.tag * {
@@ -45,6 +47,13 @@
     border-radius: 3px;
     width: max-content;
     height: min-content;
-    padding: 5px;
+    padding: 10px;
     background-color: rgb(97, 97, 97);
+    transition: all 0.1s;
+    transition-timing-function: ease-in-out;
+}
+
+.container div.tag *:hover {
+    padding-left: 20px;
+    padding-right: 20px;
 }

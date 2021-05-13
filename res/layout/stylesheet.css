@@ -126,7 +126,18 @@ h6 {
     transition-timing-function: ease-in-out;
     border-top-left-radius: 0.0625in;
     overflow-x: hidden;
+    /* hide scrollbar but allow scrolling*/
     overflow-y: scroll;
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.exhibition::-webkit-scrollbar {
+    /* WebKit */
+    width: 0;
+    height: 0;
 }
 
 .exhibition#projects {
