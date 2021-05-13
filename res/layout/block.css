@@ -13,11 +13,14 @@
     grid-template-rows: min-content min-content auto min-content;
 }
 
-.project.container .media {
+.container .media {
     grid-area: media;
     width: 100%;
-    height: min-content;
     object-fit: contain;
+}
+
+.project.container .media {
+    height: min-content;
 }
 
 .project.container .title {

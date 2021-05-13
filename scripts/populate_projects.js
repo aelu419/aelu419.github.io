@@ -24,7 +24,7 @@ function UrlExists(url, callback) {
     http.send();
 }
 
-async function load(vid, name) {
+async function load(vid, name, forceLoadPoster) {
     vid.addEventListener('error', (msg) => {
         console.log(msg, url, l);
     })
@@ -35,14 +35,23 @@ async function load(vid, name) {
             if (exists) {
                 vid.src = src;
                 vid.load();
+            } else {
+                UrlExists(poster, (exists) => {
+                    if (exists) {
+                        vid.poster = poster;
+                        vid.load();
+                    }
+                })
             }
         });
-        UrlExists(poster, (exists) => {
-            if (exists) {
-                vid.poster = poster;
-                vid.load();
-            }
-        })
+        if (forceLoadPoster) {
+            UrlExists(poster, (exists) => {
+                if (exists) {
+                    vid.poster = poster;
+                    vid.load();
+                }
+            })
+        }
     } catch (e) {
         console.log(e);
     }
@@ -79,7 +88,6 @@ function populateProjects(parent, mWidth) {
         repopulateProjects(parent, mWidth);
         return;
     }
-
     cached['narrow'] = narrowOrNot;
     template = template.content.querySelector('div');
     // fetch list of major projects
@@ -143,6 +151,6 @@ function populateProjects(parent, mWidth) {
         }
 
         parent.appendChild(n);
-        load(media, projs[i]['name']);
+        load(media, projs[i]['name'], !narrowOrNot);
     }
 }
