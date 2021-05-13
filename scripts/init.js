@@ -153,6 +153,10 @@ window.onload = function() {
 
     if (globals['isMobile']) {
         globals['header'].style.bottom = '10px';
+        let texts = globals['headerText'].querySelectorAll('*');
+        for (let i = 0; i < texts.length; i++) {
+            texts[i].style.maxWidth = '100%';
+        }
     }
 
     // start pond animation

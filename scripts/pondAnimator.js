@@ -131,8 +131,8 @@ class Fish {
         // - small elasticity means the fish respond less sensatively to the target
         this.elasticConstant = (0.0015 + Math.random() * 0.001) * size_const;
         // - small tilting means the fish wiggle less
-        this.tilting = 0.32 * (1 + Math.random() / size_const);
-        this.maxVel = (2 + Math.random() * 0.5) * size_const;
+        this.tilting = 0.32 * (1 + Math.random() / size_const) * globals['pixelDensity'];
+        this.maxVel = (2 + Math.random() * 0.5) * size_const * globals['pixelDensity'];
 
         //default location
         let seed = new Vec2(random(0, globals['width']), random(0, globals['height']));
