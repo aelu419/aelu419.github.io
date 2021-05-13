@@ -129,7 +129,7 @@ class Fish {
 
         //force/movement related
         // - small elasticity means the fish respond less sensatively to the target
-        this.elasticConstant = (0.00075 + Math.random() * 0.001) * size_const;
+        this.elasticConstant = (0.0015 + Math.random() * 0.001) * size_const;
         // - small tilting means the fish wiggle less
         this.tilting = 0.32 * (1 + Math.random() / size_const);
         this.maxVel = (2 + Math.random() * 0.5) * size_const;
