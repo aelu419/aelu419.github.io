@@ -62,19 +62,24 @@ function populateProjects(parent, mWidth) {
         let media = n.querySelector('.media');
         media.style.maxWidth = (0.5 * mWidth).toString() + 'px';
 
-        n.addEventListener('mouseover', e => {
-            let playPromise = n.querySelector('.media').play();
-            if (playPromise != undefined) {
-                playPromise.then(_ => {})
-                    .catch(error => {
-                        console.log(error);
-                    });
-            }
-        })
+        if (globals['isMobile']) {
+            media.autoplay = true;
+        } else {
+            media.autoplay = false;
+            n.addEventListener('mouseover', e => {
+                let playPromise = n.querySelector('.media').play();
+                if (playPromise != undefined) {
+                    playPromise.then(_ => {})
+                        .catch(error => {
+                            console.log(error);
+                        });
+                }
+            })
 
-        n.addEventListener('mouseout', e => {
-            n.querySelector('.media').pause();
-        })
+            n.addEventListener('mouseout', e => {
+                n.querySelector('.media').pause();
+            })
+        }
 
         parent.appendChild(n);
         load(media, projs[i]['name']);
