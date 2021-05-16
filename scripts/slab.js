@@ -130,7 +130,7 @@ function populateProjects(parent, mWidth) {
             })
         }
 
-        n.querySelector('.title').innerText = projs[i]['title'];
+        n.querySelector('h1.title').innerText = projs[i]['title'];
         n.querySelector('.role').innerText = projs[i]['role'];
         n.querySelector('.time').innerText = projs[i]['date'];
         n.querySelector('.summary').innerText = projs[i]['summary'];
@@ -144,7 +144,7 @@ function populateProjects(parent, mWidth) {
             n.querySelector('.release').style.display = 'none';
 
         if (projs[i]['tag'] !== null) {
-            let tagHolder = n.querySelector('div.tags div');
+            let tagHolder = n.querySelector('div.tags>div');
             projs[i]['tag'].split(', ').forEach(element => {
                 let t = document.createElement('p');
                 t.className = "oneline";

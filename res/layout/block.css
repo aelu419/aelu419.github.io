@@ -12,9 +12,10 @@
 .project.container {
     position: static;
     display: grid;
-    grid-template: "title title title" "time role media" "summary summary media" "tag tag media";
-    grid-template-columns: min-content 1fr 40%;
-    grid-template-rows: min-content min-content 1fr min-content;
+    grid-template: "title title title media" "time role . media" "summary summary summary media" "tag tag tag media" ". . . media";
+    grid-template-columns: auto auto 1fr 40%;
+    grid-template-rows: min-content min-content min-content min-content 1fr;
+    align-items: center;
 }
 
 .project.container * {
@@ -24,18 +25,17 @@
 .container .media {
     grid-area: media;
     width: 100%;
+    max-height: 320px;
     object-fit: contain;
 }
 
 .project.container .title {
     grid-area: title;
-}
-
-.project.container .title * {
-    margin: 0;
+    margin-bottom: 0.33em;
 }
 
 .project.container .time {
+    width: fit-content;
     grid-area: time;
 }
 
@@ -45,9 +45,10 @@
 
 .project.container .summary {
     grid-area: summary;
-    height: min-content;
     margin: 0;
     margin-top: 0.33em;
+    margin-bottom: 0.33em;
+    align-items: start;
 }
 
 .container div.tags {
@@ -60,10 +61,12 @@
     display: inline-block;
     border-radius: 3px;
     margin-right: 3px;
+    margin-bottom: 3px;
     padding: 0.3em;
     transition: all 0.1s;
     font-size: 100%;
     transition-timing-function: ease-in-out;
+    text-align: center;
 }
 
 .container div.tags>div *:hover {
