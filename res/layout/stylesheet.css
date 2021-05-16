@@ -119,8 +119,9 @@ h6 {
  */
 
 .exhibition {
-    background-color: rgba(39, 39, 37, 0.308);
+    background-color: hsla(114, 7.5%, 40%, 0.85);
     position: absolute;
+    top: 0;
     bottom: 0;
     right: 0;
     transition: width 0.3s;
@@ -129,22 +130,10 @@ h6 {
     overflow-x: hidden;
 }
 
-.exhibition#projects {
-    background-color: hsla(114, 5%, 36%, 0.85);
-    top: 0px;
-}
+.exhibition#projects {}
 
-.exhibition#experiments {
-    background-color: hsla(114, 5%, 42%, 0.85);
-    top: 12px;
-}
+.exhibition#experiments {}
 
-.exhibition#blog {
-    background-color: hsla(114, 5%, 49%, 0.85);
-    top: 24px;
-}
+.exhibition#blog {}
 
-.exhibition#about {
-    background-color: hsla(114, 5%, 56%, 0.85);
-    top: 36px;
-}
+.exhibition#about {}

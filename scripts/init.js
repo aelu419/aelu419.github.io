@@ -97,7 +97,7 @@ window.onresize = function() {
             }
 
             if (globals["significant"] !== null) {
-                console.log(globals['significant']);
+                //console.log(globals['significant']);
                 window.minimizeHeader();
                 globals["significant"].show();
             } else {
@@ -154,7 +154,7 @@ window.onload = function() {
     globals["expTN"] = document.getElementById("experiment_block_narrow");
 
     if (globals['isMobile']) {
-        globals['header'].style.bottom = '10px';
+        //globals['header'].style.bottom = '10px';
         let texts = globals['headerText'].querySelectorAll('*');
         for (let i = 0; i < texts.length; i++) {
             texts[i].style.maxWidth = '100%';

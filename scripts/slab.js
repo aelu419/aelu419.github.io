@@ -11,8 +11,8 @@ let resLinks = {
 let cached = {
     'flavor': false,
     'projects': [],
-    'experiments': null,
-    'blogs': null
+    'experiments': [],
+    'blogs': []
 }
 
 function UrlExists(url, callback) {
@@ -26,37 +26,57 @@ function UrlExists(url, callback) {
     http.send();
 }
 
-async function load(vid, name, forceLoadPoster) {
+async function load(vid, name, trigger) {
+    if (globals['isMobile']) {
+        vid.autoplay = true;
+    } else {
+        vid.autoplay = false;
+
+    }
     vid.addEventListener('error', (msg) => {
         console.log(msg);
     })
-    try {
-        let src = resLinks['videos'] + name + '.webm',
-            poster = resLinks['thumbnails'] + name + '.jpeg';
-        UrlExists(src, (exists) => {
-            if (exists) {
-                vid.src = src;
-                vid.load();
-            } else {
-                UrlExists(poster, (exists) => {
-                    if (exists) {
-                        vid.poster = poster;
+    let src = resLinks['videos'] + name + '.webm',
+        poster = resLinks['thumbnails'] + name + '.jpeg';
+    UrlExists(poster, (exists) => {
+        if (exists) {
+            vid.poster = poster;
+            UrlExists(src, (exists_) => {
+                if (exists_) {
+                    let initLoad = () => {
+                        console.log('loading: ' + src);
+                        vid.src = src;
                         vid.load();
+
+                        trigger.addEventListener('mouseover', e => {
+                            let playPromise = vid.play();
+                            console.log('playing: ' + name);
+                            if (playPromise != undefined) {
+                                playPromise.then(_ => {})
+                                    .catch(error => {
+                                        console.log(error);
+                                    });
+                            }
+                        })
+
+                        trigger.addEventListener('mouseout', e => {
+                            vid.pause();
+                        })
+
+                        trigger.removeEventListener('mouseover', initLoad);
+                    };
+                    if (vid.autoplay) {
+                        initLoad();
+                    } else {
+                        trigger.addEventListener('mouseover', initLoad);
                     }
-                })
-            }
-        });
-        if (forceLoadPoster) {
-            UrlExists(poster, (exists) => {
-                if (exists) {
-                    vid.poster = poster;
-                    vid.load();
                 }
             })
+        } else {
+            vid.src = src;
+            vid.load();
         }
-    } catch (e) {
-        console.log(e);
-    }
+    })
 }
 
 function repopulateProjects(parent, mWidth) {
@@ -111,25 +131,6 @@ function populateProjects(parent, mWidth) {
             media.style.maxWidth = "100%";
         }
 
-        if (globals['isMobile']) {
-            media.autoplay = true;
-        } else {
-            media.autoplay = false;
-            n.addEventListener('mouseover', e => {
-                let playPromise = n.querySelector('.media').play();
-                if (playPromise != undefined) {
-                    playPromise.then(_ => {})
-                        .catch(error => {
-                            console.log(error);
-                        });
-                }
-            })
-
-            n.addEventListener('mouseout', e => {
-                n.querySelector('.media').pause();
-            })
-        }
-
         n.querySelector('h1.title').innerText = projs[i]['title'];
         n.querySelector('.role').innerText = projs[i]['role'];
         n.querySelector('.time').innerText = projs[i]['date'];
@@ -154,21 +155,31 @@ function populateProjects(parent, mWidth) {
         }
 
         parent.appendChild(n);
-        load(media, projs[i]['name'], !narrowOrNot);
+        load(media, projs[i]['name'], n);
         cached['projects'][i] = (n);
     }
 }
 
 function repopulateExperiments(parent, mWidth) {
-
+    for (let i = cached['experiments'].length - 1; i >= 0; i--) {
+        parent.appendChild(cached['experiments'][i]);
+    }
 }
 
 function populateExperiments(parent, mWidth) {
-    if (cached['experiments'] === null || cached['experiments'].length == 0) {
+    if (cached['experiments'] !== null && cached['experiments'].length !== 0) {
         repopulateExperiments(parent, mWidth);
     } else {
+        template = document.getElementById("experiment_block");
+        template = template.content.querySelector("*");
+        cached['experiments'] = new Array(minor.length);
         for (let i = minor.length - 1; i > -1; i--) {
-            console.log(minor[i]);
+            let n = document.importNode(template, true);
+            console.log();
+            n.autoplay = globals['isMobile'];
+            parent.appendChild(n);
+            cached['experiments'][i] = n;
+            load(n, minor[i]['name'], n);
         }
     }
 }
