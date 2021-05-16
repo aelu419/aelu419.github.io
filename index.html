@@ -12,7 +12,7 @@
     <script type="text/javascript" src="./scripts/exhibit.js"></script>
     <script type="text/javascript" src="./scripts/vector.js"></script>
     <script type="text/javascript" src="./scripts/pondAnimator.js"></script>
-    <script type="text/javascript" src="./scripts/populate_projects.js"></script>
+    <script type="text/javascript" src="./scripts/slab.js"></script>
     <script type="text/javascript" src="./scripts/init.js"></script>
     <!--
     <script type="text/javascript" src="./res/proj/major.json"></script>
@@ -52,6 +52,7 @@
 </head>
 
 <body>
+    <p id="debug"></p>
     <canvas id="background"></canvas>
     <!--the navigational panel on the left-->
     <div id="header">
@@ -64,14 +65,14 @@
             <li class="hook">projects</li>
             <li class="hook">experiments</li>
             <li class="hook">blog</li>
-            <li class="hook">info</li>
+            <li class="hook">about</li>
         </ul>
     </div>
     <!--the exhibition panels on the right-->
     <div id="projects" class="exhibition"></div>
     <div id="experiments" class="exhibition"></div>
     <div id="blog" class="exhibition"></div>
-    <div id="info" class="exhibition"></div>
+    <div id="about" class="exhibition"></div>
 
     <template id="project_block">
       <div class="project container">

@@ -1,16 +1,18 @@
-blockvars = {
+let blockvars = {
     'majorHeight': 320,
     'minorHeight': 160,
 }
 
-resLinks = {
+let resLinks = {
     'thumbnails': './preview/thumbnail/',
     'videos': './preview/video/'
 }
 
-cached = {
-    'narrow': false,
-    'projects': null
+let cached = {
+    'flavor': false,
+    'projects': [],
+    'experiments': null,
+    'blogs': null
 }
 
 function UrlExists(url, callback) {
@@ -58,7 +60,9 @@ async function load(vid, name, forceLoadPoster) {
 }
 
 function repopulateProjects(parent, mWidth) {
-    parent.innerHTML = cached['projects'];
+    for (let i = cached['projects'].length - 1; i >= 0; i--) {
+        parent.append(cached['projects'][i]);
+    }
     let vids = parent.querySelectorAll('video');
     for (let i = 0; i < vids.length; i++) {
         let media = vids[i];
@@ -67,7 +71,7 @@ function repopulateProjects(parent, mWidth) {
         } else {
             media.style.maxWidth = "100%";
         }
-        media.load();
+        //media.load();
     }
 }
 
@@ -81,12 +85,12 @@ function populateProjects(parent, mWidth) {
     if (template === null) {
         return;
     }
-    if (cached['projects'] !== null && cached['narrow'] == narrowOrNot) {
+    if (cached['projects'] !== null && cached['projects'].length > 0 && cached['flavor'] == narrowOrNot) {
         repopulateProjects(parent, mWidth);
         return;
     }
 
-    cached['narrow'] = narrowOrNot;
+    cached['flavor'] = narrowOrNot;
     parent.innerHTML = null;
     template = template.content.querySelector('div');
     // fetch list of major projects
@@ -95,6 +99,7 @@ function populateProjects(parent, mWidth) {
 
     // projects are recorded in reverse cronological order
     // so we go from end to start, instead of in order
+    cached['projects'] = new Array(projs.length);
     for (let i = projs.length - 1; i >= 0; i--) {
         //console.log(projs[i]);
         let n = document.importNode(template, true);
@@ -125,7 +130,6 @@ function populateProjects(parent, mWidth) {
             })
         }
 
-
         n.querySelector('.title').innerText = projs[i]['title'];
         n.querySelector('.role').innerText = projs[i]['role'];
         n.querySelector('.time').innerText = projs[i]['date'];
@@ -151,5 +155,6 @@ function populateProjects(parent, mWidth) {
 
         parent.appendChild(n);
         load(media, projs[i]['name'], !narrowOrNot);
+        cached['projects'][i] = (n);
     }
 }

@@ -1,22 +1,5 @@
 //controls related
-pondvars = {
-    'mouseX': 0,
-    'mouseY': 0,
-    'myFish': [],
-    'fishNum': 6,
-    'lastTargetUpdateTime]': null,
-    'mobileMouse': null,
-    'lastRefresh': null,
-    'colors': [
-        [237, 84, 38],
-        [232, 208, 130],
-        [72, 78, 82]
-    ],
-    'baseMSPerFrame': 16,
-    // variables for canvas optimization: only clear necessary pixels
-    'min': [0, 0],
-    'max': [0, 0]
-}
+pondvars = {}; // code for setting is located in startanimation
 
 //random integer from min (inclusive) to max (exclusive)
 function random(min, max) {
@@ -80,19 +63,6 @@ class FishChunk {
             ctx.stroke();
 
             drew_bounds = drew_bounds + this.finSize;
-
-            /*
-            ctx.beginPath();
-            ctx.moveTo(lStem.x, lStem.y);
-            ctx.lineTo(l1.x, l1.y);
-            ctx.arc(lStem.x, lStem.y, this.finSize, lDir.angle() - theta, lDir.angle() + theta);
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.moveTo(rStem.x, rStem.y);
-            ctx.lineTo(r1.x, r1.y);
-            ctx.arc(rStem.x, rStem.y, this.finSize, rDir.angle() - theta, rDir.angle() + theta);
-            ctx.stroke();*/
         }
 
         let minX = this.location.x - drew_bounds,
@@ -122,17 +92,21 @@ class Fish {
             finSize = 0.0625 * 96 * size_const,
             masterWidth = 0.0625 * 96 * globals['pixelDensity'] * size_const; //inch -> px defined as 1/96th of an inch
         this.color = pondvars['colors'][id % pondvars['colors'].length];
+        // how fast the fish "stretches" -> the rest of the body responds to the head
+        // the smaller the slower
+        // big fish stretches slower (and hence longer)
+        this.propagation = 50 / size_const;
 
         //time related
-        this.loopLength = Math.floor((30 + Math.random() * 10) * size_const); //the larger the Fish, the slower it moves
-        this.fCount = Math.floor(Math.random() * this.loopLength);
+        this.loopLength = 1000 * Math.floor((1 + Math.random() * 0.3) * size_const); //the larger the Fish, the slower it moves
+        this.t = Math.random() * this.loopLength; // starting time shift for the fish
 
         //force/movement related
         // - small elasticity means the fish respond less sensatively to the target
-        this.elasticConstant = (0.0015 + Math.random() * 0.001) * size_const;
+        this.elasticConstant = 0.15 / size_const * globals['pixelDensity'];
         // - small tilting means the fish wiggle less
-        this.tilting = 0.32 * (1 + Math.random() / size_const) * globals['pixelDensity'];
-        this.maxVel = (2 + Math.random() * 0.5) * size_const * globals['pixelDensity'];
+        this.tilting = 12 * (1 + Math.random() / size_const) * globals['pixelDensity'];
+        this.maxVel = (5 + Math.random() * 0.05) * globals['pixelDensity'];
 
         //default location
         let seed = new Vec2(random(0, globals['width']), random(0, globals['height']));
@@ -161,13 +135,10 @@ class Fish {
         }
     }
 
-    draw() {
+    draw(dT) {
         //frame count
-        this.fCount = (this.fCount + 1) % this.loopLength;
-        let t = this.fCount / this.loopLength; //"progress of current thing within a loop"
-
-        // optimize by skipping chunks in the fish
-        let skip = globals['tryOptimize']() ? 4 : 1;
+        this.t = (this.t + dT)
+        let t = (this.t / this.loopLength) % 1; //"progress of current thing within a loop"
 
         for (let i = this.chunks.length - 1; i >= 0; i--) {
             let c = this.chunks[i];
@@ -175,15 +146,7 @@ class Fish {
             // - update fin wiggling
             if (c.finSize !== 0)
                 c.finTilt = Math.PI / 1.5 + 0.6 * Math.sin(2 * Math.PI * t);
-
-            //only draw half of the fish to save time
-            if (skip !== 1) {
-                if (c.finSize === 0 && i % skip === 0) {
-                    c.draw();
-                }
-            } else {
-                c.draw();
-            }
+            c.draw();
         }
 
         //moving & interaction of the head
@@ -204,54 +167,38 @@ class Fish {
         // 2. the twisting motion of the Fish head itself
         let headTwist = headToTarget.rotate(Math.PI / 2).normalize().mult(Math.cos(2 * Math.PI * t) * this.tilting);
 
-        this.chunks[0].velocity = this.chunks[0].velocity.add(influence);
-        this.chunks[0].velocity = this.chunks[0].velocity.add(headTwist);
-
-        /*
-        handle edge cases
-         */
-        if (this.chunks[0].location.y > globals['pondContext'].canvas.height) {
-            this.chunks[0].velocity.y = Math.min(-1 * this.chunks[0].velocity.y,
-                this.chunks[0].velocity.y
-            );
-        }
-        if (this.chunks[0].location.y < 0) {
-            this.chunks[0].velocity.y = Math.max(-1 * this.chunks[0].velocity.y,
-                this.chunks[0].velocity.y
-            );
-        }
-        if (this.chunks[0].location.x > globals['pondContext'].canvas.width) {
-            this.chunks[0].velocity.x = Math.min(-1 * this.chunks[0].velocity.x,
-                this.chunks[0].velocity.x
-            );
-        }
-        if (this.chunks[0].location.x < 0) {
-            this.chunks[0].velocity.x = Math.max(-1 * this.chunks[0].velocity.x,
-                this.chunks[0].velocity.x
-            );
-        }
+        let accel = influence.add(headTwist); //.mult(dT);
+        this.chunks[0].velocity = this.chunks[0].velocity.add(accel);
 
         //update head motion
-        this.chunks[0].velocity = this.chunks[0].velocity.clampMax(this.maxVel)
-        this.chunks[0].location = this.chunks[0].location.add(this.chunks[0].velocity);
-        this.chunks[0].surfaceLocation = this.chunks[0].location;
-
         /*
-        propagate motion down through the body
-        */
-        //body movement
-        for (let i = this.chunks.length - 1; i > 0; i--) {
-            this.chunks[i].velocity = this.chunks[i - 1].velocity.clone();
+          handle edge cases
+         */
+        if (this.chunks[0].location.y > globals['pondContext'].canvas.height) {
+            this.chunks[0].location.y = 0;
         }
-        for (let i = 1; i < this.chunks.length; i++) {
-            this.chunks[i].location = this.chunks[i].location.add(this.chunks[i].velocity);
+        if (this.chunks[0].location.y < 0) {
+            this.chunks[0].location.y = globals['pondContext'].canvas.height;
         }
+        if (this.chunks[0].location.x > globals['pondContext'].canvas.width) {
+            this.chunks[0].location.x = 0;
+        }
+        if (this.chunks[0].location.x < 0) {
+            this.chunks[0].location.x = globals['pondContext'].canvas.width;
+        }
+        this.chunks[0].velocity = this.chunks[0].velocity.clampMax(this.maxVel);
+        this.chunks[0].location = this.chunks[0].location.add(this.chunks[0].velocity.clampMax(this.maxVel));
 
+        //update body position
+        for (let i = this.chunks.length - 1; i > 0; i--) {
+            this.chunks[i].location = this.chunks[i - 1].location.clone();
+            this.chunks[i].velocity = this.chunks[0].velocity;
+        }
         //reset mobile mode target if necessary
         if (globals['isMobile']) {
             //spawn new target when this target is reached by one of the Fish
             if (this.chunks[0].location.add(pondvars['mobileMouse'].mult(-1)).norm() <= 150 ||
-                pondvars['lastRefresh'] - pondvars['lastTargetUpdateTime'] > 3000) { //spawn new target per 3 seconds
+                window.performance.now() - pondvars['lastTargetUpdateTime'] > 3000) { //spawn new target per 3 seconds
                 updateTarget();
             }
         }
@@ -265,8 +212,8 @@ function updateMouse(e) {
 }
 
 //main draw function
-function drawFish() {
-    let tTemp = window.performance.now();
+function drawFish(dT) {
+    document.getElementById("debug").innerText = JSON.stringify(dT, null, 4);
     if (pondvars['max'][0] === 0)
         globals['pondContext'].clearRect(0, 0, globals['pondContext'].canvas.width, globals['pondContext'].canvas.height);
     else
@@ -275,27 +222,13 @@ function drawFish() {
             pondvars['max'][0] - pondvars['min'][0], pondvars['max'][1] - pondvars['min'][1],
         )
 
-    /*
-    globals['pondContext'].strokeStyle = 'rgb(0, 0, 0)';
-    globals['pondContext'].strokeRect(pondvars['min'][0], pondvars['min'][1],
-        pondvars['max'][0] - pondvars['min'][0], pondvars['max'][1] - pondvars['min'][1], )
-    */
+    // record drawn locations to prevent clearing too many pixels
     pondvars['min'] = [1000000, 1000000];
     pondvars['max'] = [0, 0];
-    for (let i = 0; i < pondvars['myFish'].length; i++) {
-        pondvars['myFish'][i].draw();
-    }
 
-    //frame update too fast, wait until next fixed interval
-    //console.log(tTemp - pondvars['lastRefresh']);
-    if (tTemp - pondvars['lastRefresh'] < pondvars['baseMSPerFrame']) {
-        setTimeout(() => {
-            window.requestAnimationFrame(drawFish)
-        }, pondvars['baseMSPerFrame'] - (tTemp - pondvars['lastRefresh']));
-        return;
-    } else { //frame update slow, start immediately
-        pondvars['lastRefresh'] = tTemp;
-        window.requestAnimationFrame(drawFish);
+    // record time used to draw
+    for (let i = 0; i < pondvars['myFish'].length; i++) {
+        pondvars['myFish'][i].draw(dT);
     }
 }
 
@@ -306,22 +239,58 @@ function updateTarget() {
         Math.random() * (globals['width'] * globals['pixelDensity'] - 200) + 100,
         Math.random() * (globals['height'] * globals['pixelDensity'] - 200) + 100
     );
-    console.log("target updated at " + pondvars['mobileMouse'].toString())
+    //console.log("target updated at " + pondvars['mobileMouse'].toString())
     pondvars['lastTargetUpdateTime'] = window.performance.now();
+}
+
+let anim = function() {
+    var lastFrame = window.performance.now() - 16;
+    console.log('start loop');
+
+    function loop(now) {
+        requestAnimationFrame(loop);
+        if (pondvars['draw'] !== null) {
+            pondvars['draw'](now - lastFrame);
+        }
+        lastFrame = now;
+    }
+    loop(lastFrame);
 }
 
 //initialize variables and kick start animation
 function startAnimation() {
+    //start animation
+    resumeAnimation();
+    console.log(pondvars);
+    anim();
+}
+
+function resumeAnimation() {
+    pondvars = {
+            'mouseX': 0,
+            'mouseY': 0,
+            'myFish': [],
+            'fishNum': 6,
+            'lastTargetUpdateTime]': window.performance.now(),
+            'mobileMouse': null,
+            'colors': [
+                [237, 84, 38],
+                [232, 208, 130],
+                [72, 78, 82]
+            ],
+            // variables for canvas optimization: only clear necessary pixels
+            'min': [0, 0],
+            'max': [0, 0],
+            'draw': drawFish
+        }
+        //initialize a bunch of Fish
+    for (let i = 0; i < pondvars['fishNum']; i++) {
+        pondvars['myFish'].push(new Fish(i));
+    }
     //decide which mode of control to use
     if (globals['isMobile']) {
         updateTarget();
     }
-    //initialize a bunch of Fish
-    for (let i = 0; i < pondvars['fishNum']; i++) {
-        pondvars['myFish'].push(new Fish(i));
-    }
-    //start animation
-    pondvars['lastRefresh'] = window.performance.now();
-    pondvars['lastTargetUpdateTime'] = window.performance.now();
-    drawFish();
 }
+
+function pauseAnimation() { pondvars['draw'] = null; }
