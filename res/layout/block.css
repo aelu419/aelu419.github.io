@@ -12,16 +12,12 @@
 .project.container {
     position: static;
     display: grid;
-    grid-template: "title title title title" "time role . media" "summary summary summary media" "tag tag tag media";
-    grid-template-columns: auto auto auto 40%;
-    grid-template-rows: min-content min-content min-content min-content;
-    transition: all 0.1s;
-    transition-timing-function: ease-in-out;
-    align-items: center;
+    grid-template: "title title title" "time role media" "summary summary media" "tag tag media";
+    grid-template-columns: min-content 1fr 40%;
+    grid-template-rows: min-content min-content 1fr min-content;
 }
 
 .project.container * {
-    display: grid;
     margin: 0;
 }
 
@@ -49,35 +45,36 @@
 
 .project.container .summary {
     grid-area: summary;
+    height: min-content;
     margin: 0;
     margin-top: 0.33em;
 }
 
 .container div.tags {
     grid-area: tag;
+    height: auto;
+    margin-top: 0.33em;
 }
 
-.container div.tags div {
-    display: inline;
-}
-
-.tag {
-    display: inline;
+.container div.tags>div * {
+    display: inline-block;
     border-radius: 3px;
-    margin-left: 2px;
-    margin-right: 2px;
+    margin-right: 3px;
+    padding: 0.3em;
+    transition: all 0.1s;
+    font-size: 100%;
+    transition-timing-function: ease-in-out;
 }
 
-.tag:hover {
-    margin-left: 4px;
-    margin-right: 4px;
+.container div.tags>div *:hover {
+    color: rgb(221, 221, 221);
 }
 
-.tag p {
+.container div.tags p {
     background-color: rgb(97, 97, 97);
 }
 
-.tag a {
+.container div.tags a {
     background-color: rgb(172, 204, 180);
     color: rgb(73, 70, 62);
 }

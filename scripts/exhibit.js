@@ -44,7 +44,7 @@ class Slab {
                     max_hook_width = h.clientWidth;
                 }
             }
-            if (globals['isMobile']) {
+            if (globals['isMobile'] || globals['width'] < globals['height']) {
                 return globals['width'] - 1 * max_hook_width - 6;
             } else {
                 return globals['width'] - 2 * max_hook_width;

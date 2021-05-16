@@ -147,7 +147,7 @@ function populateProjects(parent, mWidth) {
             let tagHolder = n.querySelector('div.tags div');
             projs[i]['tag'].split(', ').forEach(element => {
                 let t = document.createElement('p');
-                t.className = 'tag';
+                t.className = "oneline";
                 t.innerText = element;
                 tagHolder.appendChild(t);
             });

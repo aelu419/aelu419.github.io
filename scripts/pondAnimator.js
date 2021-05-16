@@ -103,9 +103,9 @@ class Fish {
 
         //force/movement related
         // - small elasticity means the fish respond less sensatively to the target
-        this.elasticConstant = 0.15 / size_const * globals['pixelDensity'];
+        this.elasticConstant = 0.001 * (1 + Math.random() / size_const) * globals['pixelDensity'];
         // - small tilting means the fish wiggle less
-        this.tilting = 12 * (1 + Math.random() / size_const) * globals['pixelDensity'];
+        this.tilting = 0.001 * (1 + Math.random() / size_const) * globals['pixelDensity'];
         this.maxVel = (5 + Math.random() * 0.05) * globals['pixelDensity'];
 
         //default location
@@ -152,6 +152,9 @@ class Fish {
         //moving & interaction of the head
         let target
         if (globals['isMobile']) {
+            if (pondvars['mobileMouse'] === null) {
+                updateTarget();
+            }
             //one phone the program is controlled by random target points
             target = new Vec2(pondvars['mobileMouse'].x, pondvars['mobileMouse'].y);
         } else {
@@ -162,10 +165,10 @@ class Fish {
 
         //two types of forces
         // 1. the "drag" from the user
-        let influence = headToTarget.mult(this.elasticConstant);
+        let influence = headToTarget.mult(this.elasticConstant).rotate(Math.random() - 0.5);
         //influence = influence.add(this.gravity);
         // 2. the twisting motion of the Fish head itself
-        let headTwist = headToTarget.rotate(Math.PI / 2).normalize().mult(Math.cos(2 * Math.PI * t) * this.tilting);
+        let headTwist = headToTarget.rotate(Math.PI / 2).mult(Math.cos(2 * Math.PI * t) * this.tilting);
 
         let accel = influence.add(headTwist); //.mult(dT);
         this.chunks[0].velocity = this.chunks[0].velocity.add(accel);
@@ -198,7 +201,7 @@ class Fish {
         //reset mobile mode target if necessary
         if (globals['isMobile']) {
             //spawn new target when this target is reached by one of the Fish
-            if (this.chunks[0].location.add(pondvars['mobileMouse'].mult(-1)).norm() <= 150 ||
+            if (this.chunks[0].location.add(pondvars['mobileMouse'].mult(-1)).norm() <= 50 ||
                 window.performance.now() - pondvars['lastTargetUpdateTime'] > 3000) { //spawn new target per 3 seconds
                 updateTarget();
             }
@@ -214,7 +217,7 @@ function updateMouse(e) {
 
 //main draw function
 function drawFish(dT) {
-    document.getElementById("debug").innerText = JSON.stringify(dT, null, 4);
+    //document.getElementById("debug").innerText = JSON.stringify(dT, null, 4);
     if (pondvars['max'][0] === 0)
         globals['pondContext'].clearRect(0, 0, globals['pondContext'].canvas.width, globals['pondContext'].canvas.height);
     else
@@ -237,8 +240,8 @@ function drawFish(dT) {
 function updateTarget() {
     //the constant terms is to make sure the target doesn't spawn at the borders
     pondvars['mobileMouse'] = new Vec2(
-        Math.random() * (globals['width'] * globals['pixelDensity'] - 200) + 100,
-        Math.random() * (globals['height'] * globals['pixelDensity'] - 200) + 100
+        Math.random() * (globals['width'] * globals['pixelDensity']),
+        Math.random() * (globals['height'] * globals['pixelDensity'])
     );
     //console.log("target updated at " + pondvars['mobileMouse'].toString())
     pondvars['lastTargetUpdateTime'] = window.performance.now();
