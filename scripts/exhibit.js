@@ -92,6 +92,7 @@ class Slab {
                 populateProjects(this.content, this.WIDTHS['full']());
                 break;
             case "experiments":
+                //this.content.style.padding = "5%";
                 populateExperiments(this.content, this.WIDTHS['full']());
                 break;
             default:
@@ -102,6 +103,7 @@ class Slab {
         this.showing = true;
         globals['significant'] = this;
         this.content.style.width = this.WIDTHS['full']() + 'px';
+        this.content.style.maxWidth = this.WIDTHS['full']() + 'px';
         this.content.style.cursor = 'default';
 
         //set hook to accent color
@@ -120,6 +122,16 @@ class Slab {
         this.content.innerHTML = '';
         this.content.style.cursor = 'pointer';
         this.content.style.width = this.WIDTHS['hide'];
+
+        switch (this.name) {
+            case "projects":
+                break;
+            case "experiments":
+                this.content.style.padding = "0";
+                break;
+            default:
+                break;
+        }
 
         //set hook to default color
         this.hook.style.color = document.getElementsByTagName('body')[0].style.color;

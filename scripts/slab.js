@@ -26,62 +26,61 @@ function UrlExists(url, callback) {
     http.send();
 }
 
-async function load(vid, name, trigger) {
-    if (globals['isMobile']) {
-        vid.autoplay = true;
-    } else {
-        vid.autoplay = false;
-
-    }
-    vid.addEventListener('error', (msg) => {
+async function load(vWrap, name, forceAutoplay) {
+    vWrap.vid.autoplay = forceAutoplay || globals['isMobile'];
+    if (vWrap.vid.readyState > 1)
+        return;
+    vWrap.addEventListener('error', (msg) => {
         console.log(msg);
     })
     let src = resLinks['videos'] + name + '.webm',
         poster = resLinks['thumbnails'] + name + '.jpeg';
+    let initLoad = () => {
+        //console.log('loading: ' + src);
+        vWrap.vid.src = src;
+        vWrap.vid.load();
+
+        vWrap.clearEventListeners();
+
+        if (!forceAutoplay) {
+            vWrap.addEventListener('mouseover', e => {
+                let playPromise = vWrap.vid.play();
+                //console.log('playing: ' + name);
+                if (playPromise != undefined) {
+                    playPromise.then(_ => {})
+                        .catch(error => {
+                            console.log(error);
+                        });
+                }
+            })
+
+            vWrap.addEventListener('mouseout', e => {
+                vWrap.vid.pause();
+            })
+        }
+    };
     UrlExists(poster, (exists) => {
         if (exists) {
-            vid.poster = poster;
+            vWrap.vid.poster = poster;
             UrlExists(src, (exists_) => {
                 if (exists_) {
-                    let initLoad = () => {
-                        console.log('loading: ' + src);
-                        vid.src = src;
-                        vid.load();
 
-                        trigger.addEventListener('mouseover', e => {
-                            let playPromise = vid.play();
-                            console.log('playing: ' + name);
-                            if (playPromise != undefined) {
-                                playPromise.then(_ => {})
-                                    .catch(error => {
-                                        console.log(error);
-                                    });
-                            }
-                        })
-
-                        trigger.addEventListener('mouseout', e => {
-                            vid.pause();
-                        })
-
-                        trigger.removeEventListener('mouseover', initLoad);
-                    };
-                    if (vid.autoplay) {
+                    if (vWrap.vid.autoplay) {
                         initLoad();
                     } else {
-                        trigger.addEventListener('mouseover', initLoad);
+                        vWrap.addEventListener('mouseover', initLoad);
                     }
                 }
             })
         } else {
-            vid.src = src;
-            vid.load();
+            initLoad();
         }
     })
 }
 
 function repopulateProjects(parent, mWidth) {
-    for (let i = cached['projects'].length - 1; i >= 0; i--) {
-        parent.append(cached['projects'][i]);
+    for (let i = 0; i < cached['projects'].length; i++) {
+        parent.append(cached['projects'][i].node);
     }
     let vids = parent.querySelectorAll('video');
     for (let i = 0; i < vids.length; i++) {
@@ -91,7 +90,6 @@ function repopulateProjects(parent, mWidth) {
         } else {
             media.style.maxWidth = "100%";
         }
-        //media.load();
     }
 }
 
@@ -119,7 +117,7 @@ function populateProjects(parent, mWidth) {
 
     // projects are recorded in reverse cronological order
     // so we go from end to start, instead of in order
-    cached['projects'] = new Array(projs.length);
+    cached['projects'] = [];
     for (let i = projs.length - 1; i >= 0; i--) {
         //console.log(projs[i]);
         let n = document.importNode(template, true);
@@ -154,15 +152,23 @@ function populateProjects(parent, mWidth) {
             });
         }
 
+        let mWrap = new MediaWrapper(media, n);
+        let nWrap = new NodeWrapper(n, { 'media': mWrap });
         parent.appendChild(n);
-        load(media, projs[i]['name'], n);
-        cached['projects'][i] = (n);
+        load(mWrap, projs[i]['name']);
+        cached['projects'].push(nWrap);
     }
 }
 
 function repopulateExperiments(parent, mWidth) {
-    for (let i = cached['experiments'].length - 1; i >= 0; i--) {
-        parent.appendChild(cached['experiments'][i]);
+    for (let i = 0; i < cached['experiments'].length; i++) {
+        parent.appendChild(cached['experiments'][i].node);
+        let vWrap = cached['experiments'][i].getExtra('media');
+        if (vWrap !== null) {
+            if (vWrap.vid.autoplay) {
+                vWrap.vid.play();
+            }
+        }
     }
 }
 
@@ -172,14 +178,14 @@ function populateExperiments(parent, mWidth) {
     } else {
         template = document.getElementById("experiment_block");
         template = template.content.querySelector("*");
-        cached['experiments'] = new Array(minor.length);
+        cached['experiments'] = [];
         for (let i = minor.length - 1; i > -1; i--) {
             let n = document.importNode(template, true);
-            console.log();
-            n.autoplay = globals['isMobile'];
+            let mWrap = new MediaWrapper(n, n);
+            let nWrap = new NodeWrapper(n, { 'media': mWrap });
             parent.appendChild(n);
-            cached['experiments'][i] = n;
-            load(n, minor[i]['name'], n);
+            cached['experiments'].push(nWrap);
+            load(mWrap, minor[i]['name'], true);
         }
     }
 }
