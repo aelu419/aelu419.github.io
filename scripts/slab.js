@@ -144,7 +144,7 @@ function populateProjects(parent, mWidth) {
             n.querySelector('.release').style.display = 'none';
 
         if (projs[i]['tag'] !== null) {
-            let tagHolder = n.querySelector('div.tag');
+            let tagHolder = n.querySelector('div.tags div');
             projs[i]['tag'].split(', ').forEach(element => {
                 let t = document.createElement('p');
                 t.className = 'tag';
@@ -156,5 +156,19 @@ function populateProjects(parent, mWidth) {
         parent.appendChild(n);
         load(media, projs[i]['name'], !narrowOrNot);
         cached['projects'][i] = (n);
+    }
+}
+
+function repopulateExperiments(parent, mWidth) {
+
+}
+
+function populateExperiments(parent, mWidth) {
+    if (cached['experiments'] === null || cached['experiments'].length == 0) {
+        repopulateExperiments(parent, mWidth);
+    } else {
+        for (let i = minor.length - 1; i > -1; i--) {
+            console.log(minor[i]);
+        }
     }
 }

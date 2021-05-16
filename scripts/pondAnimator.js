@@ -187,7 +187,8 @@ class Fish {
             this.chunks[0].location.x = globals['pondContext'].canvas.width;
         }
         this.chunks[0].velocity = this.chunks[0].velocity.clampMax(this.maxVel);
-        this.chunks[0].location = this.chunks[0].location.add(this.chunks[0].velocity.clampMax(this.maxVel));
+        this.chunks[0].location = this.chunks[0].location.add(this.chunks[0].velocity.mult(
+            Math.min(1, dT / 16))); //prevent overly sped-up animations
 
         //update body position
         for (let i = this.chunks.length - 1; i > 0; i--) {

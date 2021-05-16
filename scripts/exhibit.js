@@ -91,6 +91,9 @@ class Slab {
             case "projects":
                 populateProjects(this.content, this.WIDTHS['full']());
                 break;
+            case "experiments":
+                populateExperiments(this.content, this.WIDTHS['full']());
+                break;
             default:
                 console.log(this.name + " slab does not have any populate method");
         }

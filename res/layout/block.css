@@ -1,3 +1,7 @@
+.oneline {
+    white-space: nowrap;
+}
+
 .container {
     color: rgb(221, 221, 221);
     max-width: 100%;
@@ -8,9 +12,17 @@
 .project.container {
     position: static;
     display: grid;
-    grid-template: "title title title media" "time role . media" "summary summary summary media" ". . . media" "tag tag tag media";
+    grid-template: "title title title title" "time role . media" "summary summary summary media" "tag tag tag media";
     grid-template-columns: auto auto auto 40%;
-    grid-template-rows: min-content min-content auto min-content;
+    grid-template-rows: min-content min-content min-content min-content;
+    transition: all 0.1s;
+    transition-timing-function: ease-in-out;
+    align-items: center;
+}
+
+.project.container * {
+    display: grid;
+    margin: 0;
 }
 
 .container .media {
@@ -19,31 +31,20 @@
     object-fit: contain;
 }
 
-.project.container .media {
-    height: min-content;
+.project.container .title {
+    grid-area: title;
 }
 
-.project.container .title {
-    white-space: nowrap;
-    grid-area: title;
+.project.container .title * {
     margin: 0;
-    height: min-content;
-    width: min-content;
 }
 
 .project.container .time {
-    white-space: nowrap;
     grid-area: time;
-    margin: 0;
-    margin-top: 0.33em;
-    height: min-content;
 }
 
 .project.container .role {
-    white-space: nowrap;
     grid-area: role;
-    margin: 0;
-    margin-top: 0.33em;
 }
 
 .project.container .summary {
@@ -52,28 +53,31 @@
     margin-top: 0.33em;
 }
 
-.container div.tag {
+.container div.tags {
     grid-area: tag;
-    height: max-content;
 }
 
-.container div.tag * {
-    display: inline-block;
+.container div.tags div {
+    display: inline;
+}
+
+.tag {
+    display: inline;
     border-radius: 3px;
-    height: min-content;
-    padding: 10px;
-    margin: 3px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.tag:hover {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.tag p {
     background-color: rgb(97, 97, 97);
-    transition: all 0.1s;
-    transition-timing-function: ease-in-out;
 }
 
-.container div.tag *:hover {
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-.container div.tag a {
+.tag a {
     background-color: rgb(172, 204, 180);
     color: rgb(73, 70, 62);
 }
