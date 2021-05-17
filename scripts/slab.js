@@ -12,7 +12,8 @@ let cached = {
     'flavor': false,
     'projects': [],
     'experiments': [],
-    'blogs': []
+    'blogs': [],
+    'about': []
 }
 
 function UrlExists(url, callback) {
@@ -187,5 +188,21 @@ function populateExperiments(parent, mWidth) {
             cached['experiments'].push(nWrap);
             load(mWrap, minor[i]['name'], true);
         }
+    }
+}
+
+function repopulateAbout(parent, mWidth) {
+    root = cached['about'][0];
+    parent.appendChild(root.node);
+}
+
+function populateAbout(parent, mWidth) {
+    if (cached['about'] !== null && cached['about'].length !== 0) {
+        repopulateAbout(parent, mWidth);
+    } else {
+        template = document.getElementById("about_content").content.querySelector("*");
+        let root = document.importNode(template, true);
+        parent.appendChild(root);
+        cached['about'] = [new NodeWrapper(root, {})];
     }
 }

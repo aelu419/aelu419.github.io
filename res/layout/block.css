@@ -87,8 +87,58 @@
 }
 
 .experiment {
-    display: inline-block;
     margin-right: 15px;
     margin-top: 15px;
-    object-fit: fill;
+    object-fit: contain;
+    height: fit-content;
 }
+
+.about * {
+    text-align: center;
+}
+
+.about p+p {
+    margin: 0;
+}
+
+.about .hoverable {
+    cursor: pointer;
+    transition: all 0.1s;
+    padding: 3px;
+    width: 32px;
+    object-fit: fill;
+    opacity: 1.0;
+    transition-timing-function: ease-in-out;
+}
+
+.about .hoverable:hover {
+    opacity: 0.8;
+}
+
+.about.holder {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.about.holder * {
+    margin-bottom: 0;
+}
+
+.about.holder>div {
+    position: relative;
+}
+
+.about.holder img {
+    width: min(50%, 320px);
+    object-fit: contain;
+}
+
+.about.holder hr {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+}
+
+.about.holder div {}

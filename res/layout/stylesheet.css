@@ -125,9 +125,19 @@ body {
 .exhibition#projects {}
 
 .exhibition#experiments {
-    text-align: right;
+    display: inline-flex;
+    align-content: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
 }
 
 .exhibition#blog {}
 
-.exhibition#about {}
+.exhibition#about {
+    display: flex;
+    align-items: center;
+}
+
+.exhibition#about>div {
+    height: fit-content;
+}
