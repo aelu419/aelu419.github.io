@@ -125,8 +125,10 @@ body {
 .exhibition#projects {}
 
 .exhibition#experiments {
+    padding-top: 30px;
+    padding-bottom: 30px;
     display: inline-flex;
-    align-content: center;
+    align-content: flex-start;
     justify-content: flex-end;
     flex-wrap: wrap;
 }

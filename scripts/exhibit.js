@@ -130,7 +130,7 @@ class Slab {
             case "projects":
                 break;
             case "experiments":
-                this.content.style.padding = "0";
+                //this.content.style.padding = "0";
                 break;
             default:
                 break;
