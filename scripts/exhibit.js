@@ -5,6 +5,9 @@
  */
 
 
+let narrowHeaderMinPadding = 3;
+let showSlabPadding = 20;
+
 class Slab {
     /**
      * @param {Element} hook the list element that corresponds to the slab
@@ -30,6 +33,7 @@ class Slab {
         this.hook.addEventListener('click', () => this.toggleHook());
     }
 
+
     WIDTHS = {
         /*
             note that full width does not include 'px', although it is measured in px
@@ -45,9 +49,9 @@ class Slab {
                 }
             }
             if (globals['isMobile'] || globals['width'] < globals['height']) {
-                return globals['width'] - 1 * max_hook_width - 6;
+                return globals['width'] - 1 * max_hook_width - 2 * (showSlabPadding + narrowHeaderMinPadding); // 40 is for padding
             } else {
-                return globals['width'] - 2 * max_hook_width;
+                return globals['width'] - 2 * max_hook_width - 2 * showSlabPadding;
             }
         },
         "peek": "1in",
@@ -107,6 +111,7 @@ class Slab {
         globals['significant'] = this;
         this.content.style.width = this.WIDTHS['full']() + 'px';
         this.content.style.maxWidth = this.WIDTHS['full']() + 'px';
+        this.content.style.padding = showSlabPadding + 'px';
         this.content.style.cursor = 'default';
 
         //set hook to accent color
@@ -124,6 +129,7 @@ class Slab {
         this.showing = false;
         this.content.innerHTML = '';
         this.content.style.cursor = 'pointer';
+        this.content.style.padding = '0';
         this.content.style.width = this.WIDTHS['hide'];
 
         switch (this.name) {

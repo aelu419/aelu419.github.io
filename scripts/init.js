@@ -49,7 +49,7 @@ window.minimizeHeader = function() {
         }
 
         if (globals['isMobile'] || globals['width'] < globals['height']) {
-            hd.style.marginLeft = "3px";
+            hd.style.marginLeft = '3px';
             globals['headerText'].style.opacity = '0';
         } else {
             hd.style.marginLeft = (max_hook_width / 2.0).toString() + "px";
