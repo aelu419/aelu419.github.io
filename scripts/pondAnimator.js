@@ -211,8 +211,8 @@ class Fish {
 
 //update mouse position from the head div
 function updateMouse(e) {
-    pondvars['mouseX'] = e.clientX;
-    pondvars['mouseY'] = e.clientY;
+    pondvars['mouseX'] = e.clientX * globals['pixelDensity'];
+    pondvars['mouseY'] = e.clientY * globals['pixelDensity'];
 }
 
 //main draw function
