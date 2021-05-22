@@ -6,7 +6,7 @@
     color: rgb(221, 221, 221);
     max-width: 100%;
     column-gap: 15px;
-    padding: 0.33in;
+    margin-bottom: 0.3in;
 }
 
 .project.container {
@@ -54,7 +54,6 @@
 .container div.tags {
     grid-area: tag;
     height: auto;
-    margin-top: 0.33em;
 }
 
 .container div.tags>div * {
@@ -87,7 +86,6 @@
 }
 
 .experiment {
-    margin-right: 15px;
     margin-top: 15px;
     object-fit: contain;
     height: fit-content;
@@ -117,9 +115,7 @@
 
 .about.holder {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    margin-top: 20px;
-    padding: 10px;
+    grid-template-columns: 33% 33% 33%;
 }
 
 .about.holder * {
@@ -131,7 +127,7 @@
 }
 
 .about.holder img {
-    width: min(50%, 320px);
+    width: min(33%, 320px);
     object-fit: contain;
 }
 

@@ -86,6 +86,7 @@ function repopulateProjects(parent, mWidth) {
     let vids = parent.querySelectorAll('video');
     for (let i = 0; i < vids.length; i++) {
         let media = vids[i];
+        media.style.maxHeight = '320px';
         if (globals['width'] >= globals['height']) {
             media.style.maxWidth = (0.5 * mWidth).toString() + 'px';
         } else {
@@ -182,6 +183,8 @@ function populateExperiments(parent, mWidth) {
         cached['experiments'] = [];
         for (let i = minor.length - 1; i > -1; i--) {
             let n = document.importNode(template, true);
+            n.style.maxWidth = "100%";
+            n.style.maxHeight = "160px";
             let mWrap = new MediaWrapper(n, n);
             let nWrap = new NodeWrapper(n, { 'media': mWrap });
             parent.appendChild(n);
