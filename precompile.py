@@ -19,7 +19,7 @@ def clear(dir, exempt = []):
 res_img_major = os.path.join(root, 'res', 'img', 'major') # major projects
 res_img_minor = os.path.join(root, 'res', 'img', 'minor') # minor projects
 res_img_illust = os.path.join(root, 'res', 'img', 'illust') # illustrations
-res_deco = os.path.join(root, 'res', 'img', 'deco') # site decorations
+res_img_deco = os.path.join(root, 'res', 'img', 'deco') # site decorations
 
 # destination for processed files
 thumbnail = os.path.join(root, 'preview', 'thumbnail')
@@ -33,7 +33,7 @@ block_height_large = 320
 from PIL import Image
 # batch resize all image files in the source directory
 # and save them in the destination directory as thumbnails
-def compress_img(src, dest, max_height):
+def compress_img(src, dest, max_height = 1440, alpha = False):
     prev_dir = os.getcwd()
     os.chdir(src)
     imgs = glob.glob('*')
@@ -44,17 +44,21 @@ def compress_img(src, dest, max_height):
         print('processing image: ', img)
         file, ext = os.path.splitext(img)
         with Image.open(img) as im:
-            im = im.convert('RGB')
             # resize by height
             w, h = im.size
             w = int(max_height / h * w) 
             im.thumbnail((w, h))
-            tosave.append((im, file + '.jpeg'))
+            if alpha:
+                im = im.convert('RGBA')
+                tosave.append((im, file, 'PNG'))
+            else:
+                im = im.convert('RGB')
+                tosave.append((im, file, 'JPEG'))
             processed.append(file)
     
     os.chdir(dest)
     for t in tosave:
-        t[0].save(t[1], 'JPEG')
+        t[0].save(t[1] + '.' + t[2].lower(), t[2])
     
     os.chdir(prev_dir)
     return processed
@@ -64,6 +68,7 @@ clear(thumbnail)
 thumbnail_names = []
 thumbnail_names += compress_img(res_img_major, thumbnail, block_height_large)
 thumbnail_names += compress_img(res_img_minor, thumbnail, block_height_small)
+compress_img(res_img_deco, thumbnail, alpha = True)
 
 # I. 2. precompress videos
 res_vid_major = os.path.join(root, 'res', 'vid', 'major') # major projects

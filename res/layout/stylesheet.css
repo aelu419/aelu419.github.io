@@ -143,3 +143,15 @@ body {
 .exhibition#about>div {
     height: fit-content;
 }
+
+
+/*
+below are for decorations
+*/
+
+.deco.leaf {
+    position: absolute;
+    opacity: 0.6;
+    transition: width 1s, height 1s;
+    transition-timing-function: ease-in-out;
+}

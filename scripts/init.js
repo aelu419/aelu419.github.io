@@ -173,6 +173,8 @@ window.onload = function() {
         }
     };
 
+    // process decorative leaves
+    initLeaves();
     // start pond animation
     startAnimation();
 };
